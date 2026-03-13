@@ -14,20 +14,24 @@
   "programme": [
     {
       "title": "Amaraterra - Music Night",
+      "category": "Music",
       "date": "2026-06-06",
       "time": "20:00",
+      "price": "TBA",
       "venue": "Jamboree",
       "address": "6 St Chad's Pl, London WC1X 9HH",
-      "description": "Amaraterra ci portera' nel cuore delle radici pugliesi, dove l'antica musica mediterranea viene tenuta viva dall'autentica passione del Sud Italia. Una serata di Pizzica, Tarantella e Stornelli.",
+      "description": "Pizzica, Tarantella e Stornelli dal vivo.",
       "image": "/images/events/amaraterra-poster.jpeg"
     },
     {
       "title": "Bell'Epoker",
+      "category": "Comedy",
       "date": "2026-06-07",
       "time": "TBA",
+      "price": "TBA",
       "venue": "TBA",
       "address": "",
-      "description": "Spettacolo di cabaret e intrattenimento che fonde la tradizione pugliese con il fascino della Belle Epoque.",
+      "description": "Cabaret e intrattenimento tra tradizione pugliese e Belle Epoque.",
       "image": "/images/events/bellepoker.jpg"
     }
   ],

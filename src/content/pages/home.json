@@ -1,0 +1,43 @@
+{
+  "hero": {
+    "title": "Pugliesi nel Mondo UK",
+    "subtitle": "International Association of Apulians in the World",
+    "description": "Uniamo i pugliesi residenti nel Regno Unito per celebrare e promuovere la cultura, le tradizioni, l'arte e la gastronomia della Puglia."
+  },
+  "mission": {
+    "title": "La Nostra Missione",
+    "text": "Pugliesi nel Mondo UK nasce per creare un ponte tra la Puglia e il Regno Unito. Siamo un'associazione no-profit che riunisce pugliesi e amanti della Puglia per preservare e diffondere il patrimonio culturale della nostra terra: dalla musica alla gastronomia, dall'arte alla tradizione, dalla lingua ai valori che ci rendono unici.",
+    "image": "/images/general/mission.jpg"
+  },
+  "whatWeDo": {
+    "title": "Cosa Facciamo",
+    "items": [
+      {
+        "title": "Eventi Culturali",
+        "description": "Organizziamo festival, serate culturali e incontri che celebrano la tradizione pugliese a Londra e nel Regno Unito.",
+        "icon": "calendar"
+      },
+      {
+        "title": "Comunita'",
+        "description": "Creiamo una rete di supporto per i pugliesi nel Regno Unito, favorendo connessioni e opportunita' di incontro.",
+        "icon": "people"
+      },
+      {
+        "title": "Tradizioni",
+        "description": "Promuoviamo le tradizioni pugliesi: la pizzica, la gastronomia, l'artigianato e le feste popolari.",
+        "icon": "heart"
+      },
+      {
+        "title": "Solidarieta'",
+        "description": "Come charity, sosteniamo iniziative benefiche legate alla comunita' pugliese e italiana nel Regno Unito.",
+        "icon": "hands"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Unisciti a Noi",
+    "text": "Diventa parte della nostra comunita'. Insieme possiamo mantenere vive le nostre radici pugliesi.",
+    "buttonText": "Diventa Socio",
+    "buttonUrl": "/diventa-socio"
+  }
+}

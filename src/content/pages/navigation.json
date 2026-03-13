@@ -1,0 +1,10 @@
+{
+  "menu": [
+    { "label": "Home", "url": "/" },
+    { "label": "Chi Siamo", "url": "/chi-siamo" },
+    { "label": "Eventi", "url": "/eventi" },
+    { "label": "Diventa Socio", "url": "/diventa-socio" },
+    { "label": "Sostienici", "url": "/sostienici" },
+    { "label": "Contatti", "url": "/contatti" }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "slug": "puglian-italian-fest",
+  "title": "Puglian Italian Fest",
+  "date": "2026-06-06",
+  "endDate": "2026-06-15",
+  "location": "London",
+  "description": "Un viaggio attraverso l'arte e le tradizioni pugliesi nel cuore di Londra. Dieci giorni di musica, gastronomia, cultura e tradizione per celebrare la Puglia.",
+  "longDescription": [
+    "C'e' un momento in cui sentiamo il bisogno di tornare alle nostre radici. Dove acque cristalline e smeraldine calmano l'anima. Dove pietre bianche e ocra sussurrano storie di arte e storia antica.",
+    "Il ritmo della pizzica ci ricorda come la musica mediterranea tenga viva la passione del Sud Italia. La stessa passione che vive nella focaccia calda, nelle orecchiette fresche e nei sapori creati con dedizione e amore.",
+    "Una terra di grano dorato infinito, vigneti e ulivi sotto il sole meridionale. La Puglia e' piu' di un luogo: e' un sentimento.",
+    "Unisciti a noi al Puglian Italian Fest e vivi un viaggio attraverso l'arte e le tradizioni pugliesi!"
+  ],
+  "highlights": [
+    "Gastronomia pugliese autentica",
+    "Musica e danze tradizionali",
+    "Mostre d'arte e artigianato",
+    "Degustazioni di vini e oli pugliesi",
+    "Workshop e dimostrazioni culinarie"
+  ],
+  "mediaPartners": ["London One Radio", "Fairness Magazine"],
+  "image": "/images/events/puglian-fest.jpg",
+  "status": "upcoming",
+  "order": 1
+}

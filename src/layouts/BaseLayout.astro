@@ -1,0 +1,96 @@
+---
+import navigation from '../content/pages/navigation.json';
+import footer from '../content/pages/footer.json';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  currentPath?: string;
+}
+
+const { title, description = 'Pugliesi nel Mondo UK - International Association of Apulians in the World. Promuoviamo la cultura e le tradizioni pugliesi nel Regno Unito.', image = '/images/general/hero.jpg', currentPath = '' } = Astro.props;
+const canonicalUrl = `https://pugliesinelmondouk.vercel.app${currentPath}`;
+---
+
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalUrl} />
+
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={image} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Pugliesi nel Mondo UK" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={image} />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-brand">
+      <a href="/">
+        <div class="site-brand-text">
+          <h1>Pugliesi nel Mondo UK</h1>
+          <p>International Association of Apulians in the World</p>
+        </div>
+      </a>
+    </div>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+  </header>
+
+  <nav class="site-nav closed" id="site-nav">
+    <ul>
+      {navigation.menu.map((item) => (
+        <li>
+          <a href={item.url} class={currentPath === item.url ? 'active' : ''}>
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href={footer.social.facebook} target="_blank" rel="noopener">Facebook</a>
+      <a href={footer.social.instagram} target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <div class="footer-contact">
+      <a href={`mailto:${footer.email}`}>{footer.email}</a>
+      <br />
+      <span>{footer.phone}</span>
+    </div>
+    <p class="copyright">&copy; {footer.copyright}</p>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('menu-toggle');
+    const nav = document.getElementById('site-nav');
+    if (toggle && nav) {
+      toggle.addEventListener('click', () => {
+        nav.classList.toggle('closed');
+      });
+    }
+  </script>
+</body>
+</html>

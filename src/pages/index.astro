@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import home from '../content/pages/home.json';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const eventsDir = path.join(process.cwd(), 'src/content/events');
+const eventFiles = fs.readdirSync(eventsDir).filter(f => f.endsWith('.json'));
+const events = eventFiles
+  .map(f => JSON.parse(fs.readFileSync(path.join(eventsDir, f), 'utf-8')))
+  .filter(e => e.status === 'upcoming')
+  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+---
+
+<BaseLayout title="Pugliesi nel Mondo UK" currentPath="/">
+  <section class="hero">
+    <h1>{home.hero.title}</h1>
+    <p class="subtitle">{home.hero.subtitle}</p>
+    <p class="description">{home.hero.description}</p>
+    <a href="/diventa-socio" class="btn-primary">Diventa Socio</a>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">{home.mission.title}</h2>
+    <p style="text-align: center; max-width: 750px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8; color: var(--color-gray);">
+      {home.mission.text}
+    </p>
+  </section>
+
+  <section class="section-alt">
+    <div class="section-inner">
+      <h2 class="section-title">{home.whatWeDo.title}</h2>
+      <div class="features-grid">
+        {home.whatWeDo.items.map((item) => (
+          <div class="feature-card">
+            <div class="feature-icon">
+              {item.icon === 'calendar' && '📅'}
+              {item.icon === 'people' && '🤝'}
+              {item.icon === 'heart' && '❤️'}
+              {item.icon === 'hands' && '🙌'}
+            </div>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {events.length > 0 && (
+    <section class="section">
+      <h2 class="section-title">Prossimi Eventi</h2>
+      <div class="events-list">
+        {events.map((event) => (
+          <div class="event-card">
+            <div class="event-card-body" style="padding: 2rem;">
+              <h3>{event.title}</h3>
+              <p class="event-date">
+                {new Date(event.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
+                {event.endDate && ` - ${new Date(event.endDate).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}`}
+              </p>
+              <p class="event-location">📍 {event.location}</p>
+              <p>{event.description}</p>
+              <a href={`/eventi/${event.slug}`} class="btn-secondary" style="margin-top: 1rem; display: inline-block;">Scopri di piu'</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section class="cta-section">
+    <h2>{home.cta.title}</h2>
+    <p>{home.cta.text}</p>
+    <a href={home.cta.buttonUrl} class="btn-primary">{home.cta.buttonText}</a>
+  </section>
+</BaseLayout>

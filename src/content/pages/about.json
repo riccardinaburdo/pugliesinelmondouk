@@ -1,0 +1,18 @@
+{
+  "title": "Chi Siamo",
+  "intro": "Pugliesi nel Mondo UK e' un'associazione no-profit (charity) fondata a Londra da pugliesi appassionati della propria terra, con l'obiettivo di promuovere la cultura e le tradizioni della Puglia nel Regno Unito.",
+  "sections": [
+    {
+      "title": "Le Nostre Radici",
+      "text": "La Puglia e' una terra di acque cristalline e smeraldine che calmano l'anima, di pietre bianche e ocra che sussurrano storie di arte e storia antica. E' il ritmo della pizzica che ci ricorda come la musica mediterranea tenga viva la passione del Sud Italia. La stessa passione che vive nella focaccia calda, nelle orecchiette fresche e nei sapori creati con dedizione e amore. Una terra di grano dorato infinito, vigneti e ulivi sotto il sole meridionale. La Puglia e' piu' di un luogo: e' un sentimento."
+    },
+    {
+      "title": "La Nostra Visione",
+      "text": "Crediamo che la cultura pugliese sia un patrimonio da condividere con il mondo. Attraverso eventi, festival e iniziative culturali, vogliamo far conoscere le tradizioni, l'arte, la musica e la gastronomia della Puglia a Londra e in tutto il Regno Unito, creando un ponte tra la nostra terra d'origine e la nostra casa nel mondo."
+    },
+    {
+      "title": "I Nostri Valori",
+      "text": "Comunita', solidarieta', tradizione e innovazione. Siamo un punto di riferimento per i pugliesi che vivono nel Regno Unito e per tutti coloro che amano la Puglia. Lavoriamo insieme per preservare le nostre radici e costruire nuove opportunita'."
+    }
+  ]
+}

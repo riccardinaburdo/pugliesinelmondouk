@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import contact from '../content/pages/contact.json';
+---
+
+<BaseLayout title="Contatti | Pugliesi nel Mondo UK" currentPath="/contatti">
+  <div class="page-layout">
+    <h1>{contact.title}</h1>
+    <p class="intro">{contact.subtitle}</p>
+
+    <div class="contact-info">
+      <p style="margin-bottom: 2rem;">
+        <a href={`mailto:${contact.email}`} class="btn-primary" style="font-size: 1rem; padding: 1rem 3rem;">
+          Scrivici una Email
+        </a>
+      </p>
+
+      <p style="color: var(--color-gray); margin-bottom: 0.5rem;">{contact.email}</p>
+      <p style="color: var(--color-gray); margin-bottom: 2rem;">Tel: {contact.phone}</p>
+
+      <hr style="border: none; border-top: 1px solid var(--color-light-gray); margin: 2rem 0;" />
+
+      <p style="color: var(--color-dark); margin-bottom: 1rem; font-size: 1rem;">Seguici sui social</p>
+      <div class="social-links">
+        <a href={contact.social.facebook} target="_blank" rel="noopener">Facebook</a>
+        <a href={contact.social.instagram} target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+
+export function getStaticPaths() {
+  const eventsDir = path.join(process.cwd(), 'src/content/events');
+  const files = fs.readdirSync(eventsDir).filter(f => f.endsWith('.json'));
+  return files.map(f => {
+    const event = JSON.parse(fs.readFileSync(path.join(eventsDir, f), 'utf-8'));
+    return { params: { slug: event.slug }, props: { event } };
+  });
+}
+
+const { event } = Astro.props;
+---
+
+<BaseLayout title={`${event.title} | Pugliesi nel Mondo UK`} currentPath={`/eventi/${event.slug}`}>
+  <div class="event-detail">
+    <a href="/eventi" style="color: var(--color-primary); display: inline-block; margin-bottom: 2rem;">&larr; Tutti gli Eventi</a>
+
+    <h1>{event.title}</h1>
+    <p class="meta">
+      📅 {new Date(event.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
+      {event.endDate && ` - ${new Date(event.endDate).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}`}
+      &nbsp;&nbsp; 📍 {event.location}
+    </p>
+
+    <div class="content">
+      {event.longDescription && event.longDescription.map((p: string) => <p>{p}</p>)}
+      {!event.longDescription && <p>{event.description}</p>}
+    </div>
+
+    {event.highlights && (
+      <div class="event-highlights">
+        <h3>In Programma</h3>
+        <ul>
+          {event.highlights.map((h: string) => <li>{h}</li>)}
+        </ul>
+      </div>
+    )}
+
+    {event.mediaPartners && (
+      <div style="margin: 2rem 0;">
+        <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">Media Partners</h3>
+        <p>{event.mediaPartners.join(' • ')}</p>
+      </div>
+    )}
+
+    <div style="margin-top: 2rem; text-align: center;">
+      <p style="margin-bottom: 1rem; color: var(--color-gray);">Per informazioni e sponsorship:</p>
+      <a href="mailto:puglianelmondolondra@gmail.com" class="btn-primary">Contattaci</a>
+    </div>
+  </div>
+</BaseLayout>

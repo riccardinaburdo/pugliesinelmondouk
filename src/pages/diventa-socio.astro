@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import membership from '../content/pages/membership.json';
+---
+
+<BaseLayout title="Diventa Socio | Pugliesi nel Mondo UK" currentPath="/diventa-socio">
+  <div class="page-layout">
+    <h1>{membership.title}</h1>
+    <p class="intro">{membership.intro}</p>
+
+    <h2 style="color: var(--color-primary); margin-bottom: 1.5rem;">Vantaggi per i Soci</h2>
+    <ul class="benefits-list">
+      {membership.benefits.map((benefit) => (
+        <li>{benefit}</li>
+      ))}
+    </ul>
+
+    <div style="text-align: center; margin-top: 3rem; padding: 2.5rem; background: var(--color-cream); border-radius: 8px;">
+      <p style="font-size: 1.1rem; margin-bottom: 1.5rem; color: var(--color-dark);">{membership.cta.text}</p>
+      <a href={`mailto:${membership.cta.email}`} class="btn-primary" style="margin-right: 1rem;">Scrivici</a>
+      <a href={`tel:${membership.cta.phone}`} class="btn-outline">Chiamaci</a>
+    </div>
+  </div>
+</BaseLayout>

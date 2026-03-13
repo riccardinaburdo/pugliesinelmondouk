@@ -1,0 +1,26 @@
+{
+  "title": "Sostienici",
+  "intro": "Pugliesi nel Mondo UK e' un'associazione charity. Il tuo contributo ci aiuta a organizzare eventi culturali, sostenere la comunita' pugliese nel Regno Unito e promuovere le nostre tradizioni.",
+  "ways": [
+    {
+      "title": "Donazione",
+      "description": "Ogni contributo, grande o piccolo, fa la differenza. Le donazioni ci permettono di organizzare eventi, festival e iniziative culturali."
+    },
+    {
+      "title": "Volontariato",
+      "description": "Unisciti al nostro team di volontari! Abbiamo bisogno di persone appassionate per l'organizzazione di eventi, comunicazione e logistica."
+    },
+    {
+      "title": "Sponsorship",
+      "description": "Sei un'azienda pugliese o italiana nel Regno Unito? Diventa sponsor dei nostri eventi e raggiungi la nostra comunita'."
+    },
+    {
+      "title": "Partnership",
+      "description": "Collabora con noi! Cerchiamo partner culturali, mediatici e istituzionali per ampliare il nostro impatto."
+    }
+  ],
+  "contact": {
+    "text": "Per donazioni, sponsorship o collaborazioni, contattaci:",
+    "email": "puglianelmondolondra@gmail.com"
+  }
+}

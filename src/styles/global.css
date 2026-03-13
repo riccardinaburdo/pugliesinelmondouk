@@ -1105,7 +1105,7 @@ main {
 
 /* ===== Footer ===== */
 .site-footer {
-  background: #9e9e9e;
+  background: var(--color-primary);
   color: var(--color-white);
   padding: 3rem 2rem 1.5rem;
 }
@@ -1121,9 +1121,9 @@ main {
 .footer-col h4 {
   font-family: 'Playfair Display', serif;
   font-size: 1.15rem;
-  font-style: italic;
+  font-weight: 700;
   margin-bottom: 1rem;
-  color: var(--color-white);
+  color: var(--color-gold);
 }
 
 .footer-col a {
@@ -1174,7 +1174,9 @@ main {
   border: none;
   padding: 0.6rem 1.5rem;
   font-size: 0.85rem;
+  font-family: 'Lato', sans-serif;
   font-weight: 700;
+  text-transform: uppercase;
   letter-spacing: 0.5px;
   cursor: pointer;
   align-self: flex-start;
@@ -1198,14 +1200,12 @@ main {
   justify-content: center;
   width: 40px;
   height: 40px;
-  background: var(--color-accent);
-  border-radius: 5px;
-  color: var(--color-white);
-  transition: background 0.2s;
+  color: var(--color-gold);
+  transition: color 0.2s;
 }
 
 .social-icon:hover {
-  background: #a00d24;
+  color: var(--color-white);
 }
 
 /* Footer bottom */

@@ -1,6 +1,54 @@
 {
   "title": "Diventa Socio",
-  "intro": "Entra a far parte della famiglia Pugliesi nel Mondo UK. Come socio avrai accesso a eventi esclusivi, sconti e la possibilita' di contribuire attivamente alla nostra missione.",
+  "intro": "Unisciti a Pugliesi nel Mondo UK per sostenere la nostra missione e godere dei vantaggi di far parte di una comunita' vivace che celebra la cultura pugliese con eventi, festival e opportunita' di networking. Scegli il piano di abbonamento piu' adatto a te.",
+  "plans": [
+    {
+      "name": "Standard",
+      "description": "Abbonamento di 12 mesi",
+      "price": 30,
+      "features": [
+        "Accesso a tutti gli eventi",
+        "Newsletter esclusiva",
+        "Diritto di voto in assemblea"
+      ],
+      "highlight": false
+    },
+    {
+      "name": "Famiglia",
+      "description": "Abbonamento di 12 mesi per 2 membri dello stesso nucleo familiare",
+      "price": 50,
+      "features": [
+        "Accesso a tutti gli eventi per 2 persone",
+        "Newsletter esclusiva",
+        "Diritto di voto in assemblea",
+        "Sconti per eventi speciali"
+      ],
+      "highlight": true
+    },
+    {
+      "name": "Giovani",
+      "description": "Abbonamento di 12 mesi per i giovani dai 18 ai 30 anni",
+      "price": 15,
+      "features": [
+        "Accesso a tutti gli eventi",
+        "Newsletter esclusiva",
+        "Networking con altri giovani pugliesi"
+      ],
+      "highlight": false
+    },
+    {
+      "name": "Sostenitore",
+      "description": "Abbonamento di 12 mesi con contributo extra per la charity",
+      "price": 75,
+      "features": [
+        "Tutti i vantaggi Standard",
+        "Inviti esclusivi a eventi VIP",
+        "Riconoscimento come sostenitore",
+        "1 ospite gratuito a ogni evento"
+      ],
+      "highlight": false
+    }
+  ],
   "benefits": [
     "Accesso prioritario a tutti gli eventi e festival",
     "Sconti su biglietti e attivita' dell'associazione",
@@ -9,8 +57,14 @@
     "Rete di contatti con altri pugliesi nel Regno Unito",
     "Supporto e orientamento per i nuovi arrivati"
   ],
-  "cta": {
-    "text": "Per diventare socio, contattaci via email o telefono. Ti forniremo tutte le informazioni necessarie per l'iscrizione.",
+  "paymentInfo": "Per completare l'iscrizione puoi pagare tramite bonifico bancario o PayPal. Dopo il pagamento, invia la ricevuta via email per attivare la tua membership.",
+  "bankDetails": {
+    "accountName": "Pugliesi nel Mondo UK",
+    "sortCode": "XX-XX-XX",
+    "accountNumber": "XXXXXXXX",
+    "reference": "MEMBERSHIP + Nome e Cognome"
+  },
+  "contact": {
     "email": "puglianelmondolondra@gmail.com",
     "phone": "07962 471804"
   }

@@ -4,21 +4,71 @@ import membership from '../content/pages/membership.json';
 ---
 
 <BaseLayout title="Diventa Socio | Pugliesi nel Mondo UK" currentPath="/diventa-socio">
-  <div class="page-layout">
+  <div class="page-layout" style="max-width: 1000px;">
     <h1>{membership.title}</h1>
     <p class="intro">{membership.intro}</p>
 
-    <h2 style="color: var(--color-primary); margin-bottom: 1.5rem;">Vantaggi per i Soci</h2>
-    <ul class="benefits-list">
-      {membership.benefits.map((benefit) => (
-        <li>{benefit}</li>
+    <!-- Pricing Cards -->
+    <div class="pricing-grid">
+      {membership.plans.map((plan) => (
+        <div class={`pricing-card ${plan.highlight ? 'pricing-featured' : ''}`}>
+          {plan.highlight && <div class="pricing-badge">Consigliato</div>}
+          <h3 class="pricing-name">{plan.name}</h3>
+          <p class="pricing-desc">{plan.description}</p>
+          <div class="pricing-price">
+            <span class="pricing-currency">&pound;</span>
+            <span class="pricing-amount">{plan.price}</span>
+            <span class="pricing-period">/anno</span>
+          </div>
+          <ul class="pricing-features">
+            {plan.features.map((f) => (
+              <li>{f}</li>
+            ))}
+          </ul>
+          <a href={`mailto:${membership.contact.email}?subject=Iscrizione ${plan.name} - Pugliesi nel Mondo UK&body=Vorrei iscrivermi con il piano ${plan.name} (£${plan.price}/anno).%0A%0ANome:%0ACognome:%0AEmail:%0ATelefono:`} class={plan.highlight ? 'btn-primary' : 'btn-outline'} style="width: 100%; text-align: center;">
+            Iscriviti
+          </a>
+        </div>
       ))}
-    </ul>
+    </div>
 
-    <div style="text-align: center; margin-top: 3rem; padding: 2.5rem; background: var(--color-cream); border-radius: 8px;">
-      <p style="font-size: 1.1rem; margin-bottom: 1.5rem; color: var(--color-dark);">{membership.cta.text}</p>
-      <a href={`mailto:${membership.cta.email}`} class="btn-primary" style="margin-right: 1rem;">Scrivici</a>
-      <a href={`tel:${membership.cta.phone}`} class="btn-outline">Chiamaci</a>
+    <!-- Vantaggi -->
+    <div style="margin-top: 4rem;">
+      <h2 class="section-title">Vantaggi per Tutti i Soci</h2>
+      <ul class="benefits-list">
+        {membership.benefits.map((benefit) => (
+          <li>{benefit}</li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Istruzioni di Pagamento -->
+    <div class="payment-section">
+      <h2 class="section-title">Come Pagare</h2>
+      <p style="text-align: center; color: var(--color-gray); margin-bottom: 2rem;">{membership.paymentInfo}</p>
+
+      <div class="payment-methods">
+        <div class="payment-method">
+          <h3>Bonifico Bancario</h3>
+          <div class="bank-details">
+            <p><strong>Intestatario:</strong> {membership.bankDetails.accountName}</p>
+            <p><strong>Sort Code:</strong> {membership.bankDetails.sortCode}</p>
+            <p><strong>Account Number:</strong> {membership.bankDetails.accountNumber}</p>
+            <p><strong>Causale:</strong> {membership.bankDetails.reference}</p>
+          </div>
+        </div>
+
+        <div class="payment-method">
+          <h3>Email / Telefono</h3>
+          <p>Contattaci per ricevere assistenza con il pagamento o per altre modalita'.</p>
+          <div style="margin-top: 1rem;">
+            <a href={`mailto:${membership.contact.email}`} class="btn-secondary" style="margin-right: 0.5rem; margin-bottom: 0.5rem;">
+              {membership.contact.email}
+            </a>
+          </div>
+          <p style="margin-top: 0.8rem; color: var(--color-gray);">Tel: {membership.contact.phone}</p>
+        </div>
+      </div>
     </div>
   </div>
 </BaseLayout>

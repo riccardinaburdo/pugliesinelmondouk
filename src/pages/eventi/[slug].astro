@@ -16,6 +16,13 @@ const { event } = Astro.props;
 ---
 
 <BaseLayout title={`${event.title} | Pugliesi nel Mondo UK`} currentPath={`/eventi/${event.slug}`}>
+  <!-- Hero poster -->
+  {event.image && (
+    <div class="event-hero">
+      <img src={event.image} alt={event.title} />
+    </div>
+  )}
+
   <div class="event-detail">
     <a href="/eventi" style="color: var(--color-primary); display: inline-block; margin-bottom: 2rem;">&larr; Tutti gli Eventi</a>
 
@@ -26,12 +33,53 @@ const { event } = Astro.props;
       &nbsp;&nbsp; 📍 {event.location}
     </p>
 
+    <!-- Categories -->
+    {event.categories && (
+      <div class="event-categories">
+        {event.categories.map((cat: string) => (
+          <span class="event-tag">{cat}</span>
+        ))}
+      </div>
+    )}
+
     <div class="content">
       {event.longDescription && event.longDescription.map((p: string) => <p>{p}</p>)}
       {!event.longDescription && <p>{event.description}</p>}
     </div>
 
-    {event.highlights && (
+    <!-- Programme -->
+    {event.programme && event.programme.length > 0 && (
+      <div class="programme-section">
+        <h2>Programma</h2>
+        <div class="programme-list">
+          {event.programme.map((item: any) => (
+            <div class="programme-card">
+              {item.image && <img src={item.image} alt={item.title} />}
+              <div class="programme-card-body">
+                <h3>{item.title}</h3>
+                <p class="programme-date">
+                  📅 {new Date(item.date).toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                  {item.time && item.time !== 'TBA' && ` — ${item.time}`}
+                  {item.time === 'TBA' && ' — orario da confermare'}
+                </p>
+                {item.venue && (
+                  <p class="programme-venue">
+                    📍 {item.venue}{item.address && `, ${item.address}`}
+                  </p>
+                )}
+                <p>{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p style="text-align: center; color: var(--color-gray); margin-top: 2rem; font-style: italic;">
+          Il programma completo sara' pubblicato a breve. Seguici sui social per gli aggiornamenti!
+        </p>
+      </div>
+    )}
+
+    <!-- Highlights (fallback) -->
+    {event.highlights && !event.programme && (
       <div class="event-highlights">
         <h3>In Programma</h3>
         <ul>
@@ -40,15 +88,32 @@ const { event } = Astro.props;
       </div>
     )}
 
+    <!-- Collaborators -->
+    {event.collaborators && (
+      <div class="collab-section">
+        <h3>In Collaborazione Con</h3>
+        <p>{event.collaborators.join(' • ')}</p>
+      </div>
+    )}
+
+    <!-- Patronage -->
+    {event.patronage && (
+      <div class="collab-section">
+        <h3>Con il Patrocinio di</h3>
+        <p>{event.patronage.join(' • ')}</p>
+      </div>
+    )}
+
+    <!-- Media Partners -->
     {event.mediaPartners && (
-      <div style="margin: 2rem 0;">
-        <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">Media Partners</h3>
+      <div class="collab-section">
+        <h3>Media Partners</h3>
         <p>{event.mediaPartners.join(' • ')}</p>
       </div>
     )}
 
-    <div style="margin-top: 2rem; text-align: center;">
-      <p style="margin-bottom: 1rem; color: var(--color-gray);">Per informazioni e sponsorship:</p>
+    <div style="margin-top: 3rem; text-align: center;">
+      <p style="margin-bottom: 1rem; color: var(--color-gray);">Per informazioni, sponsorship e partecipazione:</p>
       <a href="mailto:puglianelmondolondra@gmail.com" class="btn-primary">Contattaci</a>
     </div>
   </div>

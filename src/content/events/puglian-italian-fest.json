@@ -4,22 +4,38 @@
   "date": "2026-06-06",
   "endDate": "2026-06-15",
   "location": "London",
-  "description": "Un viaggio attraverso l'arte e le tradizioni pugliesi nel cuore di Londra. Dieci giorni di musica, gastronomia, cultura e tradizione per celebrare la Puglia.",
+  "description": "A journey through the Apulian Art & Traditions. Dieci giorni di Food, Music, Cinema, Culture e Comedy nel cuore di Londra.",
   "longDescription": [
     "C'e' un momento in cui sentiamo il bisogno di tornare alle nostre radici. Dove acque cristalline e smeraldine calmano l'anima. Dove pietre bianche e ocra sussurrano storie di arte e storia antica.",
     "Il ritmo della pizzica ci ricorda come la musica mediterranea tenga viva la passione del Sud Italia. La stessa passione che vive nella focaccia calda, nelle orecchiette fresche e nei sapori creati con dedizione e amore.",
     "Una terra di grano dorato infinito, vigneti e ulivi sotto il sole meridionale. La Puglia e' piu' di un luogo: e' un sentimento.",
     "Unisciti a noi al Puglian Italian Fest e vivi un viaggio attraverso l'arte e le tradizioni pugliesi!"
   ],
-  "highlights": [
-    "Gastronomia pugliese autentica",
-    "Musica e danze tradizionali",
-    "Mostre d'arte e artigianato",
-    "Degustazioni di vini e oli pugliesi",
-    "Workshop e dimostrazioni culinarie"
+  "programme": [
+    {
+      "title": "Amaraterra - Music Night",
+      "date": "2026-06-06",
+      "time": "20:00",
+      "venue": "Jamboree",
+      "address": "6 St Chad's Pl, London WC1X 9HH",
+      "description": "Amaraterra ci portera' nel cuore delle radici pugliesi, dove l'antica musica mediterranea viene tenuta viva dall'autentica passione del Sud Italia. Una serata di Pizzica, Tarantella e Stornelli.",
+      "image": "/images/events/amaraterra-poster.jpeg"
+    },
+    {
+      "title": "Bell'Epoker",
+      "date": "2026-06-07",
+      "time": "TBA",
+      "venue": "TBA",
+      "address": "",
+      "description": "Spettacolo di cabaret e intrattenimento che fonde la tradizione pugliese con il fascino della Belle Epoque.",
+      "image": "/images/events/bellepoker.jpg"
+    }
   ],
+  "categories": ["Food", "Music", "Cinema", "Culture", "Comedy"],
   "mediaPartners": ["London One Radio", "Fairness Magazine"],
-  "image": "/images/events/puglian-fest.jpg",
+  "collaborators": ["San Domenico Blanc", "Il Circolo", "La Pizzica", "Masseria San Domenico", "Spigadolce", "BEComedy", "Upper Place", "Eatock Collection", "Festival Italia UK"],
+  "patronage": ["COMITES", "Accademia Apulia UK", "Consolato Generale d'Italia"],
+  "image": "/images/events/puglian-fest-poster.jpg",
   "status": "upcoming",
   "order": 1
 }

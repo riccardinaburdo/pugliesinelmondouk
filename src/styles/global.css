@@ -428,6 +428,125 @@ main {
   color: var(--color-gold);
 }
 
+/* ===== Event Hero ===== */
+.event-hero {
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto 0;
+}
+
+.event-hero img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+/* ===== Event Categories ===== */
+.event-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+  justify-content: center;
+}
+
+.event-tag {
+  background: var(--color-cream);
+  color: var(--color-primary);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid var(--color-primary);
+}
+
+/* ===== Programme ===== */
+.programme-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--color-light-gray);
+}
+
+.programme-section h2 {
+  color: var(--color-primary);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.programme-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.programme-card {
+  display: flex;
+  gap: 1.5rem;
+  background: var(--color-white);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border-left: 4px solid var(--color-primary);
+}
+
+.programme-card img {
+  width: 250px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.programme-card-body {
+  padding: 1.5rem;
+  flex: 1;
+}
+
+.programme-card-body h3 {
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.programme-date {
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+.programme-venue {
+  color: var(--color-gray);
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+}
+
+.programme-card-body > p:last-child {
+  color: var(--color-dark);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+/* ===== Collaborators ===== */
+.collab-section {
+  margin: 2rem 0;
+  padding: 1.5rem 2rem;
+  background: var(--color-cream);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.collab-section h3 {
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.collab-section p {
+  color: var(--color-gray);
+  font-size: 0.95rem;
+}
+
 /* ===== CTA Section ===== */
 .cta-section {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
@@ -787,6 +906,15 @@ main {
   .event-card img {
     width: 100%;
     height: 200px;
+  }
+
+  .programme-card {
+    flex-direction: column;
+  }
+
+  .programme-card img {
+    width: 100%;
+    height: 250px;
   }
 
   .features-grid {

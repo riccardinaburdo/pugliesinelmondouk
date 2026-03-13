@@ -18,7 +18,7 @@ import membership from '../content/pages/membership.json';
           {plan.label && <p style="color: var(--color-gold); font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem;">{plan.label}</p>}
           <p class="pricing-desc">{plan.description}</p>
           <div class="pricing-price">
-            <span class="pricing-currency">&euro;</span>
+            <span class="pricing-currency">&pound;</span>
             <span class="pricing-amount">{plan.price}</span>
             <span class="pricing-period">/anno</span>
           </div>
@@ -28,7 +28,7 @@ import membership from '../content/pages/membership.json';
               <li>{f}</li>
             ))}
           </ul>
-          <a href={plan.stripeLink || `mailto:${membership.contact.email}?subject=Iscrizione ${plan.name} - Pugliesi nel Mondo UK&body=Vorrei iscrivermi come ${plan.name} (€${plan.price}/anno).%0A%0ANome:%0ACognome:%0AEmail:%0ATelefono:%0AAttivita' (se Socio AWR):`} class={plan.highlight ? 'btn-primary' : 'btn-outline'} style="width: 100%; text-align: center;">
+          <a href={plan.stripeLink || `mailto:${membership.contact.email}?subject=Iscrizione ${plan.name} - Pugliesi nel Mondo UK&body=Vorrei iscrivermi come ${plan.name} (£${plan.price}/anno).%0A%0ANome:%0ACognome:%0AEmail:%0ATelefono:%0AAttivita' (se Socio AWR):`} class={plan.highlight ? 'btn-primary' : 'btn-outline'} style="width: 100%; text-align: center;">
             Iscriviti
           </a>
         </div>

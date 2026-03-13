@@ -6,7 +6,7 @@
       "name": "Socio Ordinario",
       "description": "Per tutti i pugliesi e chi si sente tale. Con diritto di voto nelle assemblee dell'associazione.",
       "price": 20,
-      "currency": "EUR",
+      "currency": "GBP",
       "features": [
         "Diritto di voto in assemblea",
         "Accesso a tutti gli eventi e festival",
@@ -21,7 +21,7 @@
       "label": "Apulia Worldwide Reference",
       "description": "Per aziende, imprese, liberi professionisti e attivita' presenti in Puglia, in altre regioni italiane o all'estero. Senza diritto di voto.",
       "price": 50,
-      "currency": "EUR",
+      "currency": "GBP",
       "priceNote": "quota minima",
       "features": [
         "Pubblicita' gratuita della propria attivita' sul sito web",

@@ -42,19 +42,8 @@ const canonicalUrl = `https://pugliesinelmondouk.vercel.app${currentPath}`;
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="site-brand">
-      <a href="/">
-        <div class="site-brand-text">
-          <h1>Pugliesi nel Mondo UK</h1>
-          <p>International Association of Apulians in the World</p>
-        </div>
-      </a>
-    </div>
-    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
-  </header>
-
   <nav class="site-nav closed" id="site-nav">
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
     <ul>
       {navigation.menu.map((item: any) => (
         <li class={item.children ? 'has-dropdown' : ''}>

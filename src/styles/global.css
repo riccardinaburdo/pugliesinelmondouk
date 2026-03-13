@@ -75,15 +75,17 @@ h3 { font-size: 1.4rem; }
   border: none;
   font-size: 1.8rem;
   cursor: pointer;
-  color: var(--color-primary);
+  color: var(--color-white);
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 0.6rem;
+  right: 1rem;
+  z-index: 10;
 }
 
 /* ===== Navigation ===== */
 .site-nav {
   background: var(--color-primary);
+  position: relative;
 }
 
 .site-nav ul {

@@ -69,17 +69,18 @@ h3 { font-size: 1.4rem; }
   margin: 0;
 }
 
-.menu-toggle {
+.nav-wrapper {
   display: none;
+}
+
+.menu-toggle {
+  display: block;
   background: none;
   border: none;
   font-size: 1.8rem;
   cursor: pointer;
   color: var(--color-white);
-  position: absolute;
-  top: 0.6rem;
-  right: 1rem;
-  z-index: 10;
+  padding: 0.5rem 1rem;
 }
 
 /* ===== Navigation ===== */
@@ -1225,7 +1226,11 @@ main {
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
-  .menu-toggle { display: block; }
+  .nav-wrapper {
+    display: block;
+    background: var(--color-primary);
+    text-align: right;
+  }
 
   .site-nav.closed { display: none; }
 

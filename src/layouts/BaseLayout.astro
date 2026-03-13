@@ -42,8 +42,10 @@ const canonicalUrl = `https://pugliesinelmondouk.vercel.app${currentPath}`;
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <nav class="site-nav closed" id="site-nav">
+  <div class="nav-wrapper">
     <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+  </div>
+  <nav class="site-nav closed" id="site-nav">
     <ul>
       {navigation.menu.map((item: any) => (
         <li class={item.children ? 'has-dropdown' : ''}>

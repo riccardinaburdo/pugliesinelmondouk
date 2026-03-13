@@ -679,6 +679,68 @@ main {
   margin-top: 0.3rem;
 }
 
+/* ===== Booking section ===== */
+.event-booking {
+  background: var(--color-cream);
+  border: 2px solid var(--color-primary);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.event-booking h3 {
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.event-booking p {
+  color: var(--color-gray);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* ===== Add to Calendar ===== */
+.event-calendar {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.event-calendar h3 {
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.calendar-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.calendar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: 1.5px solid var(--color-primary);
+  border-radius: 6px;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+
+.calendar-btn:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.calendar-btn svg {
+  flex-shrink: 0;
+}
+
 /* ===== Collaborators ===== */
 .collab-section {
   margin: 2rem 0;

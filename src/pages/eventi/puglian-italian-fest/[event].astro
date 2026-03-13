@@ -13,6 +13,23 @@ export function getStaticPaths() {
 }
 
 const { item, festival } = Astro.props;
+
+// Build calendar URLs
+const startDate = item.date.replace(/-/g, '');
+const startTime = item.time && item.time !== 'TBA' && !item.time.includes('TBC')
+  ? item.time.split(' - ')[0].replace(':', '') + '00'
+  : '180000';
+const endTime = item.time && item.time.includes(' - ')
+  ? item.time.split(' - ')[1].replace(':', '') + '00'
+  : String(Number(startTime.slice(0, 2)) + 2).padStart(2, '0') + startTime.slice(2);
+const calStart = `${startDate}T${startTime}`;
+const calEnd = `${startDate}T${endTime}`;
+const calTitle = encodeURIComponent(item.title);
+const calLocation = encodeURIComponent(`${item.venue}${item.address ? ', ' + item.address : ''}`);
+const calDescription = encodeURIComponent(`${item.description}\n\nPuglian Italian Fest - pugliesinelmondouk.vercel.app`);
+
+const googleCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${calTitle}&dates=${calStart}/${calEnd}&location=${calLocation}&details=${calDescription}`;
+const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=${calTitle}&startdt=${item.date}T${startTime.slice(0,4)}&location=${calLocation}&body=${calDescription}`;
 ---
 
 <BaseLayout title={`${item.title} | Puglian Italian Fest`} currentPath={`/eventi/puglian-italian-fest/${item.slug}`}>
@@ -62,6 +79,34 @@ const { item, festival } = Astro.props;
       {!item.longDescription && <p>{item.description}</p>}
     </div>
 
+    <!-- Booking -->
+    <div class="event-booking">
+      <h3>Prenota</h3>
+      <p>Per prenotare il tuo posto, contattaci via email o segui il link di prenotazione.</p>
+      <a href={item.bookingLink || `mailto:puglianelmondolondra@gmail.com?subject=Prenotazione: ${item.title}&body=Vorrei prenotare per l'evento ${item.title} del ${new Date(item.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}.`} class="btn-primary">
+        {item.bookingLink ? 'Prenota Ora' : 'Prenota via Email'}
+      </a>
+    </div>
+
+    <!-- Add to Calendar -->
+    <div class="event-calendar">
+      <h3>Aggiungi al Calendario</h3>
+      <div class="calendar-buttons">
+        <a href={googleCalUrl} target="_blank" rel="noopener" class="calendar-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+          Google Calendar
+        </a>
+        <a href={outlookUrl} target="_blank" rel="noopener" class="calendar-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+          Outlook
+        </a>
+        <a href="#" class="calendar-btn" id="ics-download" data-title={item.title} data-date={calStart} data-end={calEnd} data-location={`${item.venue}${item.address ? ', ' + item.address : ''}`} data-description={item.description}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+          Scarica .ics
+        </a>
+      </div>
+    </div>
+
     <!-- Part of festival banner -->
     <div class="event-festival-banner">
       <p>Questo evento fa parte del <strong><a href="/eventi/puglian-italian-fest">Puglian Italian Fest</a></strong></p>
@@ -70,9 +115,40 @@ const { item, festival } = Astro.props;
       </p>
     </div>
 
-    <div style="margin-top: 3rem; text-align: center;">
-      <p style="margin-bottom: 1rem; color: var(--color-gray);">Per informazioni e prenotazioni:</p>
-      <a href="mailto:puglianelmondolondra@gmail.com" class="btn-primary">Contattaci</a>
-    </div>
   </div>
+
+  <script>
+    const icsBtn = document.getElementById('ics-download');
+    if (icsBtn) {
+      icsBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const el = e.currentTarget as HTMLElement;
+        const title = el.dataset.title || '';
+        const dtStart = el.dataset.date || '';
+        const dtEnd = el.dataset.end || '';
+        const location = el.dataset.location || '';
+        const description = el.dataset.description || '';
+        const ics = [
+          'BEGIN:VCALENDAR',
+          'VERSION:2.0',
+          'PRODID:-//Pugliesi nel Mondo UK//EN',
+          'BEGIN:VEVENT',
+          `DTSTART:${dtStart}`,
+          `DTEND:${dtEnd}`,
+          `SUMMARY:${title}`,
+          `LOCATION:${location}`,
+          `DESCRIPTION:${description}`,
+          'END:VEVENT',
+          'END:VCALENDAR'
+        ].join('\r\n');
+        const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${title.replace(/[^a-zA-Z0-9]/g, '-')}.ics`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+  </script>
 </BaseLayout>

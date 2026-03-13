@@ -3,9 +3,8 @@
     { "label": "Home", "url": "/" },
     { "label": "Chi Siamo", "url": "/chi-siamo" },
     { "label": "Eventi", "url": "/eventi" },
-    { "label": "Diventa Socio", "url": "/diventa-socio", "children": [
-      { "label": "Statuto", "url": "/statuto" }
-    ] },
+    { "label": "Diventa Socio", "url": "/diventa-socio" },
+    { "label": "Statuto", "url": "/statuto" },
     { "label": "Sostienici", "url": "/sostienici" },
     { "label": "Contatti", "url": "/contatti" }
   ]

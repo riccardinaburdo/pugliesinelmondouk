@@ -14,20 +14,20 @@
   "programme": [
     {
       "slug": "pizzica-folk-tales-night",
-      "title": "Pizzica & Folk Tales Night",
+      "title": "Amaraterra - Pizzica & Folk Tales Night",
       "category": "Music",
       "date": "2026-06-06",
       "time": "20:00",
       "price": "TBA",
       "venue": "Jamboree",
       "address": "6 St Chad's Pl, London WC1X 9HH",
-      "description": "Pizzica & Folk Tales Night with Amaraterra.",
+      "description": "Amaraterra - Pizzica & Folk Tales Night.",
       "longDescription": [
         "Una serata dedicata alla musica popolare pugliese nel cuore di Londra. Lasciati trasportare dai ritmi ancestrali della pizzica e della taranta, accompagnati da racconti e stornelli della tradizione.",
         "Amaraterra portera' sul palco del Jamboree l'energia e la passione della musica del Sud Italia, in un viaggio sonoro tra pizzica, tarantella e folk tales.",
         "Dettagli aggiuntivi saranno pubblicati a breve."
       ],
-      "image": "/images/events/amaraterra-poster.jpeg"
+      "image": "/images/events/amaraterra-live-new.jpg"
     },
     {
       "slug": "cinema-italia-bellepoker",
@@ -44,7 +44,7 @@
         "Un'opera che mescola cabaret e intrattenimento tra la tradizione pugliese e la Belle \u00c9poque, con uno sguardo ironico e poetico sulla cultura del Sud.",
         "Dettagli aggiuntivi saranno pubblicati a breve."
       ],
-      "image": "/images/events/bellepoker.jpg"
+      "image": "/images/events/bellepoker-new.jpg"
     },
     {
       "slug": "trulli-through-the-lens",

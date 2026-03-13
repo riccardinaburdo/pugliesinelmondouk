@@ -559,6 +559,126 @@ main {
   text-underline-offset: 3px;
 }
 
+/* ===== Programme grid link ===== */
+.programme-grid-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.programme-grid-link:hover .programme-grid-card {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.programme-grid-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ===== Event detail page ===== */
+.event-hero img {
+  width: 100%;
+  max-height: 450px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.event-hero-placeholder {
+  width: 100%;
+  height: 350px;
+  background: #d0d0d0;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.event-category-badge {
+  display: inline-block;
+  background: var(--color-accent);
+  color: #fff;
+  padding: 0.3rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2rem;
+}
+
+.event-info-block {
+  background: var(--color-cream);
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.event-info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.event-info-row:last-child {
+  border-bottom: none;
+}
+
+.event-info-row strong {
+  display: block;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-primary);
+  margin-bottom: 0.2rem;
+}
+
+.event-info-row p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--color-dark);
+}
+
+.event-address {
+  font-size: 0.9rem !important;
+  color: var(--color-gray) !important;
+}
+
+.event-info-row svg {
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.event-description {
+  margin-bottom: 2.5rem;
+}
+
+.event-description p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--color-gray);
+  margin-bottom: 1rem;
+}
+
+.event-festival-banner {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.event-festival-banner a {
+  color: var(--color-gold);
+  text-decoration: underline;
+}
+
+.event-festival-dates {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  margin-top: 0.3rem;
+}
+
 /* ===== Collaborators ===== */
 .collab-section {
   margin: 2rem 0;

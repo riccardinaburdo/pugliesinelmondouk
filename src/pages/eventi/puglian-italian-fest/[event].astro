@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+
+export function getStaticPaths() {
+  const festivalPath = path.join(process.cwd(), 'src/content/events/puglian-italian-fest.json');
+  const festival = JSON.parse(fs.readFileSync(festivalPath, 'utf-8'));
+  return festival.programme.map((item: any) => ({
+    params: { event: item.slug },
+    props: { item, festival }
+  }));
+}
+
+const { item, festival } = Astro.props;
+---
+
+<BaseLayout title={`${item.title} | Puglian Italian Fest`} currentPath={`/eventi/puglian-italian-fest/${item.slug}`}>
+  <div class="event-detail">
+    <a href="/eventi/puglian-italian-fest" style="color: var(--color-primary); display: inline-block; margin-bottom: 2rem;">&larr; Torna al Programma</a>
+
+    <!-- Hero image -->
+    <div class="event-hero">
+      {item.image ? <img src={item.image} alt={item.title} /> : <div class="event-hero-placeholder"></div>}
+    </div>
+
+    <!-- Title and category -->
+    <h1>{item.title}</h1>
+    {item.category && <span class="event-category-badge">{item.category}</span>}
+
+    <!-- Event metadata -->
+    <div class="event-info-block">
+      <div class="event-info-row">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+        <div>
+          <strong>Quando</strong>
+          <p>{new Date(item.date).toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}{item.time && item.time !== 'TBA' ? `, ${item.time}` : ''}</p>
+        </div>
+      </div>
+      <div class="event-info-row">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
+        <div>
+          <strong>Dove</strong>
+          <p>{item.venue}</p>
+          {item.address && <p class="event-address">{item.address}</p>}
+        </div>
+      </div>
+      {item.price && (
+        <div class="event-info-row">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" /></svg>
+          <div>
+            <strong>Prezzo</strong>
+            <p>{item.price}</p>
+          </div>
+        </div>
+      )}
+    </div>
+
+    <!-- Description -->
+    <div class="event-description">
+      {item.longDescription && item.longDescription.map((p: string) => <p>{p}</p>)}
+      {!item.longDescription && <p>{item.description}</p>}
+    </div>
+
+    <!-- Part of festival banner -->
+    <div class="event-festival-banner">
+      <p>Questo evento fa parte del <strong><a href="/eventi/puglian-italian-fest">Puglian Italian Fest</a></strong></p>
+      <p class="event-festival-dates">
+        {new Date(festival.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long' })} - {new Date(festival.endDate).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })} | {festival.location}
+      </p>
+    </div>
+
+    <div style="margin-top: 3rem; text-align: center;">
+      <p style="margin-bottom: 1rem; color: var(--color-gray);">Per informazioni e prenotazioni:</p>
+      <a href="mailto:puglianelmondolondra@gmail.com" class="btn-primary">Contattaci</a>
+    </div>
+  </div>
+</BaseLayout>

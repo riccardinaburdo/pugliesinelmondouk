@@ -13,6 +13,7 @@
   ],
   "programme": [
     {
+      "slug": "pizzica-folk-tales-night",
       "title": "Pizzica & Folk Tales Night",
       "category": "Music",
       "date": "2026-06-06",
@@ -21,9 +22,15 @@
       "venue": "Jamboree",
       "address": "6 St Chad's Pl, London WC1X 9HH",
       "description": "Pizzica & Folk Tales Night with Amaraterra.",
+      "longDescription": [
+        "Una serata dedicata alla musica popolare pugliese nel cuore di Londra. Lasciati trasportare dai ritmi ancestrali della pizzica e della taranta, accompagnati da racconti e stornelli della tradizione.",
+        "Amaraterra portera' sul palco del Jamboree l'energia e la passione della musica del Sud Italia, in un viaggio sonoro tra pizzica, tarantella e folk tales.",
+        "Dettagli aggiuntivi saranno pubblicati a breve."
+      ],
       "image": "/images/events/amaraterra-poster.jpeg"
     },
     {
+      "slug": "cinema-italia-bellepoker",
       "title": "Cinema Italia UK: Bell'Epok\u00e8r",
       "category": "Cinema",
       "date": "2026-06-07",
@@ -32,9 +39,15 @@
       "venue": "The Garden Cinema",
       "address": "39-41 Parker St, London WC2B 5PQ",
       "description": "Bell'Epok\u00e8r by Nico Cirasola.",
+      "longDescription": [
+        "Proiezione del film Bell'Epok\u00e8r del regista pugliese Nico Cirasola, nell'ambito della rassegna Cinema Italia UK.",
+        "Un'opera che mescola cabaret e intrattenimento tra la tradizione pugliese e la Belle \u00c9poque, con uno sguardo ironico e poetico sulla cultura del Sud.",
+        "Dettagli aggiuntivi saranno pubblicati a breve."
+      ],
       "image": "/images/events/bellepoker.jpg"
     },
     {
+      "slug": "trulli-through-the-lens",
       "title": "Trulli Through the Lens",
       "category": "Photography",
       "date": "2026-06-08",
@@ -43,9 +56,15 @@
       "venue": "Estorick Collection of Modern Italian Art",
       "address": "39a Canonbury Square, London N1 2AN",
       "description": "Talk & Photography with Dr. Angelo Maggi.",
+      "longDescription": [
+        "Un incontro dedicato alla fotografia dei trulli pugliesi con il Dr. Angelo Maggi, esperto di architettura e paesaggio.",
+        "Attraverso le sue immagini, scopriremo la bellezza unica di queste costruzioni iconiche e il loro significato nella storia e nella cultura della Puglia.",
+        "Dettagli aggiuntivi saranno pubblicati a breve."
+      ],
       "image": ""
     },
     {
+      "slug": "standup-comedy-marco-di-pinto",
       "title": "Stand-Up Comedy with Marco Di Pinto",
       "category": "Comedy",
       "date": "2026-06-11",
@@ -54,9 +73,15 @@
       "venue": "La Pizzica Restaurant",
       "address": "764-766 Fulham Rd., London SW6 5SJ",
       "description": "Stand-Up Comedy with Marco Di Pinto (Becomedy).",
+      "longDescription": [
+        "Una serata di risate con Marco Di Pinto, comico pugliese del collettivo Becomedy.",
+        "Stand-up comedy in italiano con un tocco pugliese, ospitata nel cuore di Fulham presso il ristorante La Pizzica.",
+        "Dettagli aggiuntivi saranno pubblicati a breve."
+      ],
       "image": ""
     },
     {
+      "slug": "a-taste-of-puglia",
       "title": "A Taste of Puglia",
       "category": "Food",
       "date": "2026-06-13",
@@ -65,9 +90,15 @@
       "venue": "The Upper Place",
       "address": "1st floor, Nag's Head Market, 22 Seven Sisters Rd, London N7 6AG",
       "description": "Culinary traditions and orecchiette-making demonstrations.",
+      "longDescription": [
+        "Una giornata interamente dedicata ai sapori della Puglia. Dalle orecchiette fresche alla focaccia barese, dai taralli ai dolci tradizionali.",
+        "Dimostrazioni dal vivo di preparazione delle orecchiette e degustazioni di prodotti tipici pugliesi, in un'atmosfera di festa e condivisione.",
+        "Dettagli aggiuntivi saranno pubblicati a breve."
+      ],
       "image": ""
     },
     {
+      "slug": "an-evening-with-gabriella-genisi",
       "title": "An Evening with Gabriella Genisi",
       "category": "Book",
       "date": "2026-06-15",
@@ -76,6 +107,11 @@
       "venue": "Estorick Collection of Modern Italian Art",
       "address": "39a Canonbury Square, London N1 2AN",
       "description": "Meet the acclaimed author of the Lolita Lobosco series.",
+      "longDescription": [
+        "Un incontro con Gabriella Genisi, l'autrice della celebre serie di Lolita Lobosco, diventata una fiction di successo su Rai 1.",
+        "Scopri i segreti dietro i suoi romanzi ambientati a Bari e in Puglia, tra gialli avvincenti e l'amore per la sua terra.",
+        "Dettagli aggiuntivi saranno pubblicati a breve."
+      ],
       "image": ""
     }
   ],

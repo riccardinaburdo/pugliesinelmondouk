@@ -56,11 +56,23 @@ const canonicalUrl = `https://pugliesinelmondouk.vercel.app${currentPath}`;
 
   <nav class="site-nav closed" id="site-nav">
     <ul>
-      {navigation.menu.map((item) => (
-        <li>
+      {navigation.menu.map((item: any) => (
+        <li class={item.children ? 'has-dropdown' : ''}>
           <a href={item.url} class={currentPath === item.url ? 'active' : ''}>
             {item.label}
+            {item.children && <svg class="dropdown-arrow" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="2 4 5 7 8 4" /></svg>}
           </a>
+          {item.children && (
+            <ul class="dropdown-menu">
+              {item.children.map((child: any) => (
+                <li>
+                  <a href={child.url} class={currentPath === child.url ? 'active' : ''}>
+                    {child.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
         </li>
       ))}
     </ul>
@@ -93,6 +105,15 @@ const canonicalUrl = `https://pugliesinelmondouk.vercel.app${currentPath}`;
         nav.classList.toggle('closed');
       });
     }
+    // Mobile dropdown toggle
+    document.querySelectorAll('.has-dropdown > a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          link.parentElement?.classList.toggle('open');
+        }
+      });
+    });
   </script>
 </body>
 </html>

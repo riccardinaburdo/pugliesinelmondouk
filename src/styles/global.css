@@ -110,6 +110,42 @@ h3 { font-size: 1.4rem; }
   color: var(--color-gold);
 }
 
+/* Dropdown */
+.has-dropdown {
+  position: relative;
+}
+
+.dropdown-arrow {
+  display: inline-block;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  background: var(--color-primary);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 100;
+  list-style: none;
+  padding: 0;
+  flex-direction: column;
+}
+
+.dropdown-menu li a {
+  padding: 0.7rem 1.2rem !important;
+  font-size: 0.9rem !important;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.has-dropdown:hover .dropdown-menu {
+  display: flex;
+}
+
 /* ===== Main ===== */
 main {
   min-height: 60vh;
@@ -1120,6 +1156,20 @@ main {
     text-align: center;
     padding: 1rem;
     border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .dropdown-menu {
+    position: static;
+    box-shadow: none;
+    background: rgba(0,0,0,0.15);
+  }
+
+  .has-dropdown .dropdown-menu {
+    display: none;
+  }
+
+  .has-dropdown.open .dropdown-menu {
+    display: flex;
   }
 
   .hero h1, .hero-overlay h1 { font-size: 2rem; }

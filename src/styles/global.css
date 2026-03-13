@@ -553,10 +553,15 @@ main {
 }
 
 .programme-grid-meta li .venue-link {
-  color: var(--color-dark);
+  color: var(--color-primary);
   text-decoration: underline;
   text-decoration-style: dotted;
   text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.programme-grid-meta li .venue-link:hover {
+  color: var(--color-accent);
 }
 
 /* ===== Programme grid link ===== */
@@ -647,6 +652,17 @@ main {
 .event-info-row svg {
   flex-shrink: 0;
   margin-top: 0.2rem;
+}
+
+.event-venue-link {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+}
+
+.event-venue-link:hover {
+  color: var(--color-accent);
 }
 
 .event-description {

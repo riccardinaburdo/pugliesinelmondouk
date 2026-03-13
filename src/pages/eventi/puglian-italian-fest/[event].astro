@@ -58,13 +58,13 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
         <div>
           <strong>Dove</strong>
-          <p>{item.venue}</p>
-          {item.address && <p class="event-address">{item.address}</p>}
+          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.venue + (item.address ? ', ' + item.address : ''))}`} target="_blank" rel="noopener" class="event-venue-link">{item.venue}</a>
+          {item.address && <p class="event-address"><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.venue + ', ' + item.address)}`} target="_blank" rel="noopener" class="event-venue-link">{item.address}</a></p>}
         </div>
       </div>
       {item.price && (
         <div class="event-info-row">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" /></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5"><text x="4" y="20" font-size="20" font-weight="bold" fill="var(--color-primary)" stroke="none">£</text></svg>
           <div>
             <strong>Prezzo</strong>
             <p>{item.price}</p>

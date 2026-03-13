@@ -1105,7 +1105,7 @@ main {
 
 /* ===== Footer ===== */
 .site-footer {
-  background: #9e9e9e;
+  background: var(--color-primary-dark);
   color: var(--color-white);
   padding: 3rem 2rem 1.5rem;
 }

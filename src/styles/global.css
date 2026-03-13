@@ -142,7 +142,7 @@ h3 { font-size: 1.4rem; }
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-.has-dropdown:hover .dropdown-menu {
+.has-dropdown.open .dropdown-menu {
   display: flex;
 }
 
@@ -1162,14 +1162,6 @@ main {
     position: static;
     box-shadow: none;
     background: rgba(0,0,0,0.15);
-  }
-
-  .has-dropdown .dropdown-menu {
-    display: none;
-  }
-
-  .has-dropdown.open .dropdown-menu {
-    display: flex;
   }
 
   .hero h1, .hero-overlay h1 { font-size: 2rem; }

@@ -105,14 +105,23 @@ const canonicalUrl = `https://pugliesinelmondouk.vercel.app${currentPath}`;
         nav.classList.toggle('closed');
       });
     }
-    // Mobile dropdown toggle
+    // Dropdown toggle (click to open/close)
     document.querySelectorAll('.has-dropdown > a').forEach(link => {
       link.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-          e.preventDefault();
-          link.parentElement?.classList.toggle('open');
-        }
+        e.preventDefault();
+        const parent = link.parentElement;
+        // Close other open dropdowns
+        document.querySelectorAll('.has-dropdown.open').forEach(el => {
+          if (el !== parent) el.classList.remove('open');
+        });
+        parent?.classList.toggle('open');
       });
+    });
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!(e.target as HTMLElement).closest('.has-dropdown')) {
+        document.querySelectorAll('.has-dropdown.open').forEach(el => el.classList.remove('open'));
+      }
     });
   </script>
 </body>

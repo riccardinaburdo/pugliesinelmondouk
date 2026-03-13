@@ -47,7 +47,7 @@ const { event } = Astro.props;
         <div class="programme-grid">
           {event.programme.map((item: any) => (
             <div class="programme-grid-card">
-              {item.image && <img src={item.image} alt={item.title} />}
+              {item.image ? <img src={item.image} alt={item.title} /> : <div class="programme-placeholder"></div>}
               <div class="programme-card-divider"></div>
               <div class="programme-grid-body">
                 <h3>{item.title}</h3>

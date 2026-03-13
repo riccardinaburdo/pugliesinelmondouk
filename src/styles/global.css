@@ -1246,8 +1246,33 @@ main {
     background: rgba(0,0,0,0.15);
   }
 
-  .hero h1, .hero-overlay h1 { font-size: 2rem; }
-  .hero .subtitle, .hero-overlay .subtitle { font-size: 1.1rem; }
+  .hero-image {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-overlay {
+    position: static;
+    background: var(--color-white);
+    color: var(--color-dark);
+    padding: 2rem 1.5rem;
+  }
+
+  .hero-overlay h1 {
+    font-size: 2rem;
+    color: var(--color-primary);
+    text-shadow: none;
+  }
+
+  .hero-overlay .subtitle {
+    font-size: 1.1rem;
+    color: var(--color-gray);
+  }
+
+  .hero-overlay .description {
+    color: var(--color-gray);
+    opacity: 1;
+  }
 
 
   h1 { font-size: 2rem; }

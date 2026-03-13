@@ -16,13 +16,6 @@ const { event } = Astro.props;
 ---
 
 <BaseLayout title={`${event.title} | Pugliesi nel Mondo UK`} currentPath={`/eventi/${event.slug}`}>
-  <!-- Hero poster -->
-  {event.image && (
-    <div class="event-hero">
-      <img src={event.image} alt={event.title} />
-    </div>
-  )}
-
   <div class="event-detail">
     <a href="/eventi" style="color: var(--color-primary); display: inline-block; margin-bottom: 2rem;">&larr; Tutti gli Eventi</a>
 
@@ -47,27 +40,27 @@ const { event } = Astro.props;
       {!event.longDescription && <p>{event.description}</p>}
     </div>
 
-    <!-- Programme -->
+    <!-- Programme as card grid -->
     {event.programme && event.programme.length > 0 && (
       <div class="programme-section">
         <h2>Programma</h2>
-        <div class="programme-list">
+        <div class="programme-grid">
           {event.programme.map((item: any) => (
-            <div class="programme-card">
+            <div class="programme-grid-card">
               {item.image && <img src={item.image} alt={item.title} />}
-              <div class="programme-card-body">
-                <h3>{item.title}</h3>
-                <p class="programme-date">
-                  📅 {new Date(item.date).toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+              <div class="programme-grid-body">
+                <span class="programme-grid-date">
+                  {new Date(item.date).toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short' }).toUpperCase()}
                   {item.time && item.time !== 'TBA' && ` — ${item.time}`}
-                  {item.time === 'TBA' && ' — orario da confermare'}
-                </p>
+                </span>
+                <h3>{item.title}</h3>
                 {item.venue && (
-                  <p class="programme-venue">
-                    📍 {item.venue}{item.address && `, ${item.address}`}
-                  </p>
+                  <p class="programme-grid-venue">📍 {item.venue}</p>
                 )}
-                <p>{item.description}</p>
+                {item.address && (
+                  <p class="programme-grid-address">{item.address}</p>
+                )}
+                <p class="programme-grid-desc">{item.description}</p>
               </div>
             </div>
           ))}

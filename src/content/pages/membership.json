@@ -1,69 +1,46 @@
 {
   "title": "Diventa Socio",
-  "intro": "Unisciti a Pugliesi nel Mondo UK per sostenere la nostra missione e godere dei vantaggi di far parte di una comunita' vivace che celebra la cultura pugliese con eventi, festival e opportunita' di networking. Scegli il piano di abbonamento piu' adatto a te.",
+  "intro": "Possono iscriversi i pugliesi nati in Puglia o aventi origine pugliese, coloro che pur nati in altre regioni e/o altri Paesi si sentono pugliesi, e quanti sentono di contribuire allo sviluppo economico, sociale, culturale ed imprenditoriale della Puglia.",
   "plans": [
     {
-      "name": "Standard",
-      "description": "Abbonamento di 12 mesi",
-      "price": 30,
+      "name": "Socio Ordinario",
+      "description": "Per tutti i pugliesi e chi si sente tale. Con diritto di voto nelle assemblee dell'associazione.",
+      "price": 20,
+      "currency": "EUR",
       "features": [
-        "Accesso a tutti gli eventi",
-        "Newsletter esclusiva",
-        "Diritto di voto in assemblea"
-      ],
-      "highlight": false
-    },
-    {
-      "name": "Famiglia",
-      "description": "Abbonamento di 12 mesi per 2 membri dello stesso nucleo familiare",
-      "price": 50,
-      "features": [
-        "Accesso a tutti gli eventi per 2 persone",
-        "Newsletter esclusiva",
         "Diritto di voto in assemblea",
-        "Sconti per eventi speciali"
-      ],
-      "highlight": true
-    },
-    {
-      "name": "Giovani",
-      "description": "Abbonamento di 12 mesi per i giovani dai 18 ai 30 anni",
-      "price": 15,
-      "features": [
-        "Accesso a tutti gli eventi",
+        "Accesso a tutti gli eventi e festival",
         "Newsletter esclusiva",
-        "Networking con altri giovani pugliesi"
+        "Rete di contatti con altri pugliesi nel Regno Unito"
       ],
-      "highlight": false
+      "highlight": true,
+      "stripeLink": ""
     },
     {
-      "name": "Sostenitore",
-      "description": "Abbonamento di 12 mesi con contributo extra per la charity",
-      "price": 75,
+      "name": "Socio AWR",
+      "label": "Apulia Worldwide Reference",
+      "description": "Per aziende, imprese, liberi professionisti e attivita' presenti in Puglia, in altre regioni italiane o all'estero. Senza diritto di voto.",
+      "price": 50,
+      "currency": "EUR",
+      "priceNote": "quota minima",
       "features": [
-        "Tutti i vantaggi Standard",
-        "Inviti esclusivi a eventi VIP",
-        "Riconoscimento come sostenitore",
-        "1 ospite gratuito a ogni evento"
+        "Pubblicita' gratuita della propria attivita' sul sito web",
+        "Visibilita' nella rete Pugliesi nel Mondo",
+        "Accesso a tutti gli eventi e festival",
+        "Newsletter esclusiva",
+        "Opportunita' di networking imprenditoriale"
       ],
-      "highlight": false
+      "highlight": false,
+      "stripeLink": ""
     }
   ],
   "benefits": [
-    "Accesso prioritario a tutti gli eventi e festival",
-    "Sconti su biglietti e attivita' dell'associazione",
-    "Newsletter esclusiva con aggiornamenti e opportunita'",
-    "Partecipazione attiva alle decisioni dell'associazione",
-    "Rete di contatti con altri pugliesi nel Regno Unito",
-    "Supporto e orientamento per i nuovi arrivati"
+    "Partecipazione a eventi culturali, festival e iniziative dell'associazione",
+    "Connessione con la comunita' pugliese nel Regno Unito e nel mondo",
+    "Newsletter con aggiornamenti, opportunita' e novita'",
+    "Supporto e orientamento per i pugliesi nel Regno Unito",
+    "Contributo allo sviluppo economico, sociale e culturale della Puglia"
   ],
-  "paymentInfo": "Per completare l'iscrizione puoi pagare tramite bonifico bancario o PayPal. Dopo il pagamento, invia la ricevuta via email per attivare la tua membership.",
-  "bankDetails": {
-    "accountName": "Pugliesi nel Mondo UK",
-    "sortCode": "XX-XX-XX",
-    "accountNumber": "XXXXXXXX",
-    "reference": "MEMBERSHIP + Nome e Cognome"
-  },
   "contact": {
     "email": "puglianelmondolondra@gmail.com",
     "phone": "07962 471804"

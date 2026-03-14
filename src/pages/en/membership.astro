@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import membership from '../../content/pages/en/membership.json';
+---
+
+<BaseLayout title="Membership | Pugliesi nel Mondo UK" currentPath="/en/membership" lang="en">
+  <div class="page-layout" style="max-width: 900px;">
+    <h1>{membership.title}</h1>
+    <p class="intro">{membership.intro}</p>
+
+    <div class="pricing-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 700px; margin: 2rem auto;">
+      {membership.plans.map((plan) => (
+        <div class={`pricing-card ${plan.highlight ? 'pricing-featured' : ''}`}>
+          {plan.highlight && <div class="pricing-badge">Individual</div>}
+          {!plan.highlight && <div class="pricing-badge" style="background: var(--color-gold);">Business</div>}
+          <h3 class="pricing-name">{plan.name}</h3>
+          {plan.label && <p style="color: var(--color-gold); font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem;">{plan.label}</p>}
+          <p class="pricing-desc">{plan.description}</p>
+          <div class="pricing-price">
+            <span class="pricing-currency">&pound;</span>
+            <span class="pricing-amount">{plan.price}</span>
+            <span class="pricing-period">/year</span>
+          </div>
+          {plan.priceNote && <p style="font-size: 0.8rem; color: var(--color-gray); margin-top: -1rem; margin-bottom: 1rem;">({plan.priceNote})</p>}
+          <ul class="pricing-features">
+            {plan.features.map((f) => (
+              <li>{f}</li>
+            ))}
+          </ul>
+          <a href={plan.stripeLink || `mailto:${membership.contact.email}?subject=Membership ${plan.name} - Pugliesi nel Mondo UK&body=I would like to register as ${plan.name} (£${plan.price}/year).%0A%0AFirst name:%0ALast name:%0AEmail:%0APhone:%0ABusiness (if AWR Member):`} class={plan.highlight ? 'btn-primary' : 'btn-outline'} style="width: 100%; text-align: center;">
+            Join
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <div style="margin-top: 4rem;">
+      <h2 class="section-title">Benefits for All Members</h2>
+      <ul class="benefits-list">
+        {membership.benefits.map((benefit) => (
+          <li>{benefit}</li>
+        ))}
+      </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem; padding: 2.5rem; background: var(--color-cream); border-radius: 8px;">
+      <p style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--color-dark);">Questions about membership?</p>
+      <a href={`mailto:${membership.contact.email}`} class="btn-secondary">{membership.contact.email}</a>
+      <p style="margin-top: 0.8rem; color: var(--color-gray);">Tel: {membership.contact.phone}</p>
+    </div>
+  </div>
+</BaseLayout>

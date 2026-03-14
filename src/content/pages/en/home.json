@@ -1,0 +1,43 @@
+{
+  "hero": {
+    "title": "Pugliesi nel Mondo UK",
+    "subtitle": "International Association of Apulians in the World",
+    "description": "Connecting Apulians in the United Kingdom to celebrate and promote the culture, traditions, art and gastronomy of Puglia."
+  },
+  "mission": {
+    "title": "Our Mission",
+    "text": "Pugliesi nel Mondo UK was founded to build a bridge between Puglia and the United Kingdom. We are a non-profit charity that brings together Apulians and lovers of Puglia to preserve and share the cultural heritage of our land: from music to gastronomy, from art to tradition, from language to the values that make us unique.",
+    "image": "/images/general/mission.jpg"
+  },
+  "whatWeDo": {
+    "title": "What We Do",
+    "items": [
+      {
+        "title": "Cultural Events",
+        "description": "We organise festivals, cultural evenings and gatherings celebrating Apulian traditions in London and across the UK.",
+        "icon": "calendar"
+      },
+      {
+        "title": "Community",
+        "description": "We create a support network for Apulians in the UK, fostering connections and opportunities to meet.",
+        "icon": "people"
+      },
+      {
+        "title": "Traditions",
+        "description": "We promote Apulian traditions: the pizzica, gastronomy, craftsmanship and folk festivals.",
+        "icon": "heart"
+      },
+      {
+        "title": "Solidarity",
+        "description": "As a charity, we support charitable initiatives linked to the Apulian and Italian community in the UK.",
+        "icon": "hands"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Join Us",
+    "text": "Become part of our community. Together we can keep our Apulian roots alive.",
+    "buttonText": "Become a Member",
+    "buttonUrl": "/en/membership"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "title": "Become a Member",
+  "intro": "Membership is open to Apulians born in Puglia or of Apulian origin, those who, although born in other regions and/or countries, feel Apulian, and anyone who wishes to contribute to the economic, social, cultural and entrepreneurial development of Puglia.",
+  "plans": [
+    {
+      "name": "Standard Member",
+      "description": "For all Apulians and those who feel Apulian. With voting rights at association assemblies.",
+      "price": 20,
+      "currency": "GBP",
+      "features": [
+        "Voting rights at assemblies",
+        "Exclusive newsletter",
+        "Network of contacts with other Apulians in the UK"
+      ],
+      "highlight": true,
+      "stripeLink": ""
+    },
+    {
+      "name": "AWR Member",
+      "label": "Apulia Worldwide Reference",
+      "description": "For companies, businesses, freelancers and activities based in Puglia, other Italian regions or abroad. Without voting rights.",
+      "price": 50,
+      "currency": "GBP",
+      "priceNote": "minimum fee",
+      "features": [
+        "Free advertising of your business on the website",
+        "Visibility in the Pugliesi nel Mondo network",
+        "Exclusive newsletter",
+        "Business networking opportunities"
+      ],
+      "highlight": false,
+      "stripeLink": ""
+    }
+  ],
+  "benefits": [
+    "Participation in cultural events, festivals and association initiatives",
+    "Connection with the Apulian community in the UK and worldwide",
+    "Newsletter with updates, opportunities and news",
+    "Support and guidance for Apulians in the United Kingdom",
+    "Contribution to the economic, social and cultural development of Puglia"
+  ],
+  "contact": {
+    "email": "puglianelmondolondra@gmail.com",
+    "phone": "07962 471804"
+  }
+}

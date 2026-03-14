@@ -1,0 +1,18 @@
+{
+  "title": "About Us",
+  "intro": "Pugliesi nel Mondo UK is a non-profit charity founded in London by Apulians passionate about their homeland, with the goal of promoting Puglia's culture and traditions in the United Kingdom.",
+  "sections": [
+    {
+      "title": "Our Roots",
+      "text": "Puglia is a land of crystal-clear emerald waters that calm the soul, of white and ochre stones that whisper stories of art and ancient history. It is the rhythm of the pizzica that reminds us how Mediterranean music keeps the passion of Southern Italy alive. The same passion that lives in warm focaccia, fresh orecchiette and flavours created with dedication and love. A land of endless golden wheat, vineyards and olive groves under the southern sun. Puglia is more than a place: it is a feeling."
+    },
+    {
+      "title": "Our Vision",
+      "text": "We believe that Apulian culture is a heritage to be shared with the world. Through events, festivals and cultural initiatives, we want to showcase the traditions, art, music and gastronomy of Puglia in London and across the United Kingdom, creating a bridge between our homeland and our home in the world."
+    },
+    {
+      "title": "Our Values",
+      "text": "Community, solidarity, tradition and innovation. We are a point of reference for Apulians living in the United Kingdom and for all those who love Puglia. We work together to preserve our roots and build new opportunities."
+    }
+  ]
+}

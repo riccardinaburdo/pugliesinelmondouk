@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import support from '../../content/pages/en/support.json';
+---
+
+<BaseLayout title="Support Us | Pugliesi nel Mondo UK" currentPath="/en/support" lang="en">
+  <div class="page-layout" style="max-width: 900px;">
+    <h1>{support.title}</h1>
+    <p class="intro">{support.intro}</p>
+
+    <div class="support-grid">
+      {support.ways.map((way) => (
+        <div class="support-card">
+          <h3>{way.title}</h3>
+          <p>{way.description}</p>
+        </div>
+      ))}
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem;">
+      <p style="font-size: 1.1rem; margin-bottom: 1.5rem; color: var(--color-dark);">{support.contact.text}</p>
+      <a href={`mailto:${support.contact.email}`} class="btn-primary">Contact Us</a>
+    </div>
+  </div>
+</BaseLayout>

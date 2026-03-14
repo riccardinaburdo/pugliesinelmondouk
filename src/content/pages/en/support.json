@@ -1,0 +1,26 @@
+{
+  "title": "Support Us",
+  "intro": "Pugliesi nel Mondo UK is a registered charity. Your contribution helps us organise cultural events, support the Apulian community in the UK and promote our traditions.",
+  "ways": [
+    {
+      "title": "Donation",
+      "description": "Every contribution, big or small, makes a difference. Donations allow us to organise events, festivals and cultural initiatives."
+    },
+    {
+      "title": "Volunteering",
+      "description": "Join our team of volunteers! We need passionate people for event organisation, communications and logistics."
+    },
+    {
+      "title": "Sponsorship",
+      "description": "Are you an Apulian or Italian business in the UK? Become a sponsor of our events and reach our community."
+    },
+    {
+      "title": "Partnership",
+      "description": "Collaborate with us! We are looking for cultural, media and institutional partners to expand our impact."
+    }
+  ],
+  "contact": {
+    "text": "For donations, sponsorship or collaborations, contact us:",
+    "email": "puglianelmondolondra@gmail.com"
+  }
+}

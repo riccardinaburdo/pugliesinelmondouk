@@ -1,6 +1,6 @@
 ---
-import navigation from '../content/pages/navigation.json';
-import footer from '../content/pages/footer.json';
+import fs from 'node:fs';
+import path from 'node:path';
 import '../styles/global.css';
 
 interface Props {
@@ -8,14 +8,63 @@ interface Props {
   description?: string;
   image?: string;
   currentPath?: string;
+  lang?: string;
 }
 
-const { title, description = 'Pugliesi nel Mondo UK - International Association of Apulians in the World. Promuoviamo la cultura e le tradizioni pugliesi nel Regno Unito.', image = '/images/general/hero.jpg', currentPath = '' } = Astro.props;
+const { title, description = 'Pugliesi nel Mondo UK - International Association of Apulians in the World. Promuoviamo la cultura e le tradizioni pugliesi nel Regno Unito.', image = '/images/general/hero.jpg', currentPath = '', lang = 'it' } = Astro.props;
+
+const isEn = lang === 'en';
+const contentBase = path.join(process.cwd(), 'src/content/pages', isEn ? 'en' : '');
+const navigation = JSON.parse(fs.readFileSync(path.join(contentBase, 'navigation.json'), 'utf-8'));
+const footer = JSON.parse(fs.readFileSync(path.join(contentBase, 'footer.json'), 'utf-8'));
+
 const canonicalUrl = `https://pugliesinelmondouk.vercel.app${currentPath}`;
+
+// Language switcher URL mapping (IT ↔ EN)
+const urlMap: Record<string, string> = {
+  '/': '/en',
+  '/en': '/',
+  '/chi-siamo': '/en/about',
+  '/en/about': '/chi-siamo',
+  '/eventi': '/en/events',
+  '/en/events': '/eventi',
+  '/diventa-socio': '/en/membership',
+  '/en/membership': '/diventa-socio',
+  '/statuto': '/en/statute',
+  '/en/statute': '/statuto',
+  '/sostienici': '/en/support',
+  '/en/support': '/sostienici',
+  '/contatti': '/en/contact',
+  '/en/contact': '/contatti',
+  '/eventi/puglian-italian-fest': '/en/events/puglian-italian-fest',
+  '/en/events/puglian-italian-fest': '/eventi/puglian-italian-fest',
+};
+
+// For event detail pages, map the pattern
+let altLangUrl = urlMap[currentPath] || '';
+if (!altLangUrl) {
+  if (isEn) {
+    altLangUrl = currentPath.replace(/^\/en\/events/, '/eventi') || '/';
+  } else {
+    altLangUrl = currentPath.replace(/^\/eventi/, '/en/events') || '/en';
+  }
+}
+const altLangLabel = isEn ? 'IT' : 'EN';
+const currentLangLabel = isEn ? 'EN' : 'IT';
+
+// Footer labels
+const footerContactTitle = isEn ? 'Contact' : 'Contatti';
+const footerNewsletterTitle = isEn ? 'Subscribe to Newsletter' : 'Iscriviti alla Newsletter';
+const footerFieldsNote = isEn ? '* required fields' : '* campi obbligatori';
+const footerNamePlaceholder = isEn ? 'First name*' : 'Nome*';
+const footerSurnamePlaceholder = isEn ? 'Last name*' : 'Cognome*';
+const footerEmailPlaceholder = isEn ? 'Your email*' : 'La tua email*';
+const footerSubmitLabel = isEn ? 'SUBSCRIBE' : 'ISCRIVITI';
+const footerFollowTitle = isEn ? 'Follow Us' : 'Seguici';
 ---
 
 <!doctype html>
-<html lang="it">
+<html lang={lang}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,7 +92,14 @@ const canonicalUrl = `https://pugliesinelmondouk.vercel.app${currentPath}`;
 </head>
 <body>
   <div class="nav-wrapper">
-    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+    <div class="nav-wrapper-inner">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+      <div class="lang-switcher-mobile">
+        <span class="lang-current">{currentLangLabel}</span>
+        <span class="lang-sep">|</span>
+        <a href={altLangUrl} class="lang-link">{altLangLabel}</a>
+      </div>
+    </div>
   </div>
   <nav class="site-nav closed" id="site-nav">
     <ul>
@@ -66,6 +122,11 @@ const canonicalUrl = `https://pugliesinelmondouk.vercel.app${currentPath}`;
           )}
         </li>
       ))}
+      <li class="lang-switcher">
+        <span class="lang-current">{currentLangLabel}</span>
+        <span class="lang-sep">|</span>
+        <a href={altLangUrl} class="lang-link">{altLangLabel}</a>
+      </li>
     </ul>
   </nav>
 
@@ -75,29 +136,29 @@ const canonicalUrl = `https://pugliesinelmondouk.vercel.app${currentPath}`;
 
   <footer class="site-footer">
     <div class="footer-grid">
-      <!-- Column 1: Get In Touch -->
+      <!-- Column 1: Contact -->
       <div class="footer-col">
-        <h4>Contatti</h4>
+        <h4>{footerContactTitle}</h4>
         <a href={`mailto:${footer.email}`}>{footer.email}</a>
       </div>
 
       <!-- Column 2: Newsletter -->
       <div class="footer-col">
-        <h4>Iscriviti alla Newsletter</h4>
-        <p class="footer-note">* campi obbligatori</p>
+        <h4>{footerNewsletterTitle}</h4>
+        <p class="footer-note">{footerFieldsNote}</p>
         <form class="footer-newsletter" action={`mailto:${footer.email}`} method="post" enctype="text/plain">
           <div class="footer-form-row">
-            <input type="text" name="nome" placeholder="Nome*" required />
-            <input type="text" name="cognome" placeholder="Cognome*" required />
+            <input type="text" name="nome" placeholder={footerNamePlaceholder} required />
+            <input type="text" name="cognome" placeholder={footerSurnamePlaceholder} required />
           </div>
-          <input type="email" name="email" placeholder="La tua email*" required />
-          <button type="submit" class="footer-submit">ISCRIVITI</button>
+          <input type="email" name="email" placeholder={footerEmailPlaceholder} required />
+          <button type="submit" class="footer-submit">{footerSubmitLabel}</button>
         </form>
       </div>
 
       <!-- Column 3: Follow Us -->
       <div class="footer-col">
-        <h4>Seguici</h4>
+        <h4>{footerFollowTitle}</h4>
         <div class="footer-social">
           <a href={footer.social.facebook} target="_blank" rel="noopener" aria-label="Facebook" class="social-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>

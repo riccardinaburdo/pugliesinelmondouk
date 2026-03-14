@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const eventsDir = path.join(process.cwd(), 'src/content/events/en');
+const eventFiles = fs.readdirSync(eventsDir).filter(f => f.endsWith('.json'));
+const events = eventFiles
+  .map(f => JSON.parse(fs.readFileSync(path.join(eventsDir, f), 'utf-8')))
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const upcoming = events.filter(e => e.status === 'upcoming');
+const past = events.filter(e => e.status === 'past');
+---
+
+<BaseLayout title="Events | Pugliesi nel Mondo UK" currentPath="/en/events" lang="en">
+  <div class="page-layout" style="max-width: 900px;">
+    <h1>Events</h1>
+    <p class="intro">Discover our events dedicated to the culture, gastronomy and traditions of Puglia in the United Kingdom.</p>
+
+    {upcoming.length > 0 && (
+      <>
+        <h2 style="color: var(--color-primary); margin-bottom: 1.5rem;">Upcoming Events</h2>
+        <div class="events-list">
+          {upcoming.map((event) => (
+            <div class="event-card">
+              <div class="event-card-body" style="padding: 2rem;">
+                <h3>{event.title}</h3>
+                <p class="event-date">
+                  {new Date(event.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  {event.endDate && ` - ${new Date(event.endDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`}
+                </p>
+                <p class="event-location">📍 {event.location}</p>
+                <p>{event.description}</p>
+                <a href={`/en/events/${event.slug}`} class="btn-secondary" style="margin-top: 1rem; display: inline-block;">Learn More</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </>
+    )}
+
+    {past.length > 0 && (
+      <>
+        <h2 style="color: var(--color-gray); margin: 3rem 0 1.5rem;">Past Events</h2>
+        <div class="events-list">
+          {past.map((event) => (
+            <div class="event-card" style="opacity: 0.7;">
+              <div class="event-card-body" style="padding: 2rem;">
+                <h3>{event.title}</h3>
+                <p class="event-date">
+                  {new Date(event.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </p>
+                <p class="event-location">📍 {event.location}</p>
+                <p>{event.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </>
+    )}
+  </div>
+</BaseLayout>

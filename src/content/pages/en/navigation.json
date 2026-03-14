@@ -1,0 +1,11 @@
+{
+  "menu": [
+    { "label": "Home", "url": "/en" },
+    { "label": "About Us", "url": "/en/about" },
+    { "label": "Events", "url": "/en/events" },
+    { "label": "Membership", "url": "/en/membership" },
+    { "label": "Statute", "url": "/en/statute" },
+    { "label": "Support Us", "url": "/en/support" },
+    { "label": "Contact", "url": "/en/contact" }
+  ]
+}

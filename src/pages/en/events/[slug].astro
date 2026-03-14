@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+
+export function getStaticPaths() {
+  const eventsDir = path.join(process.cwd(), 'src/content/events/en');
+  const files = fs.readdirSync(eventsDir).filter(f => f.endsWith('.json'));
+  return files.map(f => {
+    const event = JSON.parse(fs.readFileSync(path.join(eventsDir, f), 'utf-8'));
+    return { params: { slug: event.slug }, props: { event } };
+  });
+}
+
+const { event } = Astro.props;
+---
+
+<BaseLayout title={`${event.title} | Pugliesi nel Mondo UK`} currentPath={`/en/events/${event.slug}`} lang="en">
+  <div class="event-detail">
+    <a href="/en/events" style="color: var(--color-primary); display: inline-block; margin-bottom: 2rem;">&larr; All Events</a>
+
+    <h1>{event.title}</h1>
+    <p class="meta">
+      📅 {new Date(event.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+      {event.endDate && ` - ${new Date(event.endDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`}
+      &nbsp;&nbsp; 📍 {event.location}
+    </p>
+
+    <div class="content">
+      {event.longDescription && event.longDescription.map((p: string) => <p>{p}</p>)}
+      {!event.longDescription && <p>{event.description}</p>}
+    </div>
+
+    {event.programme && event.programme.length > 0 && (
+      <div class="programme-section">
+        <h2>Programme</h2>
+        <div class="programme-grid">
+          {event.programme.map((item: any) => (
+            <a href={`/en/events/${event.slug}/${item.slug}`} class="programme-grid-link">
+              <div class="programme-grid-card">
+                {item.image ? <img src={item.image} alt={item.title} /> : <div class="programme-placeholder"></div>}
+                <div class="programme-card-divider"></div>
+                <div class="programme-grid-body">
+                  <h3>{item.title}</h3>
+                  {item.category && <p class="programme-grid-category">{item.category}</p>}
+                  <ul class="programme-grid-meta">
+                    <li>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                      {new Date(item.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                    </li>
+                    {item.time && (
+                      <li>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                        {item.time === 'TBA' ? 'Time to be confirmed' : item.time}
+                      </li>
+                    )}
+                    {item.price && (
+                      <li>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><text x="4" y="18" font-size="18" font-weight="bold" fill="var(--color-gray)">£</text></svg>
+                        {item.price}
+                      </li>
+                    )}
+                    {item.venue && (
+                      <li>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
+                        <span class="venue-link" onclick={`event.preventDefault(); event.stopPropagation(); window.open('https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.venue + (item.address ? ', ' + item.address : ''))}', '_blank')`}>{item.venue}</span>
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+        <p style="text-align: center; color: var(--color-gray); margin-top: 2rem; font-style: italic;">
+          The full programme will be published soon. Follow us on social media for updates!
+        </p>
+      </div>
+    )}
+
+    {event.highlights && !event.programme && (
+      <div class="event-highlights">
+        <h3>Programme</h3>
+        <ul>
+          {event.highlights.map((h: string) => <li>{h}</li>)}
+        </ul>
+      </div>
+    )}
+
+    {event.collaborators && (
+      <div class="collab-section">
+        <h3>In Collaboration With</h3>
+        <p>{event.collaborators.join(' • ')}</p>
+      </div>
+    )}
+
+    {event.patronage && (
+      <div class="collab-section">
+        <h3>With the Patronage of</h3>
+        <p>{event.patronage.join(' • ')}</p>
+      </div>
+    )}
+
+    {event.mediaPartners && (
+      <div class="collab-section">
+        <h3>Media Partners</h3>
+        <p>{event.mediaPartners.join(' • ')}</p>
+      </div>
+    )}
+
+    <div style="margin-top: 3rem; text-align: center;">
+      <p style="margin-bottom: 1rem; color: var(--color-gray);">For information, sponsorship and participation:</p>
+      <a href="mailto:puglianelmondolondra@gmail.com" class="btn-primary">Contact Us</a>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,125 @@
+{
+  "slug": "puglian-italian-fest",
+  "title": "Puglian Italian Fest",
+  "date": "2026-06-06",
+  "endDate": "2026-06-15",
+  "location": "London",
+  "description": "A journey through the Apulian Art & Traditions. Ten days of Food, Music, Cinema, Culture and Comedy in the heart of London.",
+  "longDescription": [
+    "There comes a moment when we feel the need to return to our roots. Where crystal-clear emerald waters calm the soul. Where white and ochre stones whisper stories of art and ancient history.",
+    "The rhythm of the pizzica reminds us how Mediterranean music keeps the passion of Southern Italy alive. The same passion that lives in warm focaccia, fresh orecchiette and flavours created with dedication and love.",
+    "A land of endless golden wheat, vineyards and olive groves under the southern sun. Puglia is more than a place: it is a feeling.",
+    "Join us at the Puglian Italian Fest and experience a journey through Apulian art and traditions!"
+  ],
+  "programme": [
+    {
+      "slug": "pizzica-folk-tales-night",
+      "title": "Amaraterra - Pizzica & Folk Tales Night",
+      "category": "Music",
+      "date": "2026-06-06",
+      "time": "20:00",
+      "price": "TBA",
+      "venue": "Jamboree",
+      "address": "6 St Chad's Pl, London WC1X 9HH",
+      "description": "Amaraterra - Pizzica & Folk Tales Night.",
+      "longDescription": [
+        "An evening dedicated to Apulian folk music in the heart of London. Let yourself be transported by the ancestral rhythms of the pizzica and taranta, accompanied by tales and stornelli from the tradition.",
+        "Amaraterra will bring to the Jamboree stage the energy and passion of Southern Italian music, in a sonic journey through pizzica, tarantella and folk tales.",
+        "Additional details will be published soon."
+      ],
+      "image": "/images/events/amaraterra-live-new.jpg"
+    },
+    {
+      "slug": "cinema-italia-bellepoker",
+      "title": "Cinema Italia UK: Bell'Epokèr",
+      "category": "Cinema",
+      "date": "2026-06-07",
+      "time": "14:00 TBC",
+      "price": "TBA",
+      "venue": "The Garden Cinema",
+      "address": "39-41 Parker St, London WC2B 5PQ",
+      "description": "Bell'Epokèr by Nico Cirasola.",
+      "longDescription": [
+        "Screening of the film Bell'Epokèr by Apulian director Nico Cirasola, as part of the Cinema Italia UK series.",
+        "A work that blends cabaret and entertainment between Apulian tradition and the Belle Époque, with an ironic and poetic look at Southern culture.",
+        "Additional details will be published soon."
+      ],
+      "image": "/images/events/bellepoker-new.jpg"
+    },
+    {
+      "slug": "trulli-through-the-lens",
+      "title": "Trulli Through the Lens",
+      "category": "Photography",
+      "date": "2026-06-08",
+      "time": "18:00",
+      "price": "TBA",
+      "venue": "Estorick Collection of Modern Italian Art",
+      "address": "39a Canonbury Square, London N1 2AN",
+      "description": "Talk & Photography with Dr. Angelo Maggi.",
+      "longDescription": [
+        "A talk dedicated to the photography of Apulian trulli with Dr. Angelo Maggi, an expert in architecture and landscape.",
+        "Through his images, we will discover the unique beauty of these iconic structures and their significance in the history and culture of Puglia.",
+        "Additional details will be published soon."
+      ],
+      "image": ""
+    },
+    {
+      "slug": "standup-comedy-marco-di-pinto",
+      "title": "Stand-Up Comedy with Marco Di Pinto",
+      "category": "Comedy",
+      "date": "2026-06-11",
+      "time": "18:00",
+      "price": "TBA",
+      "venue": "La Pizzica Restaurant",
+      "address": "764-766 Fulham Rd., London SW6 5SJ",
+      "description": "Stand-Up Comedy with Marco Di Pinto (Becomedy).",
+      "longDescription": [
+        "An evening of laughter with Marco Di Pinto, an Apulian comedian from the Becomedy collective.",
+        "Stand-up comedy in Italian with an Apulian twist, hosted in the heart of Fulham at La Pizzica restaurant.",
+        "Additional details will be published soon."
+      ],
+      "image": ""
+    },
+    {
+      "slug": "a-taste-of-puglia",
+      "title": "A Taste of Puglia",
+      "category": "Food",
+      "date": "2026-06-13",
+      "time": "12:00 - 21:00",
+      "price": "TBA",
+      "venue": "The Upper Place",
+      "address": "1st floor, Nag's Head Market, 22 Seven Sisters Rd, London N7 6AG",
+      "description": "Culinary traditions and orecchiette-making demonstrations.",
+      "longDescription": [
+        "A day entirely dedicated to the flavours of Puglia. From fresh orecchiette to Bari-style focaccia, from taralli to traditional sweets.",
+        "Live orecchiette-making demonstrations and tastings of typical Apulian products, in an atmosphere of celebration and sharing.",
+        "Additional details will be published soon."
+      ],
+      "image": ""
+    },
+    {
+      "slug": "an-evening-with-gabriella-genisi",
+      "title": "An Evening with Gabriella Genisi",
+      "category": "Book",
+      "date": "2026-06-15",
+      "time": "18:00",
+      "price": "TBA",
+      "venue": "Estorick Collection of Modern Italian Art",
+      "address": "39a Canonbury Square, London N1 2AN",
+      "description": "Meet the acclaimed author of the Lolita Lobosco series.",
+      "longDescription": [
+        "A meeting with Gabriella Genisi, the author of the celebrated Lolita Lobosco series, which became a hit TV show on Rai 1.",
+        "Discover the secrets behind her novels set in Bari and Puglia, between gripping mysteries and the love for her homeland.",
+        "Additional details will be published soon."
+      ],
+      "image": ""
+    }
+  ],
+  "categories": ["Music", "Cinema", "Photography", "Comedy", "Food", "Book"],
+  "mediaPartners": ["London One Radio", "Fairness Magazine"],
+  "collaborators": ["San Domenico Blanc", "Il Circolo", "La Pizzica", "Masseria San Domenico", "Spigadolce", "BEComedy", "Upper Place", "Eatock Collection", "Festival Italia UK"],
+  "patronage": ["COMITES", "Accademia Apulia UK", "Consolato Generale d'Italia"],
+  "image": "/images/events/puglian-fest-poster.jpg",
+  "status": "upcoming",
+  "order": 1
+}

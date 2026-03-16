@@ -62,6 +62,7 @@ const footerNamePlaceholder = isEn ? 'First name*' : 'Nome*';
 const footerSurnamePlaceholder = isEn ? 'Last name*' : 'Cognome*';
 const footerEmailPlaceholder = isEn ? 'Your email*' : 'La tua email*';
 const footerSubmitLabel = isEn ? 'SUBSCRIBE' : 'ISCRIVITI';
+const footerNewsletterSubject = isEn ? 'Newsletter subscription request' : 'Richiesta di iscrizione alla newsletter';
 const footerFollowTitle = isEn ? 'Follow Us' : 'Seguici';
 ---
 
@@ -148,7 +149,7 @@ const footerFollowTitle = isEn ? 'Follow Us' : 'Seguici';
       <div class="footer-col">
         <h4>{footerNewsletterTitle}</h4>
         <p class="footer-note">{footerFieldsNote}</p>
-        <form class="footer-newsletter" action={`mailto:${footer.email}`} method="post" enctype="text/plain">
+        <form class="footer-newsletter" action={`mailto:${footer.email}?subject=${encodeURIComponent(footerNewsletterSubject)}`} method="post" enctype="text/plain">
           <div class="footer-form-row">
             <input type="text" name="nome" placeholder={footerNamePlaceholder} required />
             <input type="text" name="cognome" placeholder={footerSurnamePlaceholder} required />

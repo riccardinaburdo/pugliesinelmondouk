@@ -87,6 +87,14 @@ const { event } = Astro.props;
       </div>
     )}
 
+    <!-- Festival Directors & Organisers -->
+    {event.directors && (
+      <div class="collab-section">
+        <h3>Festival Directors & Organisers</h3>
+        <p>{event.directors.join(' • ')}</p>
+      </div>
+    )}
+
     {event.collaborators && (
       <div class="collab-section">
         <h3>In Collaboration With</h3>
@@ -110,7 +118,7 @@ const { event } = Astro.props;
 
     <div style="margin-top: 3rem; text-align: center;">
       <p style="margin-bottom: 1rem; color: var(--color-gray);">For information, sponsorship and participation:</p>
-      <a href="mailto:puglianelmondolondra@gmail.com" class="btn-primary">Contact Us</a>
+      <a href="mailto:info@pugliesinelmondouk.org" class="btn-primary">Contact Us</a>
     </div>
   </div>
 </BaseLayout>

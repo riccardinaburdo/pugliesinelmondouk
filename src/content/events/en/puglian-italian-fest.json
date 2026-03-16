@@ -32,7 +32,7 @@
     },
     {
       "slug": "cinema-italia-bellepoker",
-      "title": "Cinema Italia UK: Bell'Epokèr",
+      "title": "CinemaItaliaUK: Bell'Epokèr",
       "category": "Cinema",
       "date": "2026-06-07",
       "time": "14:00 TBC",
@@ -49,7 +49,7 @@
     },
     {
       "slug": "trulli-through-the-lens",
-      "title": "Trulli Through the Lens",
+      "title": "Trulli Through The Lens : Photography and Architecture",
       "category": "Photography",
       "date": "2026-06-08",
       "time": "18:00",
@@ -66,7 +66,7 @@
     },
     {
       "slug": "standup-comedy-marco-di-pinto",
-      "title": "Stand-Up Comedy with Marco Di Pinto",
+      "title": "Stand Up Comedy with BeComedy di Marco Di Pinto",
       "category": "Comedy",
       "date": "2026-06-11",
       "time": "18:00",
@@ -83,7 +83,7 @@
     },
     {
       "slug": "a-taste-of-puglia",
-      "title": "A Taste of Puglia",
+      "title": "Food & Experiences",
       "category": "Food",
       "date": "2026-06-13",
       "time": "12:00 - 21:00",
@@ -101,7 +101,7 @@
     {
       "slug": "an-evening-with-gabriella-genisi",
       "title": "An Evening with Gabriella Genisi",
-      "category": "Book",
+      "category": "Literature",
       "date": "2026-06-15",
       "time": "18:00",
       "price": "TBA",
@@ -116,7 +116,7 @@
       "image": ""
     }
   ],
-  "categories": ["Music", "Cinema", "Photography", "Comedy", "Food", "Book"],
+  "categories": ["Music", "Cinema", "Photography", "Comedy", "Food", "Literature"],
   "mediaPartners": ["London One Radio", "Fairness Magazine"],
   "collaborators": ["San Domenico Blanc", "Il Circolo", "La Pizzica", "Masseria San Domenico", "Spigadolce", "BEComedy", "Upper Place", "Eatock Collection", "Festival Italia UK"],
   "directors": ["The International Association of the Apulians in the World in the UK (Associazione Internazionale Pugliesi nel Mondo Sezione UK)"],

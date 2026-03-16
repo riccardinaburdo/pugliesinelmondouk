@@ -95,17 +95,17 @@ const { event } = Astro.props;
       </div>
     )}
 
-    {event.collaborators && (
-      <div class="collab-section">
-        <h3>In Collaboration With</h3>
-        <p>{event.collaborators.join(' • ')}</p>
-      </div>
-    )}
-
     {event.patronage && (
       <div class="collab-section">
         <h3>With the Patronage of</h3>
         <p>{event.patronage.join(' • ')}</p>
+      </div>
+    )}
+
+    {event.collaborators && (
+      <div class="collab-section">
+        <h3>In Collaboration With</h3>
+        <p>{event.collaborators.join(' • ')}</p>
       </div>
     )}
 

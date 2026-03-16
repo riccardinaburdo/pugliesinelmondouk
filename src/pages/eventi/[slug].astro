@@ -97,19 +97,19 @@ const { event } = Astro.props;
       </div>
     )}
 
-    <!-- Collaborators -->
-    {event.collaborators && (
-      <div class="collab-section">
-        <h3>In Collaborazione Con</h3>
-        <p>{event.collaborators.join(' • ')}</p>
-      </div>
-    )}
-
     <!-- Patronage -->
     {event.patronage && (
       <div class="collab-section">
         <h3>Con il Patrocinio di</h3>
         <p>{event.patronage.join(' • ')}</p>
+      </div>
+    )}
+
+    <!-- Collaborators -->
+    {event.collaborators && (
+      <div class="collab-section">
+        <h3>In Collaborazione Con</h3>
+        <p>{event.collaborators.join(' • ')}</p>
       </div>
     )}
 

@@ -632,9 +632,16 @@ main {
 }
 
 .programme-grid-category {
-  color: var(--color-accent);
-  font-weight: 700;
-  font-size: 1rem;
+  display: inline-block;
+  background: var(--color-cream);
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   margin-bottom: 1.2rem;
 }
 
@@ -705,12 +712,13 @@ main {
 
 .event-category-badge {
   display: inline-block;
-  background: var(--color-accent);
-  color: #fff;
-  padding: 0.3rem 1rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  font-weight: 700;
+  background: var(--color-cream);
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+  padding: 0.25rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 2rem;

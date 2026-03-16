@@ -149,12 +149,15 @@ const footerFollowTitle = isEn ? 'Follow Us' : 'Seguici';
       <div class="footer-col">
         <h4>{footerNewsletterTitle}</h4>
         <p class="footer-note">{footerFieldsNote}</p>
-        <form class="footer-newsletter" action={`mailto:${footer.email}?subject=${encodeURIComponent(footerNewsletterSubject)}`} method="post" enctype="text/plain">
+        <form class="footer-newsletter" action="https://pugliesinelmondouk.us22.list-manage.com/subscribe/post?u=9d4fb5e15a58f08447f649b6e&amp;id=3c40495624&amp;f_id=008cc2e1f0" method="post" target="_blank">
           <div class="footer-form-row">
-            <input type="text" name="nome" placeholder={footerNamePlaceholder} required />
-            <input type="text" name="cognome" placeholder={footerSurnamePlaceholder} required />
+            <input type="text" name="FNAME" placeholder={footerNamePlaceholder} required />
+            <input type="text" name="LNAME" placeholder={footerSurnamePlaceholder} required />
           </div>
-          <input type="email" name="email" placeholder={footerEmailPlaceholder} required />
+          <input type="email" name="EMAIL" placeholder={footerEmailPlaceholder} required />
+          <div style="position: absolute; left: -5000px;" aria-hidden="true">
+            <input type="text" name="b_9d4fb5e15a58f08447f649b6e_3c40495624" tabindex="-1" value="" />
+          </div>
           <button type="submit" class="footer-submit">{footerSubmitLabel}</button>
         </form>
       </div>

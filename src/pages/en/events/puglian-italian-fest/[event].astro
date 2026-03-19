@@ -155,7 +155,8 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
         const script = document.createElement('script');
         script.src = mcUrl;
         document.body.appendChild(script);
-        window.location.href = bookingUrl;
+        modal.classList.remove('active');
+        window.open(bookingUrl, '_blank');
       });
     }
 

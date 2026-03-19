@@ -94,18 +94,11 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
         <button class="booking-modal-close" id="bookingModalClose">&times;</button>
         <h3>Resta aggiornato</h3>
         <p class="booking-modal-desc">Lasciaci i tuoi dati per ricevere aggiornamenti su questo evento e sulle nostre attivita'. Saremo molto discreti: solo comunicazioni utili, niente spam. Potrai disiscriverti in qualsiasi momento con un solo click.</p>
-        <form class="booking-modal-form" id="bookingForm" action="https://pugliesinelmondouk.us22.list-manage.com/subscribe/post" method="post" target="mc-hidden-frame">
-          <input type="hidden" name="u" value="9d4fb5e15a58f08447f649b6e" />
-          <input type="hidden" name="id" value="3c40495624" />
-          <input type="hidden" name="f_id" value="008cc2e1f0" />
+        <form class="booking-modal-form" id="bookingForm">
           <input type="text" name="FNAME" placeholder="Nome" required />
           <input type="email" name="EMAIL" placeholder="Email" required />
-          <div style="position: absolute; left: -5000px;" aria-hidden="true">
-            <input type="text" name="b_9d4fb5e15a58f08447f649b6e_3c40495624" tabindex="-1" value="" />
-          </div>
           <button type="submit" class="btn-primary" style="width: 100%;">Continua con la prenotazione</button>
         </form>
-        <iframe name="mc-hidden-frame" style="display:none;"></iframe>
       </div>
     </div>
 
@@ -160,10 +153,16 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
         modal.classList.remove('active');
       });
 
-      bookingForm?.addEventListener('submit', () => {
-        setTimeout(() => {
-          window.location.href = bookingUrl;
-        }, 500);
+      bookingForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const fname = (bookingForm.querySelector('[name="FNAME"]') as HTMLInputElement).value;
+        const email = (bookingForm.querySelector('[name="EMAIL"]') as HTMLInputElement).value;
+        const mcUrl = 'https://pugliesinelmondouk.us22.list-manage.com/subscribe/post-json?u=9d4fb5e15a58f08447f649b6e&id=3c40495624&f_id=008cc2e1f0&FNAME=' + encodeURIComponent(fname) + '&EMAIL=' + encodeURIComponent(email) + '&c=mcCallback';
+        (window as any).mcCallback = function() {};
+        const script = document.createElement('script');
+        script.src = mcUrl;
+        document.body.appendChild(script);
+        window.location.href = bookingUrl;
       });
     }
 

@@ -83,9 +83,30 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
     <div class="event-booking">
       <h3>Prenota</h3>
       <p>Per prenotare il tuo posto, contattaci via email o segui il link di prenotazione.</p>
-      <a href={item.bookingLink || `mailto:info@pugliesinelmondouk.org?subject=Prenotazione: ${item.title}&body=Vorrei prenotare per l'evento ${item.title} del ${new Date(item.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}.`} class="btn-primary">
+      <a href={item.bookingLink || `mailto:info@pugliesinelmondouk.org?subject=Prenotazione: ${item.title}&body=Vorrei prenotare per l'evento ${item.title} del ${new Date(item.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}.`} class="btn-primary booking-btn" data-booking-url={item.bookingLink || ''}>
         {item.bookingLink ? 'Prenota Ora' : 'Prenota via Email'}
       </a>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="booking-modal-overlay" id="bookingModal">
+      <div class="booking-modal">
+        <button class="booking-modal-close" id="bookingModalClose">&times;</button>
+        <h3>Resta aggiornato</h3>
+        <p class="booking-modal-desc">Lasciaci i tuoi dati per ricevere aggiornamenti su questo evento e sulle nostre attivita'. Saremo molto discreti: solo comunicazioni utili, niente spam. Potrai disiscriverti in qualsiasi momento con un solo click.</p>
+        <form class="booking-modal-form" id="bookingForm" action="https://pugliesinelmondouk.us22.list-manage.com/subscribe/post" method="post" target="_blank">
+          <input type="hidden" name="u" value="9d4fb5e15a58f08447f649b6e" />
+          <input type="hidden" name="id" value="3c40495624" />
+          <input type="hidden" name="f_id" value="008cc2e1f0" />
+          <input type="text" name="FNAME" placeholder="Nome" required />
+          <input type="email" name="EMAIL" placeholder="Email" required />
+          <div style="position: absolute; left: -5000px;" aria-hidden="true">
+            <input type="text" name="b_9d4fb5e15a58f08447f649b6e_3c40495624" tabindex="-1" value="" />
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Continua con la prenotazione</button>
+        </form>
+        <button class="booking-modal-skip" id="bookingModalSkip">Salta e vai alla prenotazione &rarr;</button>
+      </div>
     </div>
 
     <!-- Add to Calendar -->
@@ -118,6 +139,46 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
   </div>
 
   <script>
+    // Booking modal logic
+    const bookingBtn = document.querySelector('.booking-btn') as HTMLAnchorElement;
+    const modal = document.getElementById('bookingModal');
+    const modalClose = document.getElementById('bookingModalClose');
+    const modalSkip = document.getElementById('bookingModalSkip');
+    const bookingForm = document.getElementById('bookingForm') as HTMLFormElement;
+    let bookingUrl = '';
+
+    if (bookingBtn && modal) {
+      bookingUrl = bookingBtn.dataset.bookingUrl || bookingBtn.href;
+
+      // Only show modal for external booking links (not mailto)
+      if (bookingUrl && !bookingUrl.startsWith('mailto:')) {
+        bookingBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          modal.classList.add('active');
+        });
+      }
+
+      modalClose?.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+
+      modalSkip?.addEventListener('click', () => {
+        modal.classList.remove('active');
+        window.open(bookingUrl, '_blank');
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('active');
+      });
+
+      bookingForm?.addEventListener('submit', () => {
+        setTimeout(() => {
+          modal.classList.remove('active');
+          window.open(bookingUrl, '_blank');
+        }, 500);
+      });
+    }
+
     const icsBtn = document.getElementById('ics-download');
     if (icsBtn) {
       icsBtn.addEventListener('click', (e) => {

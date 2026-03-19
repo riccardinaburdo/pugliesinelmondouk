@@ -91,7 +91,6 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
     <!-- Booking Modal -->
     <div class="booking-modal-overlay" id="bookingModal">
       <div class="booking-modal">
-        <button class="booking-modal-close" id="bookingModalClose">&times;</button>
         <h3>Resta aggiornato</h3>
         <p class="booking-modal-desc">Lasciaci i tuoi dati per ricevere aggiornamenti su questo evento e sulle nostre attivita'. Saremo molto discreti: solo comunicazioni utili, niente spam. Potrai disiscriverti in qualsiasi momento con un solo click.</p>
         <form class="booking-modal-form" id="bookingForm" action="https://pugliesinelmondouk.us22.list-manage.com/subscribe/post" method="post" target="_blank">
@@ -105,7 +104,6 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
           </div>
           <button type="submit" class="btn-primary" style="width: 100%;">Continua con la prenotazione</button>
         </form>
-        <button class="booking-modal-skip" id="bookingModalSkip">Salta e vai alla prenotazione &rarr;</button>
       </div>
     </div>
 
@@ -142,34 +140,18 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
     // Booking modal logic
     const bookingBtn = document.querySelector('.booking-btn') as HTMLAnchorElement;
     const modal = document.getElementById('bookingModal');
-    const modalClose = document.getElementById('bookingModalClose');
-    const modalSkip = document.getElementById('bookingModalSkip');
     const bookingForm = document.getElementById('bookingForm') as HTMLFormElement;
     let bookingUrl = '';
 
     if (bookingBtn && modal) {
       bookingUrl = bookingBtn.dataset.bookingUrl || bookingBtn.href;
 
-      // Only show modal for external booking links (not mailto)
       if (bookingUrl && !bookingUrl.startsWith('mailto:')) {
         bookingBtn.addEventListener('click', (e) => {
           e.preventDefault();
           modal.classList.add('active');
         });
       }
-
-      modalClose?.addEventListener('click', () => {
-        modal.classList.remove('active');
-      });
-
-      modalSkip?.addEventListener('click', () => {
-        modal.classList.remove('active');
-        window.open(bookingUrl, '_blank');
-      });
-
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.remove('active');
-      });
 
       bookingForm?.addEventListener('submit', () => {
         setTimeout(() => {

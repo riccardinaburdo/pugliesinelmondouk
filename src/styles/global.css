@@ -912,22 +912,6 @@ main {
   margin-bottom: 1.5rem;
 }
 
-.booking-modal-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  font-size: 1.8rem;
-  color: var(--color-gray);
-  cursor: pointer;
-  line-height: 1;
-}
-
-.booking-modal-close:hover {
-  color: var(--color-text);
-}
-
 .booking-modal-form input[type="text"],
 .booking-modal-form input[type="email"] {
   width: 100%;
@@ -946,24 +930,6 @@ main {
 
 .booking-modal-form button[type="submit"] {
   margin-top: 0.5rem;
-}
-
-.booking-modal-skip {
-  display: block;
-  width: 100%;
-  background: none;
-  border: none;
-  color: var(--color-gray);
-  font-size: 0.85rem;
-  cursor: pointer;
-  margin-top: 1rem;
-  text-align: center;
-  padding: 0.5rem;
-}
-
-.booking-modal-skip:hover {
-  color: var(--color-primary);
-  text-decoration: underline;
 }
 
 /* ===== Collaborators ===== */

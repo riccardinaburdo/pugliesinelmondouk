@@ -94,7 +94,7 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
         <button class="booking-modal-close" id="bookingModalClose">&times;</button>
         <h3>Resta aggiornato</h3>
         <p class="booking-modal-desc">Lasciaci i tuoi dati per ricevere aggiornamenti su questo evento e sulle nostre attivita'. Saremo molto discreti: solo comunicazioni utili, niente spam. Potrai disiscriverti in qualsiasi momento con un solo click.</p>
-        <form class="booking-modal-form" id="bookingForm" action="https://pugliesinelmondouk.us22.list-manage.com/subscribe/post" method="post" target="_blank">
+        <form class="booking-modal-form" id="bookingForm" action="https://pugliesinelmondouk.us22.list-manage.com/subscribe/post" method="post" target="mc-hidden-frame">
           <input type="hidden" name="u" value="9d4fb5e15a58f08447f649b6e" />
           <input type="hidden" name="id" value="3c40495624" />
           <input type="hidden" name="f_id" value="008cc2e1f0" />
@@ -105,6 +105,7 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
           </div>
           <button type="submit" class="btn-primary" style="width: 100%;">Continua con la prenotazione</button>
         </form>
+        <iframe name="mc-hidden-frame" style="display:none;"></iframe>
       </div>
     </div>
 
@@ -161,8 +162,7 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
 
       bookingForm?.addEventListener('submit', () => {
         setTimeout(() => {
-          modal.classList.remove('active');
-          window.open(bookingUrl, '_blank');
+          window.location.href = bookingUrl;
         }, 500);
       });
     }

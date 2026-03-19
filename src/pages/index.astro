@@ -49,7 +49,9 @@ const events = eventFiles
               </p>
               <p class="event-location">📍 {event.location}</p>
               <p>{event.description}</p>
-              <a href={`/eventi/${event.slug}`} class="btn-secondary" style="margin-top: 1rem; display: inline-block;">Scopri di piu'</a>
+              <div style="text-align: center; margin-top: 1rem;">
+                <a href={`/eventi/${event.slug}`} class="btn-primary">SCOPRI DI PIU'</a>
+              </div>
             </div>
           </div>
         ))}

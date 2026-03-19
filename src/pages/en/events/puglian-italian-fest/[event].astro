@@ -90,6 +90,7 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
         <p class="booking-modal-desc">Leave us your details to receive updates about this event and our activities. We'll be very measured in our communications: only useful updates, no spam. You can unsubscribe at any time with a single click.</p>
         <form class="booking-modal-form" id="bookingForm">
           <input type="text" name="FNAME" placeholder="First name" required />
+          <input type="text" name="LNAME" placeholder="Last name" required />
           <input type="email" name="EMAIL" placeholder="Email" required />
           <button type="submit" class="btn-primary" style="width: 100%;">Continue to booking</button>
         </form>
@@ -147,8 +148,9 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
       bookingForm?.addEventListener('submit', (e) => {
         e.preventDefault();
         const fname = (bookingForm.querySelector('[name="FNAME"]') as HTMLInputElement).value;
+        const lname = (bookingForm.querySelector('[name="LNAME"]') as HTMLInputElement).value;
         const email = (bookingForm.querySelector('[name="EMAIL"]') as HTMLInputElement).value;
-        const mcUrl = 'https://pugliesinelmondouk.us22.list-manage.com/subscribe/post-json?u=9d4fb5e15a58f08447f649b6e&id=3c40495624&f_id=008cc2e1f0&FNAME=' + encodeURIComponent(fname) + '&EMAIL=' + encodeURIComponent(email) + '&c=mcCallback';
+        const mcUrl = 'https://pugliesinelmondouk.us22.list-manage.com/subscribe/post-json?u=9d4fb5e15a58f08447f649b6e&id=3c40495624&f_id=008cc2e1f0&FNAME=' + encodeURIComponent(fname) + '&LNAME=' + encodeURIComponent(lname) + '&EMAIL=' + encodeURIComponent(email) + '&c=mcCallback';
         (window as any).mcCallback = function() {};
         const script = document.createElement('script');
         script.src = mcUrl;

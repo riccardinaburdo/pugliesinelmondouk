@@ -905,6 +905,22 @@ main {
   font-size: 1.4rem;
 }
 
+.booking-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--color-gray);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.booking-modal-close:hover {
+  color: var(--color-text);
+}
+
 .booking-modal-desc {
   color: var(--color-gray);
   font-size: 0.9rem;

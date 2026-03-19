@@ -85,6 +85,7 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
     <!-- Booking Modal -->
     <div class="booking-modal-overlay" id="bookingModal">
       <div class="booking-modal">
+        <button class="booking-modal-close" id="bookingModalClose">&times;</button>
         <h3>Stay updated</h3>
         <p class="booking-modal-desc">Leave us your details to receive updates about this event and our activities. We'll be very measured in our communications: only useful updates, no spam. You can unsubscribe at any time with a single click.</p>
         <form class="booking-modal-form" id="bookingForm" action="https://pugliesinelmondouk.us22.list-manage.com/subscribe/post" method="post" target="_blank">
@@ -131,6 +132,7 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
     // Booking modal logic
     const bookingBtn = document.querySelector('.booking-btn') as HTMLAnchorElement;
     const modal = document.getElementById('bookingModal');
+    const modalClose = document.getElementById('bookingModalClose');
     const bookingForm = document.getElementById('bookingForm') as HTMLFormElement;
     let bookingUrl = '';
 
@@ -143,6 +145,10 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
           modal.classList.add('active');
         });
       }
+
+      modalClose?.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
 
       bookingForm?.addEventListener('submit', () => {
         setTimeout(() => {

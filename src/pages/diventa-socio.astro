@@ -87,11 +87,22 @@ const bank = membership.bankDetails;
               <label for="signup-phone">{flow.phoneLabel}</label>
               <input type="tel" id="signup-phone" />
             </div>
+            <div class="form-group form-group-full">
+              <label for="signup-birthplace">{flow.birthPlaceLabel} *</label>
+              <input type="text" id="signup-birthplace" required />
+            </div>
             <div class="form-group form-group-full" id="business-field" style="display: none;">
               <label for="signup-business">{flow.businessLabel}</label>
               <input type="text" id="signup-business" />
             </div>
+            <div class="form-group form-group-full signup-checkbox-group">
+              <label class="signup-checkbox-label">
+                <input type="checkbox" id="signup-uk-resident" />
+                <span>{flow.ukResidentLabel}</span>
+              </label>
+            </div>
           </div>
+          <p class="signup-privacy">{flow.privacyNote}</p>
           <div class="signup-actions">
             <button class="btn-primary" id="btn-next-1">{flow.nextButton} &rarr;</button>
           </div>
@@ -155,6 +166,14 @@ const bank = membership.bankDetails;
             <div class="summary-row" id="summary-phone-row">
               <span>{flow.phoneLabel}</span>
               <strong id="summary-phone"></strong>
+            </div>
+            <div class="summary-row">
+              <span>{flow.birthPlaceLabel}</span>
+              <strong id="summary-birthplace"></strong>
+            </div>
+            <div class="summary-row" id="summary-uk-row">
+              <span>Residente UK</span>
+              <strong id="summary-uk-resident"></strong>
             </div>
             <div class="summary-row" id="summary-business-row" style="display: none;">
               <span>{flow.businessLabel}</span>
@@ -241,9 +260,10 @@ const bank = membership.bankDetails;
       const fname = document.getElementById('signup-fname').value.trim();
       const lname = document.getElementById('signup-lname').value.trim();
       const email = document.getElementById('signup-email').value.trim();
+      const birthplace = document.getElementById('signup-birthplace').value.trim();
 
-      if (!fname || !lname || !email) {
-        alert('Per favore compila i campi obbligatori (Nome, Cognome, Email).');
+      if (!fname || !lname || !email || !birthplace) {
+        alert('Per favore compila i campi obbligatori (Nome, Cognome, Email, Luogo di nascita).');
         return;
       }
 
@@ -271,6 +291,12 @@ const bank = membership.bankDetails;
         document.getElementById('summary-phone-row').style.display = 'none';
       }
 
+      const birthplace = document.getElementById('signup-birthplace').value;
+      document.getElementById('summary-birthplace').textContent = birthplace;
+
+      const ukResident = document.getElementById('signup-uk-resident').checked;
+      document.getElementById('summary-uk-resident').textContent = ukResident ? 'Si' : 'No';
+
       if (isAWR) {
         const biz = document.getElementById('signup-business').value;
         document.getElementById('summary-business').textContent = biz;
@@ -288,8 +314,11 @@ const bank = membership.bankDetails;
       body += 'Cognome: ' + lname + '\n';
       body += 'Email: ' + email + '\n';
       if (phone) body += 'Telefono: ' + phone + '\n';
+      body += 'Luogo di nascita: ' + birthplace + '\n';
+      body += 'Residente UK: ' + (ukResident ? 'Si' : 'No') + '\n';
       if (isAWR && business) body += 'Attivita\': ' + business + '\n';
       body += '\nHo preso visione dei dati bancari per il bonifico.';
+      body += '\nAcconsento al trattamento dei dati personali ai sensi del UK GDPR.';
 
       const subject = 'Iscrizione ' + selectedPlan + ' - ' + fname + ' ' + lname;
       const mailto = 'mailto:' + contactEmail + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);

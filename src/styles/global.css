@@ -1503,3 +1503,348 @@ main {
     flex-direction: column;
   }
 }
+
+/* ========================================
+   Multi-step Signup Form
+   ======================================== */
+
+.signup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+}
+
+.signup-panel {
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 560px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.signup-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--color-gray);
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.signup-close:hover {
+  color: var(--color-dark);
+}
+
+/* Progress Bar */
+.signup-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 2rem;
+}
+
+.signup-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  background: var(--color-light-gray);
+  color: var(--color-gray);
+  transition: all 0.3s ease;
+}
+
+.signup-step.active .step-circle {
+  background: var(--color-primary);
+  color: white;
+}
+
+.step-label {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.3s;
+}
+
+.signup-step.active .step-label {
+  color: var(--color-primary);
+}
+
+.signup-step-line {
+  flex: 1;
+  height: 3px;
+  background: var(--color-light-gray);
+  margin: 0 0.8rem;
+  margin-bottom: 1.4rem;
+  border-radius: 2px;
+  transition: background 0.3s ease;
+  min-width: 40px;
+}
+
+.signup-step-line.active {
+  background: var(--color-primary);
+}
+
+.signup-plan-title {
+  text-align: center;
+  color: var(--color-primary);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Step Content */
+.signup-step-content {
+  display: none;
+}
+
+.signup-step-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Form Grid */
+.signup-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-group-full {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+.form-group input {
+  padding: 0.7rem 0.9rem;
+  border: 2px solid var(--color-light-gray);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: 'Lato', sans-serif;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Bank Details */
+.bank-details-card {
+  background: var(--color-cream);
+  border: 2px solid var(--color-gold);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.bank-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  gap: 0.5rem;
+}
+
+.bank-row:last-child {
+  border-bottom: none;
+}
+
+.bank-label {
+  font-size: 0.85rem;
+  color: var(--color-gray);
+  min-width: 100px;
+}
+
+.bank-value {
+  font-weight: 700;
+  color: var(--color-dark);
+  font-size: 0.95rem;
+  flex: 1;
+  text-align: right;
+}
+
+.btn-copy {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-copy:hover {
+  background: var(--color-primary-light);
+}
+
+.btn-copy.copied {
+  background: var(--color-gold);
+}
+
+.signup-instructions {
+  color: var(--color-dark);
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.signup-note {
+  font-size: 0.85rem;
+  color: var(--color-gray);
+  font-style: italic;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* Summary Card */
+.summary-card {
+  background: var(--color-cream);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.summary-row span {
+  color: var(--color-gray);
+  font-size: 0.9rem;
+}
+
+.summary-row strong {
+  color: var(--color-dark);
+  font-size: 0.9rem;
+}
+
+/* Actions */
+.signup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.signup-actions .btn-outline {
+  padding: 0.7rem 1.5rem;
+  font-size: 0.9rem;
+}
+
+.signup-actions .btn-primary {
+  padding: 0.7rem 2rem;
+  font-size: 0.9rem;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .signup-panel {
+    padding: 1.5rem;
+    max-height: 95vh;
+  }
+
+  .signup-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .step-label {
+    font-size: 0.65rem;
+  }
+
+  .step-circle {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+
+  .signup-step-line {
+    min-width: 20px;
+  }
+
+  .bank-row {
+    flex-wrap: wrap;
+  }
+
+  .bank-value {
+    text-align: left;
+  }
+
+  .signup-actions {
+    flex-direction: column-reverse;
+  }
+
+  .signup-actions .btn-primary,
+  .signup-actions .btn-outline {
+    width: 100%;
+    text-align: center;
+  }
+}

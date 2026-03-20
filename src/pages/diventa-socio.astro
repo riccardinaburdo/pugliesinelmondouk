@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import membership from '../content/pages/membership.json';
+const flow = membership.signupFlow;
+const bank = membership.bankDetails;
 ---
 
 <BaseLayout title="Diventa Socio | Pugliesi nel Mondo UK" currentPath="/diventa-socio">
@@ -10,7 +12,7 @@ import membership from '../content/pages/membership.json';
 
     <!-- Pricing Cards -->
     <div class="pricing-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 700px; margin: 2rem auto;">
-      {membership.plans.map((plan) => (
+      {membership.plans.map((plan, index) => (
         <div class={`pricing-card ${plan.highlight ? 'pricing-featured' : ''}`}>
           {plan.highlight && <div class="pricing-badge">Persona</div>}
           {!plan.highlight && <div class="pricing-badge" style="background: var(--color-gold);">Azienda</div>}
@@ -28,11 +30,143 @@ import membership from '../content/pages/membership.json';
               <li>{f}</li>
             ))}
           </ul>
-          <a href={plan.stripeLink || `mailto:${membership.contact.email}?subject=Iscrizione ${plan.name} - Pugliesi nel Mondo UK&body=Vorrei iscrivermi come ${plan.name} (£${plan.price}/anno).%0A%0ANome:%0ACognome:%0AEmail:%0ATelefono:%0AAttivita' (se Socio AWR):`} class={plan.highlight ? 'btn-primary' : 'btn-outline'} style="width: 100%; text-align: center;">
+          <button
+            class={`signup-trigger ${plan.highlight ? 'btn-primary' : 'btn-outline'}`}
+            style="width: 100%; text-align: center; cursor: pointer; border: none;"
+            data-plan-name={plan.name}
+            data-plan-price={plan.price}
+            data-plan-index={index}
+          >
             Iscriviti
-          </a>
+          </button>
         </div>
       ))}
+    </div>
+
+    <!-- Multi-step Signup Form (hidden by default) -->
+    <div id="signup-modal" class="signup-overlay" style="display: none;">
+      <div class="signup-panel">
+        <button class="signup-close" id="signup-close" aria-label="Chiudi">&times;</button>
+
+        <!-- Progress Bar -->
+        <div class="signup-progress">
+          <div class="signup-step active" data-step="1">
+            <div class="step-circle">1</div>
+            <span class="step-label">{flow.step1Title}</span>
+          </div>
+          <div class="signup-step-line"></div>
+          <div class="signup-step" data-step="2">
+            <div class="step-circle">2</div>
+            <span class="step-label">{flow.step2Title}</span>
+          </div>
+          <div class="signup-step-line"></div>
+          <div class="signup-step" data-step="3">
+            <div class="step-circle">3</div>
+            <span class="step-label">{flow.step3Title}</span>
+          </div>
+        </div>
+
+        <h2 class="signup-plan-title" id="signup-plan-title"></h2>
+
+        <!-- Step 1: Personal Data -->
+        <div class="signup-step-content active" id="step-1">
+          <div class="signup-form-grid">
+            <div class="form-group">
+              <label for="signup-fname">{flow.firstNameLabel} *</label>
+              <input type="text" id="signup-fname" required />
+            </div>
+            <div class="form-group">
+              <label for="signup-lname">{flow.lastNameLabel} *</label>
+              <input type="text" id="signup-lname" required />
+            </div>
+            <div class="form-group">
+              <label for="signup-email">{flow.emailLabel} *</label>
+              <input type="email" id="signup-email" required />
+            </div>
+            <div class="form-group">
+              <label for="signup-phone">{flow.phoneLabel}</label>
+              <input type="tel" id="signup-phone" />
+            </div>
+            <div class="form-group form-group-full" id="business-field" style="display: none;">
+              <label for="signup-business">{flow.businessLabel}</label>
+              <input type="text" id="signup-business" />
+            </div>
+          </div>
+          <div class="signup-actions">
+            <button class="btn-primary" id="btn-next-1">{flow.nextButton} &rarr;</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Bank Transfer -->
+        <div class="signup-step-content" id="step-2">
+          <p class="signup-instructions">{flow.bankInstructions}</p>
+          <div class="bank-details-card">
+            <div class="bank-row">
+              <span class="bank-label">Account name</span>
+              <span class="bank-value">{bank.accountName}</span>
+            </div>
+            <div class="bank-row">
+              <span class="bank-label">Sort code</span>
+              <span class="bank-value" id="sort-code-val">{bank.sortCode}</span>
+              <button class="btn-copy" data-copy={bank.sortCode}>{flow.copyLabel}</button>
+            </div>
+            <div class="bank-row">
+              <span class="bank-label">Account number</span>
+              <span class="bank-value" id="acc-num-val">{bank.accountNumber}</span>
+              <button class="btn-copy" data-copy={bank.accountNumber}>{flow.copyLabel}</button>
+            </div>
+            <div class="bank-row">
+              <span class="bank-label">{flow.referenceLabel}</span>
+              <span class="bank-value" id="bank-reference">—</span>
+              <button class="btn-copy" id="btn-copy-ref">{flow.copyLabel}</button>
+            </div>
+          </div>
+          <p class="signup-note">La tessera associativa verra' inviata dopo la conferma dell'avvenuto pagamento.</p>
+          <div class="signup-actions">
+            <button class="btn-outline" id="btn-back-2">&larr; {flow.backButton}</button>
+            <button class="btn-primary" id="btn-next-2">{flow.nextButton} &rarr;</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Summary & Send -->
+        <div class="signup-step-content" id="step-3">
+          <h3 style="margin-bottom: 1.5rem; color: var(--color-primary);">{flow.summaryTitle}</h3>
+          <div class="summary-card">
+            <div class="summary-row">
+              <span>{flow.planLabel}</span>
+              <strong id="summary-plan"></strong>
+            </div>
+            <div class="summary-row">
+              <span>{flow.amountLabel}</span>
+              <strong id="summary-amount"></strong>
+            </div>
+            <div class="summary-row">
+              <span>{flow.firstNameLabel}</span>
+              <strong id="summary-fname"></strong>
+            </div>
+            <div class="summary-row">
+              <span>{flow.lastNameLabel}</span>
+              <strong id="summary-lname"></strong>
+            </div>
+            <div class="summary-row">
+              <span>{flow.emailLabel}</span>
+              <strong id="summary-email"></strong>
+            </div>
+            <div class="summary-row" id="summary-phone-row">
+              <span>{flow.phoneLabel}</span>
+              <strong id="summary-phone"></strong>
+            </div>
+            <div class="summary-row" id="summary-business-row" style="display: none;">
+              <span>{flow.businessLabel}</span>
+              <strong id="summary-business"></strong>
+            </div>
+          </div>
+          <div class="signup-actions">
+            <button class="btn-outline" id="btn-back-3">&larr; {flow.backButton}</button>
+            <a href="#" class="btn-primary" id="btn-send" style="text-align: center;">{flow.sendButton}</a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Vantaggi -->
@@ -53,3 +187,155 @@ import membership from '../content/pages/membership.json';
     </div>
   </div>
 </BaseLayout>
+
+<script define:vars={{ contactEmail: membership.contact.email, copyLabel: flow.copyLabel, copiedLabel: flow.copiedLabel }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('signup-modal');
+    const closeBtn = document.getElementById('signup-close');
+    const triggers = document.querySelectorAll('.signup-trigger');
+    const steps = document.querySelectorAll('.signup-step-content');
+    const progressSteps = document.querySelectorAll('.signup-progress .signup-step');
+    const progressLines = document.querySelectorAll('.signup-step-line');
+
+    let currentStep = 1;
+    let selectedPlan = '';
+    let selectedPrice = 0;
+    let isAWR = false;
+
+    // Open modal
+    triggers.forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedPlan = btn.dataset.planName;
+        selectedPrice = btn.dataset.planPrice;
+        isAWR = parseInt(btn.dataset.planIndex) === 1;
+
+        document.getElementById('signup-plan-title').textContent = selectedPlan + ' — £' + selectedPrice + '/anno';
+
+        const businessField = document.getElementById('business-field');
+        if (isAWR) {
+          businessField.style.display = 'block';
+        } else {
+          businessField.style.display = 'none';
+        }
+
+        currentStep = 1;
+        updateStep(1);
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    // Close modal
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    function closeModal() {
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // Navigation
+    document.getElementById('btn-next-1').addEventListener('click', () => {
+      const fname = document.getElementById('signup-fname').value.trim();
+      const lname = document.getElementById('signup-lname').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+
+      if (!fname || !lname || !email) {
+        alert('Per favore compila i campi obbligatori (Nome, Cognome, Email).');
+        return;
+      }
+
+      // Update bank reference
+      const ref = 'Iscrizione ' + selectedPlan + ' - ' + fname + ' ' + lname;
+      document.getElementById('bank-reference').textContent = ref;
+      document.getElementById('btn-copy-ref').setAttribute('data-copy', ref);
+
+      updateStep(2);
+    });
+
+    document.getElementById('btn-next-2').addEventListener('click', () => {
+      // Populate summary
+      document.getElementById('summary-plan').textContent = selectedPlan;
+      document.getElementById('summary-amount').textContent = '£' + selectedPrice + '/anno';
+      document.getElementById('summary-fname').textContent = document.getElementById('signup-fname').value;
+      document.getElementById('summary-lname').textContent = document.getElementById('signup-lname').value;
+      document.getElementById('summary-email').textContent = document.getElementById('signup-email').value;
+
+      const phone = document.getElementById('signup-phone').value;
+      if (phone) {
+        document.getElementById('summary-phone').textContent = phone;
+        document.getElementById('summary-phone-row').style.display = '';
+      } else {
+        document.getElementById('summary-phone-row').style.display = 'none';
+      }
+
+      if (isAWR) {
+        const biz = document.getElementById('signup-business').value;
+        document.getElementById('summary-business').textContent = biz;
+        document.getElementById('summary-business-row').style.display = '';
+      }
+
+      // Build mailto
+      const fname = document.getElementById('signup-fname').value;
+      const lname = document.getElementById('signup-lname').value;
+      const email = document.getElementById('signup-email').value;
+      const business = document.getElementById('signup-business').value;
+
+      let body = 'Richiesta di iscrizione come ' + selectedPlan + ' (£' + selectedPrice + '/anno).\n\n';
+      body += 'Nome: ' + fname + '\n';
+      body += 'Cognome: ' + lname + '\n';
+      body += 'Email: ' + email + '\n';
+      if (phone) body += 'Telefono: ' + phone + '\n';
+      if (isAWR && business) body += 'Attivita\': ' + business + '\n';
+      body += '\nHo preso visione dei dati bancari per il bonifico.';
+
+      const subject = 'Iscrizione ' + selectedPlan + ' - ' + fname + ' ' + lname;
+      const mailto = 'mailto:' + contactEmail + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      document.getElementById('btn-send').href = mailto;
+
+      updateStep(3);
+    });
+
+    document.getElementById('btn-back-2').addEventListener('click', () => updateStep(1));
+    document.getElementById('btn-back-3').addEventListener('click', () => updateStep(2));
+
+    function updateStep(step) {
+      currentStep = step;
+      steps.forEach(s => s.classList.remove('active'));
+      document.getElementById('step-' + step).classList.add('active');
+
+      progressSteps.forEach((ps, i) => {
+        if (i + 1 <= step) {
+          ps.classList.add('active');
+        } else {
+          ps.classList.remove('active');
+        }
+      });
+
+      progressLines.forEach((line, i) => {
+        if (i + 1 < step) {
+          line.classList.add('active');
+        } else {
+          line.classList.remove('active');
+        }
+      });
+    }
+
+    // Copy buttons
+    document.querySelectorAll('.btn-copy').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = btn.getAttribute('data-copy');
+        navigator.clipboard.writeText(text).then(() => {
+          btn.textContent = copiedLabel;
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.textContent = copyLabel;
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      });
+    });
+  });
+</script>

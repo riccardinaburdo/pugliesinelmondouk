@@ -39,6 +39,32 @@
     "Support and guidance for Apulians in the United Kingdom",
     "Contribution to the economic, social and cultural development of Puglia"
   ],
+  "bankDetails": {
+    "accountName": "Anna Quaranta",
+    "sortCode": "04-00-75",
+    "accountNumber": "00731463"
+  },
+  "signupFlow": {
+    "step1Title": "Your details",
+    "step2Title": "Bank transfer",
+    "step3Title": "Confirm",
+    "firstNameLabel": "First name",
+    "lastNameLabel": "Last name",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "businessLabel": "Business name",
+    "nextButton": "Next",
+    "backButton": "Back",
+    "sendButton": "Send membership request",
+    "bankTitle": "Make a bank transfer",
+    "bankInstructions": "Please make a bank transfer using the details below. Your membership card will be sent after payment confirmation.",
+    "referenceLabel": "Suggested reference",
+    "copyLabel": "Copy",
+    "copiedLabel": "Copied!",
+    "summaryTitle": "Your request summary",
+    "planLabel": "Selected plan",
+    "amountLabel": "Annual fee"
+  },
   "contact": {
     "email": "info@pugliesinelmondouk.org",
     "phone": "07962 471804"

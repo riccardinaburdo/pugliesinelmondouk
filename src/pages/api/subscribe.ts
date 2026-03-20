@@ -80,7 +80,7 @@ export async function POST({ request }: { request: Request }) {
     }
 
     // Step 2: Run tags + segment creation in PARALLEL to save time
-    const TEMPLATE_ID = 160;
+    const TEMPLATE_ID = 161;
 
     const [tagsRes, segmentRes] = await Promise.all([
       // Add tags

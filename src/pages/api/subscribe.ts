@@ -14,8 +14,8 @@ export async function POST({ request }: { request: Request }) {
       });
     }
 
-    const API_KEY = import.meta.env.MAILCHIMP_API_KEY;
-    const LIST_ID = import.meta.env.MAILCHIMP_LIST_ID;
+    const API_KEY = (import.meta.env.MAILCHIMP_API_KEY || '').trim();
+    const LIST_ID = (import.meta.env.MAILCHIMP_LIST_ID || '').trim();
     const SERVER = 'us22';
 
     if (!API_KEY || !LIST_ID) {
@@ -37,15 +37,14 @@ export async function POST({ request }: { request: Request }) {
     const expiry = new Date(today);
     expiry.setFullYear(expiry.getFullYear() + 1);
 
-    // Mailchimp date fields require MM/DD/YYYY format
     const formatDate = (d: Date) =>
       `${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getDate().toString().padStart(2, '0')}/${d.getFullYear()}`;
 
-    // Determine tag based on plan
     const isAWR = plan === 'Socio AWR' || plan === 'AWR Member';
     const memberTag = isAWR ? 'Socio AWR' : 'Socio Ordinario';
+    const TEMPLATE_ID = 161;
 
-    // Step 1: Add/update subscriber in Mailchimp
+    // Step 1: Add/update subscriber
     const memberResponse = await fetch(
       `${mcUrl}/lists/${LIST_ID}/members/${subscriberHash}`,
       {
@@ -79,11 +78,8 @@ export async function POST({ request }: { request: Request }) {
       );
     }
 
-    // Step 2: Run tags + segment creation in PARALLEL to save time
-    const TEMPLATE_ID = 161;
-
-    // Add tags
-    fetch(`${mcUrl}/lists/${LIST_ID}/members/${subscriberHash}/tags`, {
+    // Step 2: Add tags (await it)
+    await fetch(`${mcUrl}/lists/${LIST_ID}/members/${subscriberHash}/tags`, {
       method: 'POST',
       headers: mcHeaders,
       body: JSON.stringify({
@@ -92,49 +88,48 @@ export async function POST({ request }: { request: Request }) {
           { name: memberTag, status: 'active' },
         ],
       }),
-    }).catch((err) => console.error('Mailchimp tags error:', err));
+    });
 
-    // Step 3: Create and send the "Richiesta Ricevuta" email campaign
-    // Do NOT use segments — send directly to the subscriber using conditions
-    try {
-      const campaignRes = await fetch(`${mcUrl}/campaigns`, {
+    // Step 3: Create campaign targeting this email
+    const campaignRes = await fetch(`${mcUrl}/campaigns`, {
+      method: 'POST',
+      headers: mcHeaders,
+      body: JSON.stringify({
+        type: 'regular',
+        recipients: {
+          list_id: LIST_ID,
+          segment_opts: {
+            match: 'all',
+            conditions: [{
+              condition_type: 'EmailAddress',
+              field: 'EMAIL',
+              op: 'is',
+              value: email,
+            }],
+          },
+        },
+        settings: {
+          subject_line: `Richiesta di iscrizione ricevuta - ${plan}`,
+          from_name: 'Pugliesi nel Mondo UK',
+          reply_to: 'info@pugliesinelmondouk.org',
+          template_id: TEMPLATE_ID,
+        },
+      }),
+    });
+
+    if (campaignRes.ok) {
+      const campaign = await campaignRes.json();
+      console.log('Campaign created:', campaign.id);
+
+      // Step 4: Send campaign (MUST await)
+      const sendRes = await fetch(`${mcUrl}/campaigns/${campaign.id}/actions/send`, {
         method: 'POST',
         headers: mcHeaders,
-        body: JSON.stringify({
-          type: 'regular',
-          recipients: {
-            list_id: LIST_ID,
-            segment_opts: {
-              match: 'all',
-              conditions: [{
-                condition_type: 'EmailAddress',
-                field: 'EMAIL',
-                op: 'is',
-                value: email,
-              }],
-            },
-          },
-          settings: {
-            subject_line: `Richiesta di iscrizione ricevuta - ${plan}`,
-            from_name: 'Pugliesi nel Mondo UK',
-            reply_to: 'info@pugliesinelmondouk.org',
-            template_id: TEMPLATE_ID,
-          },
-        }),
       });
-
-      if (campaignRes.ok) {
-        const campaign = await campaignRes.json();
-        // Send immediately — no delay needed with conditions approach
-        fetch(`${mcUrl}/campaigns/${campaign.id}/actions/send`, {
-          method: 'POST',
-          headers: mcHeaders,
-        }).catch((err) => console.error('Campaign send error:', err));
-      } else {
-        console.error('Mailchimp create campaign error:', await campaignRes.text());
-      }
-    } catch (emailErr) {
-      console.error('Email sending error:', emailErr);
+      console.log('Campaign send status:', sendRes.status);
+    } else {
+      const errText = await campaignRes.text();
+      console.error('Campaign create error:', errText);
     }
 
     return new Response(JSON.stringify({ success: true }), {

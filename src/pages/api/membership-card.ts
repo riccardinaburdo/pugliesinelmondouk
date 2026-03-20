@@ -1,6 +1,7 @@
 export const prerender = false;
 
-export async function GET({ url }: { url: URL }) {
+export async function GET({ request }: { request: Request }) {
+  const url = new URL(request.url);
   const name = url.searchParams.get('name') || 'Member Name';
   const memberNo = url.searchParams.get('id') || 'PNMUK-001';
   const plan = url.searchParams.get('plan') || 'Ordinary Member';

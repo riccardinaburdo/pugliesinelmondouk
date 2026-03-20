@@ -28,52 +28,36 @@ export async function GET({ request }: { request: Request }) {
     }
 
     .card {
-      width: 600px;
+      width: 720px;
+      height: 400px;
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 15px 50px rgba(0,0,0,0.25);
       display: flex;
-      flex-direction: column;
     }
 
-    .card-image {
-      width: 100%;
-      height: 180px;
-      overflow: hidden;
-      border-bottom: 3px solid #d4a843;
-    }
-
-    .card-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .card-body {
+    .card-left {
+      width: 55%;
       background: #1a5632;
-      padding: 24px 30px 20px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      padding: 28px 28px 22px;
     }
 
     .card-header {
-      text-align: center;
-      padding-bottom: 14px;
-      border-bottom: 1px solid rgba(212, 168, 67, 0.3);
+      margin-bottom: 20px;
     }
 
     .card-title {
       font-family: 'Playfair Display', serif;
       color: #ffffff;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
     }
 
     .card-subtitle {
       color: #d4a843;
-      font-size: 8px;
+      font-size: 7.5px;
       letter-spacing: 2.5px;
       text-transform: uppercase;
       margin-top: 4px;
@@ -89,12 +73,11 @@ export async function GET({ request }: { request: Request }) {
     }
 
     .card-fields {
-      display: flex;
-      gap: 24px;
-    }
-
-    .card-field {
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 18px;
     }
 
     .card-field-label {
@@ -106,11 +89,11 @@ export async function GET({ request }: { request: Request }) {
     }
 
     .card-field-value {
-      font-size: 18px;
+      font-size: 19px;
       color: #ffffff;
       font-weight: 700;
       font-family: 'Playfair Display', serif;
-      margin-top: 3px;
+      margin-top: 2px;
     }
 
     .card-field-value.small {
@@ -119,7 +102,7 @@ export async function GET({ request }: { request: Request }) {
       font-weight: 400;
     }
 
-    .card-footer {
+    .card-bottom {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
@@ -138,6 +121,7 @@ export async function GET({ request }: { request: Request }) {
       font-size: 8px;
       color: rgba(255,255,255,0.35);
       letter-spacing: 1px;
+      margin-top: 4px;
     }
 
     .card-valid-label {
@@ -155,15 +139,26 @@ export async function GET({ request }: { request: Request }) {
       margin-top: 1px;
       text-align: right;
     }
+
+    .card-right {
+      width: 45%;
+      background: #faf5eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card-right img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="card-image">
-      <img src="${heroUrl}" alt="Pugliesi nel Mondo UK" />
-    </div>
-
-    <div class="card-body">
+    <div class="card-left">
       <div class="card-header">
         <div class="card-title">Pugliesi nel Mondo UK</div>
         <div class="card-subtitle">International Association of Apulians in the World</div>
@@ -171,17 +166,17 @@ export async function GET({ request }: { request: Request }) {
       </div>
 
       <div class="card-fields">
-        <div class="card-field">
+        <div>
           <div class="card-field-label">Member</div>
           <div class="card-field-value">${name}</div>
         </div>
-        <div class="card-field">
+        <div>
           <div class="card-field-label">Membership</div>
           <div class="card-field-value small">${plan}</div>
         </div>
       </div>
 
-      <div class="card-footer">
+      <div class="card-bottom">
         <div>
           <div class="card-member-no">${memberNo}</div>
           <div class="card-website">pugliesinelmondouk.org</div>
@@ -191,6 +186,10 @@ export async function GET({ request }: { request: Request }) {
           <div class="card-valid-date">${validUntil}</div>
         </div>
       </div>
+    </div>
+
+    <div class="card-right">
+      <img src="${heroUrl}" alt="Pugliesi nel Mondo UK" />
     </div>
   </div>
 </body>

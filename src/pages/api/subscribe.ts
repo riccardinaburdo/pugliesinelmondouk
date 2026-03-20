@@ -32,8 +32,9 @@ export async function POST({ request }: { request: Request }) {
     const expiry = new Date(today);
     expiry.setFullYear(expiry.getFullYear() + 1);
 
+    // Mailchimp date fields require MM/DD/YYYY format
     const formatDate = (d: Date) =>
-      `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getFullYear()}`;
+      `${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getDate().toString().padStart(2, '0')}/${d.getFullYear()}`;
 
     // Determine tag based on plan
     const isAWR = plan === 'Socio AWR' || plan === 'AWR Member';

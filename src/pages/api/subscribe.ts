@@ -27,6 +27,11 @@ export async function POST({ request }: { request: Request }) {
     }
 
     const subscriberHash = createHash('md5').update(email.toLowerCase()).digest('hex');
+    const mcUrl = `https://${SERVER}.api.mailchimp.com/3.0`;
+    const mcHeaders = {
+      Authorization: `apikey ${API_KEY}`,
+      'Content-Type': 'application/json',
+    };
 
     const today = new Date();
     const expiry = new Date(today);
@@ -40,15 +45,12 @@ export async function POST({ request }: { request: Request }) {
     const isAWR = plan === 'Socio AWR' || plan === 'AWR Member';
     const memberTag = isAWR ? 'Socio AWR' : 'Socio Ordinario';
 
-    // Add/update subscriber in Mailchimp
+    // Step 1: Add/update subscriber in Mailchimp
     const memberResponse = await fetch(
-      `https://${SERVER}.api.mailchimp.com/3.0/lists/${LIST_ID}/members/${subscriberHash}`,
+      `${mcUrl}/lists/${LIST_ID}/members/${subscriberHash}`,
       {
         method: 'PUT',
-        headers: {
-          Authorization: `apikey ${API_KEY}`,
-          'Content-Type': 'application/json',
-        },
+        headers: mcHeaders,
         body: JSON.stringify({
           email_address: email,
           status: 'subscribed',
@@ -77,106 +79,75 @@ export async function POST({ request }: { request: Request }) {
       );
     }
 
-    // Add tags
-    const tagsResponse = await fetch(
-      `https://${SERVER}.api.mailchimp.com/3.0/lists/${LIST_ID}/members/${subscriberHash}/tags`,
-      {
+    // Step 2: Run tags + segment creation in PARALLEL to save time
+    const TEMPLATE_ID = 160;
+
+    const [tagsRes, segmentRes] = await Promise.all([
+      // Add tags
+      fetch(`${mcUrl}/lists/${LIST_ID}/members/${subscriberHash}/tags`, {
         method: 'POST',
-        headers: {
-          Authorization: `apikey ${API_KEY}`,
-          'Content-Type': 'application/json',
-        },
+        headers: mcHeaders,
         body: JSON.stringify({
           tags: [
             { name: 'In attesa di pagamento', status: 'active' },
             { name: memberTag, status: 'active' },
           ],
         }),
-      }
-    );
+      }),
+      // Create static segment for email targeting
+      fetch(`${mcUrl}/lists/${LIST_ID}/segments`, {
+        method: 'POST',
+        headers: mcHeaders,
+        body: JSON.stringify({
+          name: `welcome-${Date.now()}`,
+          static_segment: [email],
+        }),
+      }),
+    ]);
 
-    if (!tagsResponse.ok) {
-      console.error('Mailchimp tags error:', await tagsResponse.text());
+    if (!tagsRes.ok) {
+      console.error('Mailchimp tags error:', await tagsRes.text());
     }
 
-    // Send "Richiesta Ricevuta" email to the new subscriber
-    // Strategy: create a static segment, create campaign targeting it, send
-    try {
-      const TEMPLATE_ID = 160;
+    // Step 3: Create and send the "Richiesta Ricevuta" email campaign
+    if (segmentRes.ok) {
+      const segment = await segmentRes.json();
 
-      // 1. Create a static segment with this subscriber
-      const segmentRes = await fetch(
-        `https://${SERVER}.api.mailchimp.com/3.0/lists/${LIST_ID}/segments`,
-        {
+      try {
+        const campaignRes = await fetch(`${mcUrl}/campaigns`, {
           method: 'POST',
-          headers: {
-            Authorization: `apikey ${API_KEY}`,
-            'Content-Type': 'application/json',
-          },
+          headers: mcHeaders,
           body: JSON.stringify({
-            name: `welcome-${Date.now()}`,
-            static_segment: [email],
-          }),
-        }
-      );
-
-      if (segmentRes.ok) {
-        const segment = await segmentRes.json();
-        const segmentId = segment.id;
-
-        // 3. Create campaign targeting this segment
-        const campaignRes = await fetch(
-          `https://${SERVER}.api.mailchimp.com/3.0/campaigns`,
-          {
-            method: 'POST',
-            headers: {
-              Authorization: `apikey ${API_KEY}`,
-              'Content-Type': 'application/json',
+            type: 'regular',
+            recipients: {
+              list_id: LIST_ID,
+              segment_opts: { saved_segment_id: segment.id },
             },
-            body: JSON.stringify({
-              type: 'regular',
-              recipients: {
-                list_id: LIST_ID,
-                segment_opts: {
-                  saved_segment_id: segmentId,
-                },
-              },
-              settings: {
-                subject_line: `Richiesta di iscrizione ricevuta - ${plan}`,
-                from_name: 'Pugliesi nel Mondo UK',
-                reply_to: 'info@pugliesinelmondouk.org',
-                template_id: TEMPLATE_ID,
-              },
-            }),
-          }
-        );
+            settings: {
+              subject_line: `Richiesta di iscrizione ricevuta - ${plan}`,
+              from_name: 'Pugliesi nel Mondo UK',
+              reply_to: 'info@pugliesinelmondouk.org',
+              template_id: TEMPLATE_ID,
+            },
+          }),
+        });
 
         if (campaignRes.ok) {
           const campaign = await campaignRes.json();
 
-          // 4. Send the campaign
-          const sendRes = await fetch(
-            `https://${SERVER}.api.mailchimp.com/3.0/campaigns/${campaign.id}/actions/send`,
-            {
-              method: 'POST',
-              headers: { Authorization: `apikey ${API_KEY}` },
-            }
-          );
-
-          if (!sendRes.ok) {
-            console.error('Mailchimp send campaign error:', await sendRes.text());
-          }
+          // Fire and forget — don't await the send to avoid timeout
+          fetch(`${mcUrl}/campaigns/${campaign.id}/actions/send`, {
+            method: 'POST',
+            headers: { Authorization: `apikey ${API_KEY}` },
+          }).catch((err) => console.error('Campaign send error:', err));
         } else {
           console.error('Mailchimp create campaign error:', await campaignRes.text());
         }
-
-        // Note: segment is kept — Mailchimp needs it to process the async send
-      } else {
-        console.error('Mailchimp create segment error:', await segmentRes.text());
+      } catch (emailErr) {
+        console.error('Email sending error:', emailErr);
       }
-    } catch (emailErr) {
-      // Don't fail the whole request if email sending fails
-      console.error('Email sending error:', emailErr);
+    } else {
+      console.error('Mailchimp create segment error:', await segmentRes.text());
     }
 
     return new Response(JSON.stringify({ success: true }), {

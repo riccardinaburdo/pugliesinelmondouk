@@ -113,6 +113,9 @@ export async function POST({ request }: { request: Request }) {
     if (segmentRes.ok) {
       const segment = await segmentRes.json();
 
+      // Wait for segment to be fully indexed by Mailchimp
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
       try {
         const campaignRes = await fetch(`${mcUrl}/campaigns`, {
           method: 'POST',
@@ -135,11 +138,17 @@ export async function POST({ request }: { request: Request }) {
         if (campaignRes.ok) {
           const campaign = await campaignRes.json();
 
-          // Fire and forget — don't await the send to avoid timeout
-          fetch(`${mcUrl}/campaigns/${campaign.id}/actions/send`, {
-            method: 'POST',
-            headers: { Authorization: `apikey ${API_KEY}` },
-          }).catch((err) => console.error('Campaign send error:', err));
+          // Wait a moment before sending to ensure campaign is ready
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+
+          try {
+            await fetch(`${mcUrl}/campaigns/${campaign.id}/actions/send`, {
+              method: 'POST',
+              headers: mcHeaders,
+            });
+          } catch (sendErr) {
+            console.error('Campaign send error:', sendErr);
+          }
         } else {
           console.error('Mailchimp create campaign error:', await campaignRes.text());
         }

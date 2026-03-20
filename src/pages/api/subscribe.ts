@@ -51,6 +51,7 @@ export async function POST({ request }: { request: Request }) {
         },
         body: JSON.stringify({
           email_address: email,
+          status: 'subscribed',
           status_if_new: 'subscribed',
           merge_fields: {
             FNAME: fname,
@@ -99,27 +100,11 @@ export async function POST({ request }: { request: Request }) {
     }
 
     // Send "Richiesta Ricevuta" email to the new subscriber
-    // Strategy: add a temp tag, create a static segment, create campaign, send, remove tag
+    // Strategy: create a static segment, create campaign targeting it, send
     try {
       const TEMPLATE_ID = 160;
-      const TEMP_TAG = 'Send Welcome Email';
 
-      // 1. Add temporary tag to target this specific subscriber
-      await fetch(
-        `https://${SERVER}.api.mailchimp.com/3.0/lists/${LIST_ID}/members/${subscriberHash}/tags`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `apikey ${API_KEY}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            tags: [{ name: TEMP_TAG, status: 'active' }],
-          }),
-        }
-      );
-
-      // 2. Create a static segment with this subscriber
+      // 1. Create a static segment with this subscriber
       const segmentRes = await fetch(
         `https://${SERVER}.api.mailchimp.com/3.0/lists/${LIST_ID}/segments`,
         {
@@ -185,28 +170,7 @@ export async function POST({ request }: { request: Request }) {
           console.error('Mailchimp create campaign error:', await campaignRes.text());
         }
 
-        // 5. Clean up: remove temp tag and delete segment
-        await fetch(
-          `https://${SERVER}.api.mailchimp.com/3.0/lists/${LIST_ID}/members/${subscriberHash}/tags`,
-          {
-            method: 'POST',
-            headers: {
-              Authorization: `apikey ${API_KEY}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              tags: [{ name: TEMP_TAG, status: 'inactive' }],
-            }),
-          }
-        );
-
-        await fetch(
-          `https://${SERVER}.api.mailchimp.com/3.0/lists/${LIST_ID}/segments/${segmentId}`,
-          {
-            method: 'DELETE',
-            headers: { Authorization: `apikey ${API_KEY}` },
-          }
-        );
+        // Note: segment is kept — Mailchimp needs it to process the async send
       } else {
         console.error('Mailchimp create segment error:', await segmentRes.text());
       }

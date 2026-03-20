@@ -52,23 +52,23 @@ export async function GET({ request }: { request: Request }) {
 
     .card-top-overlay {
       position: absolute;
-      bottom: 0;
+      top: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(transparent, rgba(26, 86, 50, 0.9));
-      padding: 30px 20px 14px;
+      background: linear-gradient(rgba(250, 245, 235, 0.85), transparent);
+      padding: 14px 20px 30px;
       text-align: center;
     }
 
     .card-assoc-name {
       font-family: 'Playfair Display', serif;
-      color: #ffffff;
+      color: #3d2b1f;
       font-size: 18px;
       font-weight: 700;
     }
 
     .card-assoc-sub {
-      color: #d4a843;
+      color: #6b4c3b;
       font-size: 7px;
       letter-spacing: 2px;
       text-transform: uppercase;

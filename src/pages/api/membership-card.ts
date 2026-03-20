@@ -167,7 +167,7 @@ export async function GET({ request }: { request: Request }) {
       <img src="${heroUrl}" alt="Pugliesi nel Mondo UK" />
       <div class="card-top-overlay">
         <div class="card-assoc-name">Pugliesi nel Mondo UK</div>
-        <div class="card-assoc-sub">International Association of Apulians in the World</div>
+        <div class="card-assoc-sub">Association of Apulians in the World</div>
       </div>
     </div>
 

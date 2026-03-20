@@ -44,7 +44,7 @@ export async function GET({ request }: { request: Request }) {
       width: 100%;
       height: 100%;
       background: url('${heroUrl}') center center / cover;
-      opacity: 0.2;
+      opacity: 0.45;
     }
 
     .card-content {

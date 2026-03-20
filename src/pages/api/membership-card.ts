@@ -28,20 +28,36 @@ export async function GET({ request }: { request: Request }) {
     }
 
     .card {
-      width: 720px;
+      width: 680px;
       height: 400px;
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 15px 50px rgba(0,0,0,0.25);
-      display: flex;
+      position: relative;
+      background: #1a5632;
     }
 
-    .card-left {
-      width: 55%;
-      background: #1a5632;
+    .card-bg {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 280px;
+      opacity: 1;
+    }
+
+    .card-bg img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
       display: flex;
       flex-direction: column;
-      padding: 28px 28px 22px;
+      padding: 28px 30px 22px;
     }
 
     .card-header {
@@ -51,13 +67,13 @@ export async function GET({ request }: { request: Request }) {
     .card-title {
       font-family: 'Playfair Display', serif;
       color: #ffffff;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
     }
 
     .card-subtitle {
       color: #d4a843;
-      font-size: 7.5px;
+      font-size: 8px;
       letter-spacing: 2.5px;
       text-transform: uppercase;
       margin-top: 4px;
@@ -78,6 +94,7 @@ export async function GET({ request }: { request: Request }) {
       flex-direction: column;
       justify-content: center;
       gap: 18px;
+      max-width: 340px;
     }
 
     .card-field-label {
@@ -89,17 +106,19 @@ export async function GET({ request }: { request: Request }) {
     }
 
     .card-field-value {
-      font-size: 19px;
-      color: #ffffff;
+      font-size: 20px;
+      color: #3d2b1f;
       font-weight: 700;
       font-family: 'Playfair Display', serif;
       margin-top: 2px;
+      text-shadow: 0 0 8px rgba(255,255,255,0.3);
     }
 
     .card-field-value.small {
-      font-size: 13px;
+      font-size: 14px;
       font-family: 'Lato', sans-serif;
-      font-weight: 400;
+      font-weight: 600;
+      color: #5a4030;
     }
 
     .card-bottom {
@@ -139,26 +158,14 @@ export async function GET({ request }: { request: Request }) {
       margin-top: 1px;
       text-align: right;
     }
-
-    .card-right {
-      width: 45%;
-      background: #faf5eb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
-    .card-right img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="card-left">
+    <div class="card-bg">
+      <img src="${heroUrl}" alt="Pugliesi nel Mondo UK" />
+    </div>
+    <div class="card-content">
       <div class="card-header">
         <div class="card-title">Pugliesi nel Mondo UK</div>
         <div class="card-subtitle">International Association of Apulians in the World</div>
@@ -186,10 +193,6 @@ export async function GET({ request }: { request: Request }) {
           <div class="card-valid-date">${validUntil}</div>
         </div>
       </div>
-    </div>
-
-    <div class="card-right">
-      <img src="${heroUrl}" alt="Pugliesi nel Mondo UK" />
     </div>
   </div>
 </body>

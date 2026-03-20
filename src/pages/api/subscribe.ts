@@ -99,13 +99,14 @@ export async function POST({ request }: { request: Request }) {
     }
 
     // Send "Richiesta Ricevuta" email to the new subscriber
-    // Create a campaign using template 160 and send to this specific subscriber
+    // Strategy: add a temp tag, create a static segment, create campaign, send, remove tag
     try {
       const TEMPLATE_ID = 160;
+      const TEMP_TAG = 'Send Welcome Email';
 
-      // Create campaign targeting this specific subscriber
-      const campaignRes = await fetch(
-        `https://${SERVER}.api.mailchimp.com/3.0/campaigns`,
+      // 1. Add temporary tag to target this specific subscriber
+      await fetch(
+        `https://${SERVER}.api.mailchimp.com/3.0/lists/${LIST_ID}/members/${subscriberHash}/tags`,
         {
           method: 'POST',
           headers: {
@@ -113,51 +114,101 @@ export async function POST({ request }: { request: Request }) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            type: 'regular',
-            recipients: {
-              list_id: LIST_ID,
-              segment_opts: {
-                match: 'all',
-                conditions: [
-                  {
-                    condition_type: 'EmailAddress',
-                    field: 'EMAIL',
-                    op: 'is',
-                    value: email,
-                  },
-                ],
-              },
-            },
-            settings: {
-              subject_line: `Richiesta di iscrizione ricevuta - ${plan}`,
-              from_name: 'Pugliesi nel Mondo UK',
-              reply_to: 'info@pugliesinelmondouk.org',
-              template_id: TEMPLATE_ID,
-            },
+            tags: [{ name: TEMP_TAG, status: 'active' }],
           }),
         }
       );
 
-      if (campaignRes.ok) {
-        const campaign = await campaignRes.json();
-        const campaignId = campaign.id;
+      // 2. Create a static segment with this subscriber
+      const segmentRes = await fetch(
+        `https://${SERVER}.api.mailchimp.com/3.0/lists/${LIST_ID}/segments`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `apikey ${API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: `welcome-${Date.now()}`,
+            static_segment: [email],
+          }),
+        }
+      );
 
-        // Send the campaign
-        const sendRes = await fetch(
-          `https://${SERVER}.api.mailchimp.com/3.0/campaigns/${campaignId}/actions/send`,
+      if (segmentRes.ok) {
+        const segment = await segmentRes.json();
+        const segmentId = segment.id;
+
+        // 3. Create campaign targeting this segment
+        const campaignRes = await fetch(
+          `https://${SERVER}.api.mailchimp.com/3.0/campaigns`,
           {
             method: 'POST',
             headers: {
               Authorization: `apikey ${API_KEY}`,
+              'Content-Type': 'application/json',
             },
+            body: JSON.stringify({
+              type: 'regular',
+              recipients: {
+                list_id: LIST_ID,
+                segment_opts: {
+                  saved_segment_id: segmentId,
+                },
+              },
+              settings: {
+                subject_line: `Richiesta di iscrizione ricevuta - ${plan}`,
+                from_name: 'Pugliesi nel Mondo UK',
+                reply_to: 'info@pugliesinelmondouk.org',
+                template_id: TEMPLATE_ID,
+              },
+            }),
           }
         );
 
-        if (!sendRes.ok) {
-          console.error('Mailchimp send campaign error:', await sendRes.text());
+        if (campaignRes.ok) {
+          const campaign = await campaignRes.json();
+
+          // 4. Send the campaign
+          const sendRes = await fetch(
+            `https://${SERVER}.api.mailchimp.com/3.0/campaigns/${campaign.id}/actions/send`,
+            {
+              method: 'POST',
+              headers: { Authorization: `apikey ${API_KEY}` },
+            }
+          );
+
+          if (!sendRes.ok) {
+            console.error('Mailchimp send campaign error:', await sendRes.text());
+          }
+        } else {
+          console.error('Mailchimp create campaign error:', await campaignRes.text());
         }
+
+        // 5. Clean up: remove temp tag and delete segment
+        await fetch(
+          `https://${SERVER}.api.mailchimp.com/3.0/lists/${LIST_ID}/members/${subscriberHash}/tags`,
+          {
+            method: 'POST',
+            headers: {
+              Authorization: `apikey ${API_KEY}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              tags: [{ name: TEMP_TAG, status: 'inactive' }],
+            }),
+          }
+        );
+
+        await fetch(
+          `https://${SERVER}.api.mailchimp.com/3.0/lists/${LIST_ID}/segments/${segmentId}`,
+          {
+            method: 'DELETE',
+            headers: { Authorization: `apikey ${API_KEY}` },
+          }
+        );
       } else {
-        console.error('Mailchimp create campaign error:', await campaignRes.text());
+        console.error('Mailchimp create segment error:', await segmentRes.text());
       }
     } catch (emailErr) {
       // Don't fail the whole request if email sending fails

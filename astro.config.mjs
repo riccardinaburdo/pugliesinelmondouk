@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://pugliesinelmondouk.vercel.app',
-  output: 'static',
+  output: 'server',
   adapter: vercel(),
   integrations: [sitemap()],
 });

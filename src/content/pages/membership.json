@@ -46,8 +46,7 @@
   },
   "signupFlow": {
     "step1Title": "I tuoi dati",
-    "step2Title": "Bonifico",
-    "step3Title": "Conferma",
+    "step2Title": "Conferma",
     "firstNameLabel": "Nome",
     "lastNameLabel": "Cognome",
     "emailLabel": "Email",
@@ -59,14 +58,13 @@
     "nextButton": "Avanti",
     "backButton": "Indietro",
     "sendButton": "Invia richiesta di iscrizione",
-    "bankTitle": "Effettua il bonifico",
-    "bankInstructions": "Effettua un bonifico con i seguenti dati. La tessera associativa verra' inviata dopo la conferma dell'avvenuto pagamento.",
-    "referenceLabel": "Causale suggerita",
-    "copyLabel": "Copia",
-    "copiedLabel": "Copiato!",
+    "sendingButton": "Invio in corso...",
     "summaryTitle": "Riepilogo della tua richiesta",
     "planLabel": "Piano scelto",
-    "amountLabel": "Quota annuale"
+    "amountLabel": "Quota annuale",
+    "successTitle": "Richiesta inviata!",
+    "successMessage": "Controlla la tua email: riceverai a breve i dettagli per effettuare il bonifico bancario con la causale da utilizzare. La tessera associativa verra' inviata dopo la conferma del pagamento.",
+    "errorMessage": "Si e' verificato un errore. Riprova o contattaci a info@pugliesinelmondouk.org."
   },
   "contact": {
     "email": "info@pugliesinelmondouk.org",

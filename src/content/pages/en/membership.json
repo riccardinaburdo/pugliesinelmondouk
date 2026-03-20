@@ -46,8 +46,7 @@
   },
   "signupFlow": {
     "step1Title": "Your details",
-    "step2Title": "Bank transfer",
-    "step3Title": "Confirm",
+    "step2Title": "Confirm",
     "firstNameLabel": "First name",
     "lastNameLabel": "Last name",
     "emailLabel": "Email",
@@ -59,14 +58,13 @@
     "nextButton": "Next",
     "backButton": "Back",
     "sendButton": "Send membership request",
-    "bankTitle": "Make a bank transfer",
-    "bankInstructions": "Please make a bank transfer using the details below. Your membership card will be sent after payment confirmation.",
-    "referenceLabel": "Suggested reference",
-    "copyLabel": "Copy",
-    "copiedLabel": "Copied!",
+    "sendingButton": "Sending...",
     "summaryTitle": "Your request summary",
     "planLabel": "Selected plan",
-    "amountLabel": "Annual fee"
+    "amountLabel": "Annual fee",
+    "successTitle": "Request sent!",
+    "successMessage": "Check your email: you will shortly receive the bank transfer details with the reference to use. Your membership card will be sent after payment confirmation.",
+    "errorMessage": "An error occurred. Please try again or contact us at info@pugliesinelmondouk.org."
   },
   "contact": {
     "email": "info@pugliesinelmondouk.org",

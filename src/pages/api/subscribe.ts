@@ -42,6 +42,28 @@ export async function POST({ request }: { request: Request }) {
 
     const isAWR = plan === 'Socio AWR' || plan === 'AWR Member';
     const memberTag = isAWR ? 'Socio AWR' : 'Socio Ordinario';
+
+    // Generate member number by counting existing members with a MEMNUMBER
+    let memberNumber = 'PNMUK-001';
+    try {
+      const countRes = await fetch(
+        `${mcUrl}/lists/${LIST_ID}/members?count=1000&fields=members.merge_fields.MEMNUMBER`,
+        { headers: mcHeaders }
+      );
+      if (countRes.ok) {
+        const countData = await countRes.json();
+        const existing = countData.members.filter(
+          (m: any) => m.merge_fields?.MEMNUMBER && m.merge_fields.MEMNUMBER.startsWith('PNMUK-')
+        );
+        const nextNum = existing.length + 1;
+        memberNumber = `PNMUK-${nextNum.toString().padStart(3, '0')}`;
+      }
+    } catch (e) {
+      console.error('Error generating member number:', e);
+    }
+
+    // Generate confirmation token
+    const confirmToken = createHash('sha256').update(email.toLowerCase() + 'pnmuk-confirm').digest('hex').slice(0, 16);
     // Step 1: Add/update subscriber
     const memberResponse = await fetch(
       `${mcUrl}/lists/${LIST_ID}/members/${subscriberHash}`,
@@ -62,6 +84,8 @@ export async function POST({ request }: { request: Request }) {
             PIANO: plan || '',
             COMPANY: business || '',
             UKRESIDENT: ukResident ? 'Si' : 'No',
+            MEMNUMBER: memberNumber,
+            CONFTOKEN: confirmToken,
           },
         }),
       }

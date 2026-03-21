@@ -4,21 +4,11 @@ import { createHash } from 'crypto';
 
 export async function GET({ request }: { request: Request }) {
   const url = new URL(request.url);
-  const email = url.searchParams.get('email');
   const token = url.searchParams.get('token');
 
-  if (!email || !token) {
+  if (!token) {
     return new Response(errorPage('Link non valido. Contatta info@pugliesinelmondouk.org'), {
       status: 400,
-      headers: { 'Content-Type': 'text/html; charset=utf-8' },
-    });
-  }
-
-  // Verify token matches email hash
-  const expectedToken = createHash('sha256').update(email.toLowerCase() + 'pnmuk-confirm').digest('hex').slice(0, 16);
-  if (token !== expectedToken) {
-    return new Response(errorPage('Link non valido. Contatta info@pugliesinelmondouk.org'), {
-      status: 403,
       headers: { 'Content-Type': 'text/html; charset=utf-8' },
     });
   }
@@ -34,7 +24,6 @@ export async function GET({ request }: { request: Request }) {
     });
   }
 
-  const subscriberHash = createHash('md5').update(email.toLowerCase()).digest('hex');
   const mcUrl = `https://${SERVER}.api.mailchimp.com/3.0`;
   const mcHeaders = {
     Authorization: `apikey ${API_KEY}`,
@@ -42,20 +31,33 @@ export async function GET({ request }: { request: Request }) {
   };
 
   try {
-    // Check if member exists
-    const memberRes = await fetch(`${mcUrl}/lists/${LIST_ID}/members/${subscriberHash}`, {
-      headers: mcHeaders,
-    });
+    // Find member by CONFTOKEN
+    const searchRes = await fetch(
+      `${mcUrl}/lists/${LIST_ID}/members?count=1000&fields=members.id,members.email_address,members.merge_fields`,
+      { headers: mcHeaders }
+    );
 
-    if (!memberRes.ok) {
-      return new Response(errorPage('Contatto non trovato. Contatta info@pugliesinelmondouk.org'), {
+    if (!searchRes.ok) {
+      return new Response(errorPage('Errore nella ricerca del contatto. Contatta info@pugliesinelmondouk.org'), {
+        status: 500,
+        headers: { 'Content-Type': 'text/html; charset=utf-8' },
+      });
+    }
+
+    const searchData = await searchRes.json();
+    const member = searchData.members.find(
+      (m: any) => m.merge_fields?.CONFTOKEN === token
+    );
+
+    if (!member) {
+      return new Response(errorPage('Link non valido. Contatta info@pugliesinelmondouk.org'), {
         status: 404,
         headers: { 'Content-Type': 'text/html; charset=utf-8' },
       });
     }
 
-    const member = await memberRes.json();
     const fname = member.merge_fields?.FNAME || '';
+    const subscriberHash = createHash('md5').update(member.email_address.toLowerCase()).digest('hex');
 
     // Update tags: remove "In attesa di pagamento", add "Pagamento confermato"
     await fetch(`${mcUrl}/lists/${LIST_ID}/members/${subscriberHash}/tags`, {

@@ -42,8 +42,6 @@ export async function POST({ request }: { request: Request }) {
 
     const isAWR = plan === 'Socio AWR' || plan === 'AWR Member';
     const memberTag = isAWR ? 'Socio AWR' : 'Socio Ordinario';
-    const TEMPLATE_ID = 161;
-
     // Step 1: Add/update subscriber
     const memberResponse = await fetch(
       `${mcUrl}/lists/${LIST_ID}/members/${subscriberHash}`,
@@ -90,47 +88,8 @@ export async function POST({ request }: { request: Request }) {
       }),
     });
 
-    // Step 3: Create campaign targeting this email
-    const campaignRes = await fetch(`${mcUrl}/campaigns`, {
-      method: 'POST',
-      headers: mcHeaders,
-      body: JSON.stringify({
-        type: 'regular',
-        recipients: {
-          list_id: LIST_ID,
-          segment_opts: {
-            match: 'all',
-            conditions: [{
-              condition_type: 'EmailAddress',
-              field: 'EMAIL',
-              op: 'is',
-              value: email,
-            }],
-          },
-        },
-        settings: {
-          subject_line: `Richiesta di iscrizione ricevuta - ${plan}`,
-          from_name: 'Pugliesi nel Mondo UK',
-          reply_to: 'info@pugliesinelmondouk.org',
-          template_id: TEMPLATE_ID,
-        },
-      }),
-    });
-
-    if (campaignRes.ok) {
-      const campaign = await campaignRes.json();
-      console.log('Campaign created:', campaign.id);
-
-      // Step 4: Send campaign (MUST await)
-      const sendRes = await fetch(`${mcUrl}/campaigns/${campaign.id}/actions/send`, {
-        method: 'POST',
-        headers: mcHeaders,
-      });
-      console.log('Campaign send status:', sendRes.status);
-    } else {
-      const errText = await campaignRes.text();
-      console.error('Campaign create error:', errText);
-    }
+    // Welcome email is now sent automatically via Mailchimp's Customer Journey
+    // automation when a new subscriber is added to the list.
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,

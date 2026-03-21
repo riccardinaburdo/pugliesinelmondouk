@@ -159,10 +159,62 @@ export async function GET({ request }: { request: Request }) {
       margin-top: 2px;
       text-align: right;
     }
+
+    .page-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      padding: 40px 20px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      background: #1a5632;
+      color: #fff;
+      font-family: 'Lato', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 36px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: background 0.2s;
+    }
+
+    .download-btn:hover {
+      background: #2a7a4a;
+    }
+
+    .download-btn:disabled {
+      background: #999;
+      cursor: wait;
+    }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      color: #3d2b1f;
+      font-size: 22px;
+      text-align: center;
+    }
+
+    .page-subtitle {
+      color: #6b6b6b;
+      font-size: 14px;
+      text-align: center;
+      max-width: 400px;
+    }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"><\/script>
 </head>
 <body>
-  <div class="card">
+  <div class="page-wrapper">
+  <div class="page-title">La tua Tessera Associativa</div>
+  <div class="page-subtitle">Clicca il pulsante per scaricare la tua tessera in formato PDF</div>
+  <div class="card" id="membership-card">
     <div class="card-top">
       <img src="${heroUrl}" alt="Pugliesi nel Mondo UK" />
       <div class="card-top-overlay">
@@ -198,6 +250,45 @@ export async function GET({ request }: { request: Request }) {
       </div>
     </div>
   </div>
+  <button class="download-btn" id="download-btn" onclick="downloadPDF()">Scarica Tessera PDF</button>
+  </div>
+
+  <script>
+    async function downloadPDF() {
+      const btn = document.getElementById('download-btn');
+      btn.disabled = true;
+      btn.textContent = 'Generazione in corso...';
+
+      try {
+        const card = document.getElementById('membership-card');
+        const canvas = await html2canvas(card, {
+          scale: 3,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: null,
+        });
+
+        const { jsPDF } = window.jspdf;
+        const imgWidth = 90;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: [imgWidth + 10, imgHeight + 10],
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+        pdf.addImage(imgData, 'PNG', 5, 5, imgWidth, imgHeight);
+        pdf.save('tessera-pnmuk.pdf');
+      } catch (err) {
+        console.error('PDF generation error:', err);
+        alert('Errore nella generazione del PDF. Riprova.');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Scarica Tessera PDF';
+    }
+  <\/script>
 </body>
 </html>`;
 

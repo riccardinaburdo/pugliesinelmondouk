@@ -5,7 +5,8 @@ import { createHash } from 'crypto';
 export async function POST({ request }: { request: Request }) {
   try {
     const data = await request.json();
-    const { fname, lname, email, phone, birthplace, ukResident, plan, business } = data;
+    const { fname, lname, email, phone, birthplace, ukResident, plan, business, lang } = data;
+    const language = lang === 'en' ? 'en' : 'it';
 
     if (!fname || !lname || !email) {
       return new Response(JSON.stringify({ error: 'Campi obbligatori mancanti' }), {
@@ -108,6 +109,7 @@ export async function POST({ request }: { request: Request }) {
         tags: [
           { name: 'In attesa di pagamento', status: 'active' },
           { name: memberTag, status: 'active' },
+          { name: `lang-${language}`, status: 'active' },
         ],
       }),
     });

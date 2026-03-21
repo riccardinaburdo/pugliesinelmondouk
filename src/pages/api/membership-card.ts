@@ -1,5 +1,26 @@
 export const prerender = false;
 
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
+function getHeroBase64(): string {
+  try {
+    // Try multiple paths for the hero image
+    const paths = [
+      join(process.cwd(), 'public', 'images', 'general', 'hero.jpg'),
+      join(process.cwd(), 'dist', 'client', 'images', 'general', 'hero.jpg'),
+    ];
+    for (const p of paths) {
+      try {
+        const buf = readFileSync(p);
+        return `data:image/jpeg;base64,${buf.toString('base64')}`;
+      } catch { continue; }
+    }
+  } catch {}
+  // Fallback to URL if file not found
+  return 'https://pugliesinelmondouk.org/images/general/hero.jpg';
+}
+
 export async function GET({ request }: { request: Request }) {
   const url = new URL(request.url);
   const name = url.searchParams.get('name') || 'Member Name';
@@ -7,7 +28,7 @@ export async function GET({ request }: { request: Request }) {
   const plan = url.searchParams.get('plan') || 'Ordinary Member';
   const validUntil = url.searchParams.get('until') || '31/03/2027';
 
-  const heroUrl = 'https://pugliesinelmondouk.org/images/general/hero.jpg';
+  const heroUrl = getHeroBase64();
 
   const html = `<!DOCTYPE html>
 <html>

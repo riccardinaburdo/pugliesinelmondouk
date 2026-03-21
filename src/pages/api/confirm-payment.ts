@@ -33,11 +33,13 @@ export async function GET({ request }: { request: Request }) {
   try {
     // Find member by CONFTOKEN
     const searchRes = await fetch(
-      `${mcUrl}/lists/${LIST_ID}/members?count=1000&fields=members.id,members.email_address,members.merge_fields`,
+      `${mcUrl}/lists/${LIST_ID}/members?count=1000`,
       { headers: mcHeaders }
     );
 
     if (!searchRes.ok) {
+      const errText = await searchRes.text();
+      console.error('Mailchimp search error:', searchRes.status, errText);
       return new Response(errorPage('Errore nella ricerca del contatto. Contatta info@pugliesinelmondouk.org'), {
         status: 500,
         headers: { 'Content-Type': 'text/html; charset=utf-8' },

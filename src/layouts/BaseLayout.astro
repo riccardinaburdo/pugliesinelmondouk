@@ -62,7 +62,6 @@ const footerNamePlaceholder = isEn ? 'First name*' : 'Nome*';
 const footerSurnamePlaceholder = isEn ? 'Last name*' : 'Cognome*';
 const footerEmailPlaceholder = isEn ? 'Your email*' : 'La tua email*';
 const footerSubmitLabel = isEn ? 'SUBSCRIBE' : 'ISCRIVITI';
-const footerNewsletterSubject = isEn ? 'Newsletter subscription request' : 'Richiesta di iscrizione alla newsletter';
 const footerFollowTitle = isEn ? 'Follow Us' : 'Seguici';
 ---
 
@@ -149,16 +148,14 @@ const footerFollowTitle = isEn ? 'Follow Us' : 'Seguici';
       <div class="footer-col">
         <h4>{footerNewsletterTitle}</h4>
         <p class="footer-note">{footerFieldsNote}</p>
-        <form class="footer-newsletter" action="https://pugliesinelmondouk.us22.list-manage.com/subscribe/post?u=9d4fb5e15a58f08447f649b6e&amp;id=3c40495624&amp;f_id=008cc2e1f0" method="post" target="_blank">
+        <form class="footer-newsletter" id="newsletterForm" data-lang={isEn ? 'en' : 'it'}>
           <div class="footer-form-row">
-            <input type="text" name="FNAME" placeholder={footerNamePlaceholder} required />
-            <input type="text" name="LNAME" placeholder={footerSurnamePlaceholder} required />
+            <input type="text" name="fname" placeholder={footerNamePlaceholder} required />
+            <input type="text" name="lname" placeholder={footerSurnamePlaceholder} required />
           </div>
-          <input type="email" name="EMAIL" placeholder={footerEmailPlaceholder} required />
-          <div style="position: absolute; left: -5000px;" aria-hidden="true">
-            <input type="text" name="b_9d4fb5e15a58f08447f649b6e_3c40495624" tabindex="-1" value="" />
-          </div>
+          <input type="email" name="email" placeholder={footerEmailPlaceholder} required />
           <button type="submit" class="footer-submit">{footerSubmitLabel}</button>
+          <p class="newsletter-feedback" id="newsletterFeedback" style="display:none;margin-top:0.5rem;font-size:0.85rem;"></p>
         </form>
       </div>
 
@@ -206,6 +203,52 @@ const footerFollowTitle = isEn ? 'Follow Us' : 'Seguici';
         document.querySelectorAll('.has-dropdown.open').forEach(el => el.classList.remove('open'));
       }
     });
+  </script>
+  <script>
+    const newsletterForm = document.getElementById('newsletterForm') as HTMLFormElement | null;
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+        const feedback = document.getElementById('newsletterFeedback') as HTMLElement;
+        const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+        const lang = form.dataset.lang || 'it';
+        const isEn = lang === 'en';
+
+        btn.disabled = true;
+        feedback.style.display = 'none';
+
+        const body = {
+          fname: (form.elements.namedItem('fname') as HTMLInputElement).value,
+          lname: (form.elements.namedItem('lname') as HTMLInputElement).value,
+          email: (form.elements.namedItem('email') as HTMLInputElement).value,
+          lang,
+        };
+
+        try {
+          const res = await fetch('/api/newsletter-subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            feedback.textContent = isEn ? 'Thank you for subscribing!' : 'Grazie per esserti iscritto!';
+            feedback.style.color = '#4caf50';
+            form.reset();
+          } else {
+            feedback.textContent = data.error || (isEn ? 'An error occurred. Please try again.' : 'Si è verificato un errore. Riprova.');
+            feedback.style.color = '#c8102e';
+          }
+        } catch {
+          feedback.textContent = isEn ? 'An error occurred. Please try again.' : 'Si è verificato un errore. Riprova.';
+          feedback.style.color = '#c8102e';
+        }
+
+        feedback.style.display = 'block';
+        btn.disabled = false;
+      });
+    }
   </script>
   <Analytics />
   <SpeedInsights />

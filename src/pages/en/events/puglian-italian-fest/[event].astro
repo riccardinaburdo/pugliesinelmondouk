@@ -146,18 +146,18 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
         modal.classList.remove('active');
       });
 
-      bookingForm?.addEventListener('submit', (e) => {
+      bookingForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const fname = (bookingForm.querySelector('[name="FNAME"]') as HTMLInputElement).value;
         const lname = (bookingForm.querySelector('[name="LNAME"]') as HTMLInputElement).value;
         const email = (bookingForm.querySelector('[name="EMAIL"]') as HTMLInputElement).value;
-        const mcUrl = 'https://pugliesinelmondouk.us22.list-manage.com/subscribe/post-json?u=9d4fb5e15a58f08447f649b6e&id=3c40495624&f_id=008cc2e1f0&FNAME=' + encodeURIComponent(fname) + '&LNAME=' + encodeURIComponent(lname) + '&EMAIL=' + encodeURIComponent(email) + '&c=mcCallback';
-        (window as any).mcCallback = function() {};
-        const script = document.createElement('script');
-        script.src = mcUrl;
-        document.body.appendChild(script);
         modal.classList.remove('active');
         window.open(bookingUrl, '_blank');
+        fetch('/api/newsletter-subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fname, lname, email, lang: 'en' }),
+        }).catch(() => {});
       });
     }
 

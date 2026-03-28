@@ -83,7 +83,7 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
     <!-- Booking -->
     <div class="event-booking">
       <h3>Prenota</h3>
-      <p>Per prenotare il tuo posto, contattaci via email o segui il link di prenotazione.</p>
+      <p>Per prenotare il tuo posto, segui il link di prenotazione.</p>
       <a href={item.bookingLink || `mailto:info@pugliesinelmondouk.org?subject=Prenotazione: ${item.title}&body=Vorrei prenotare per l'evento ${item.title} del ${new Date(item.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}.`} class="btn-primary booking-btn" data-booking-url={item.bookingLink || ''}>
         {item.bookingLink ? 'Prenota Ora' : 'Prenota via Email'}
       </a>

@@ -282,15 +282,20 @@ main {
 
 /* ===== Buttons ===== */
 .btn-primary {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: var(--color-accent);
   color: var(--color-white);
   padding: 0.9rem 2.5rem;
   border-radius: 4px;
   font-weight: 700;
   font-size: 1rem;
+  font-family: inherit;
   text-transform: uppercase;
   letter-spacing: 1px;
+  line-height: 1.5;
+  box-sizing: border-box;
   transition: background 0.3s, transform 0.2s;
   border: none;
   cursor: pointer;
@@ -715,18 +720,25 @@ main {
 
 /* ===== Member free button ===== */
 .btn-member-free {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: var(--color-primary);
   color: #fff;
   border: none;
   padding: 0.9rem 2.5rem;
   border-radius: 4px;
   font-size: 1rem;
+  font-family: inherit;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
+  line-height: 1.5;
+  box-sizing: border-box;
   cursor: pointer;
   text-decoration: none;
+  appearance: none;
+  -webkit-appearance: none;
   transition: background 0.2s ease;
 }
 
@@ -902,6 +914,11 @@ main {
   padding: 2rem;
   text-align: center;
   margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
 }
 
 .event-booking h3 {

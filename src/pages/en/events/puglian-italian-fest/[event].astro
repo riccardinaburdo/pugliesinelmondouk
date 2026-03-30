@@ -77,10 +77,11 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
 
     <div class="event-booking">
       <h3>Book</h3>
-      <p>To book your place, contact us by email or follow the booking link.</p>
-      <a href={item.bookingLink || `mailto:info@pugliesinelmondouk.org?subject=Booking: ${item.title}&body=I would like to book for the event ${item.title} on ${new Date(item.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}.`} class="btn-primary booking-btn" data-booking-url={item.bookingLink || ''}>
-        {item.bookingLink ? 'Book Now' : 'Book via Email'}
-      </a>
+      {item.bookingLink && (
+        <a href={item.bookingLink} class="btn-primary booking-btn" data-booking-url={item.bookingLink}>
+          Book Now
+        </a>
+      )}
     </div>
 
     <!-- Booking Modal -->

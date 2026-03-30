@@ -87,7 +87,24 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
           Prenota Ora
         </a>
       )}
+      {item.memberNote && (
+        <button class="btn-member-free" id="memberNoteBtn">
+          Gratis per i Soci
+        </button>
+      )}
     </div>
+
+    <!-- Member Note Modal -->
+    {item.memberNote && (
+      <div class="member-modal-overlay" id="memberModal">
+        <div class="member-modal">
+          <button class="member-modal-close" id="memberModalClose">&times;</button>
+          <h3>🎟️ Ingresso gratuito per i Soci</h3>
+          <p>{item.memberNote}</p>
+          <a href="/diventa-socio" class="btn-primary" style="display:inline-block; margin-top:1rem; font-size:0.9rem;">Diventa Socio</a>
+        </div>
+      </div>
+    )}
 
     <!-- Booking Modal -->
     <div class="booking-modal-overlay" id="bookingModal">
@@ -200,6 +217,18 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
         a.download = `${title.replace(/[^a-zA-Z0-9]/g, '-')}.ics`;
         a.click();
         URL.revokeObjectURL(url);
+      });
+    }
+
+    // Member note modal
+    const memberNoteBtn = document.getElementById('memberNoteBtn');
+    const memberModal = document.getElementById('memberModal');
+    const memberModalClose = document.getElementById('memberModalClose');
+    if (memberNoteBtn && memberModal) {
+      memberNoteBtn.addEventListener('click', () => memberModal.classList.add('active'));
+      memberModalClose?.addEventListener('click', () => memberModal.classList.remove('active'));
+      memberModal.addEventListener('click', (e) => {
+        if (e.target === memberModal) memberModal.classList.remove('active');
       });
     }
   </script>

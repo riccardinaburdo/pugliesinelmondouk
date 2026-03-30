@@ -37,40 +37,46 @@ const { event } = Astro.props;
         <h2>Programme</h2>
         <div class="programme-grid">
           {event.programme.map((item: any) => (
-            <a href={`/en/events/${event.slug}/${item.slug}`} class="programme-grid-link">
-              <div class="programme-grid-card">
+            <div class="programme-grid-card">
+              <a href={`/en/events/${event.slug}/${item.slug}`} class="programme-grid-card-img-link">
                 {item.image ? <img src={item.image} alt={item.title} /> : <div class="programme-placeholder"></div>}
-                <div class="programme-card-divider"></div>
-                <div class="programme-grid-body">
-                  <h3>{item.title}</h3>
-                  {item.category && <p class="programme-grid-category">{item.category}</p>}
-                  <ul class="programme-grid-meta">
+              </a>
+              <div class="programme-card-divider"></div>
+              <div class="programme-grid-body">
+                <h3><a href={`/en/events/${event.slug}/${item.slug}`} class="programme-grid-title-link">{item.title}</a></h3>
+                {item.category && <p class="programme-grid-category">{item.category}</p>}
+                <ul class="programme-grid-meta">
+                  <li>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                    {new Date(item.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  </li>
+                  {item.time && (
                     <li>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
-                      {new Date(item.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                      {item.time === 'TBA' ? 'Time to be confirmed' : item.time}
                     </li>
-                    {item.time && (
-                      <li>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                        {item.time === 'TBA' ? 'Time to be confirmed' : item.time}
-                      </li>
-                    )}
-                    {item.price && (
-                      <li>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><text x="4" y="18" font-size="18" font-weight="bold" fill="var(--color-gray)">£</text></svg>
-                        {item.price}
-                      </li>
-                    )}
-                    {item.venue && (
-                      <li>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
-                        <span class="venue-link" onclick={`event.preventDefault(); event.stopPropagation(); window.open('https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.venue + (item.address ? ', ' + item.address : ''))}', '_blank')`}>{item.venue}</span>
-                      </li>
-                    )}
-                  </ul>
+                  )}
+                  {item.price && (
+                    <li>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><text x="4" y="18" font-size="18" font-weight="bold" fill="var(--color-gray)">£</text></svg>
+                      {item.price}
+                    </li>
+                  )}
+                  {item.venue && (
+                    <li>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
+                      <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.venue + (item.address ? ', ' + item.address : ''))}`} target="_blank" rel="noopener" class="venue-link">{item.venue}</a>
+                    </li>
+                  )}
+                </ul>
+                <div class="programme-card-actions">
+                  {item.bookingLink && (
+                    <a href={item.bookingLink} target="_blank" rel="noopener" class="btn-primary">Book Now</a>
+                  )}
+                  <a href={`/en/events/${event.slug}/${item.slug}`} class="btn-secondary">Find out more</a>
                 </div>
               </div>
-            </a>
+            </div>
           ))}
         </div>
         <p style="text-align: center; color: var(--color-gray); margin-top: 2rem; font-style: italic;">

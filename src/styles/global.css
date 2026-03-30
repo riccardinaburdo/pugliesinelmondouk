@@ -677,16 +677,26 @@ main {
   color: var(--color-accent);
 }
 
-/* ===== Programme grid link ===== */
-.programme-grid-link {
-  text-decoration: none;
-  color: inherit;
+/* ===== Programme grid card links ===== */
+.programme-grid-card-img-link {
   display: block;
+  text-decoration: none;
 }
 
-.programme-grid-link:hover .programme-grid-card {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+.programme-grid-title-link {
+  color: var(--color-dark);
+  text-decoration: none;
+}
+
+.programme-grid-title-link:hover {
+  color: var(--color-accent);
+}
+
+.programme-card-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
 }
 
 .programme-grid-card {

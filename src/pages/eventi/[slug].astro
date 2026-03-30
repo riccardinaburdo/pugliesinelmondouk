@@ -71,9 +71,6 @@ const { event } = Astro.props;
                   )}
                 </ul>
                 <div class="programme-card-actions">
-                  {item.bookingLink && (
-                    <a href={item.bookingLink} target="_blank" rel="noopener" class="btn-primary">Prenota Ora</a>
-                  )}
                   <a href={`/eventi/${event.slug}/${item.slug}`} class="btn-secondary">Scopri di più</a>
                 </div>
               </div>

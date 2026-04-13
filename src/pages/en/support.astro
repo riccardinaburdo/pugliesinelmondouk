@@ -2,6 +2,13 @@
 export const prerender = true;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import support from '../../content/pages/en/support.json';
+
+const icons: Record<string, string> = {
+  "Donation": `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+  "Volunteering": `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+  "Sponsorship": `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>`,
+  "Partnership": `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 11l4-4-4-4"/><path d="M20 7H9a4 4 0 0 0 0 8h1"/><path d="M8 13l-4 4 4 4"/><path d="M4 17h11a4 4 0 0 0 0-8h-1"/></svg>`,
+};
 ---
 
 <BaseLayout title="Support Us | Pugliesi nel Mondo UK" currentPath="/en/support" lang="en">
@@ -12,7 +19,10 @@ import support from '../../content/pages/en/support.json';
     <div class="support-grid">
       {support.ways.map((way) => (
         <div class="support-card">
-          <h3>{way.title}</h3>
+          <div class="support-card-header">
+            <Fragment set:html={icons[way.title] ?? ''} />
+            <h3>{way.title}</h3>
+          </div>
           <p>{way.description}</p>
         </div>
       ))}

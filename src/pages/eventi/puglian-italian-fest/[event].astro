@@ -82,11 +82,44 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
 
     <!-- Booking -->
     <div class="event-booking">
-      <a href={`mailto:info@pugliesinelmondouk.org?subject=${encodeURIComponent('Prenotazione posto – ' + item.title + ' – ' + new Date(item.date).toLocaleDateString('it-IT', {day:'numeric', month:'long', year:'numeric'}))}`} class="btn-primary">
-        Prenota il tuo posto per email
-      </a>
+      {item.bookingLink && (
+        <a href={item.bookingLink} class="btn-primary booking-btn" data-booking-url={item.bookingLink}>
+          Prenota Ora
+        </a>
+      )}
+      {item.memberNote && (
+        <button class="btn-member-free" id="memberNoteBtn">
+          Gratis per i Soci
+        </button>
+      )}
     </div>
 
+    <!-- Member Note Modal -->
+    {item.memberNote && (
+      <div class="member-modal-overlay" id="memberModal">
+        <div class="member-modal">
+          <button class="member-modal-close" id="memberModalClose">&times;</button>
+          <h3>🎟️ Ingresso gratuito per i Soci</h3>
+          <p>{item.memberNote}</p>
+          <a href={`mailto:info@pugliesinelmondouk.org?subject=${encodeURIComponent('Prenotazione posto gratuito – ' + item.title + ' – ' + new Date(item.date).toLocaleDateString('it-IT', {day:'numeric', month:'long', year:'numeric'}))}`} class="btn-primary" style="display:inline-block; margin-top:1rem; font-size:0.9rem;">Prenota il tuo posto gratuito per email</a>
+        </div>
+      </div>
+    )}
+
+    <!-- Booking Modal -->
+    <div class="booking-modal-overlay" id="bookingModal">
+      <div class="booking-modal">
+        <button class="booking-modal-close" id="bookingModalClose">&times;</button>
+        <h3>Resta aggiornato</h3>
+        <p class="booking-modal-desc">Lasciaci i tuoi dati per ricevere aggiornamenti su questo evento e sulle nostre attivita'. Saremo molto discreti: solo comunicazioni utili, niente spam. Potrai disiscriverti in qualsiasi momento con un solo click.</p>
+        <form class="booking-modal-form" id="bookingForm">
+          <input type="text" name="FNAME" placeholder="Nome" required />
+          <input type="text" name="LNAME" placeholder="Cognome" required />
+          <input type="email" name="EMAIL" placeholder="Email" required />
+          <button type="submit" class="btn-primary" style="width: 100%;">Continua con la prenotazione</button>
+        </form>
+      </div>
+    </div>
 
     <!-- Add to Calendar -->
     <div class="event-calendar">
@@ -118,6 +151,42 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
   </div>
 
   <script>
+    // Booking modal logic
+    const bookingBtn = document.querySelector('.booking-btn') as HTMLAnchorElement;
+    const modal = document.getElementById('bookingModal');
+    const modalClose = document.getElementById('bookingModalClose');
+    const bookingForm = document.getElementById('bookingForm') as HTMLFormElement;
+    let bookingUrl = '';
+
+    if (bookingBtn && modal) {
+      bookingUrl = bookingBtn.dataset.bookingUrl || bookingBtn.href;
+
+      if (bookingUrl && !bookingUrl.startsWith('mailto:')) {
+        bookingBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          modal.classList.add('active');
+        });
+      }
+
+      modalClose?.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+
+      bookingForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fname = (bookingForm.querySelector('[name="FNAME"]') as HTMLInputElement).value;
+        const lname = (bookingForm.querySelector('[name="LNAME"]') as HTMLInputElement).value;
+        const email = (bookingForm.querySelector('[name="EMAIL"]') as HTMLInputElement).value;
+        modal.classList.remove('active');
+        window.open(bookingUrl, '_blank');
+        fetch('/api/newsletter-subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fname, lname, email, lang: 'it' }),
+        }).catch(() => {});
+      });
+    }
+
     const icsBtn = document.getElementById('ics-download');
     if (icsBtn) {
       icsBtn.addEventListener('click', (e) => {
@@ -151,5 +220,16 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
       });
     }
 
+    // Member note modal
+    const memberNoteBtn = document.getElementById('memberNoteBtn');
+    const memberModal = document.getElementById('memberModal');
+    const memberModalClose = document.getElementById('memberModalClose');
+    if (memberNoteBtn && memberModal) {
+      memberNoteBtn.addEventListener('click', () => memberModal.classList.add('active'));
+      memberModalClose?.addEventListener('click', () => memberModal.classList.remove('active'));
+      memberModal.addEventListener('click', (e) => {
+        if (e.target === memberModal) memberModal.classList.remove('active');
+      });
+    }
   </script>
 </BaseLayout>

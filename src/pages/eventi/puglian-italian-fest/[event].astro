@@ -103,7 +103,10 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
           <p>{item.memberNote}</p>
           <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:1rem;">
             {item.bookingLink && <a href={item.bookingLink} target="_blank" rel="noopener" class="btn-primary" style="font-size:0.9rem;">Prenota il tuo biglietto</a>}
-            <a href="/diventa-socio" class="btn-secondary" style="font-size:0.9rem;">Diventa Socio</a>
+            <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+              <span style="font-size:0.85rem; color:#666;">Non sei ancora socio?</span>
+              <a href="/diventa-socio" class="btn-secondary" style="font-size:0.9rem;">Diventa Socio</a>
+            </div>
           </div>
         </div>
       </div>

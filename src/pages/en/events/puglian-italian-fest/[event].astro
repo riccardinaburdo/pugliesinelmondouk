@@ -76,44 +76,11 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
     </div>
 
     <div class="event-booking">
-      {item.bookingLink && (
-        <a href={item.bookingLink} class="btn-primary booking-btn" data-booking-url={item.bookingLink}>
-          Book Now
-        </a>
-      )}
-      {item.memberNote && (
-        <button class="btn-member-free" id="memberNoteBtn">
-          Free for Members
-        </button>
-      )}
+      <a href={`mailto:info@pugliesinelmondouk.org?subject=${encodeURIComponent('Place booking – ' + item.title + ' – ' + new Date(item.date).toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'}))}`} class="btn-primary">
+        Book your place by email
+      </a>
     </div>
 
-    <!-- Member Note Modal -->
-    {item.memberNote && (
-      <div class="member-modal-overlay" id="memberModal">
-        <div class="member-modal">
-          <button class="member-modal-close" id="memberModalClose">&times;</button>
-          <h3>🎟️ Free Entry for Members</h3>
-          <p>{item.memberNote}</p>
-          <a href={`mailto:info@pugliesinelmondouk.org?subject=${encodeURIComponent('Free place booking – ' + item.title + ' – ' + new Date(item.date).toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'}))}`} class="btn-primary" style="display:inline-block; margin-top:1rem; font-size:0.9rem;">Book your free place by email</a>
-        </div>
-      </div>
-    )}
-
-    <!-- Booking Modal -->
-    <div class="booking-modal-overlay" id="bookingModal">
-      <div class="booking-modal">
-        <button class="booking-modal-close" id="bookingModalClose">&times;</button>
-        <h3>Stay updated</h3>
-        <p class="booking-modal-desc">Leave us your details to receive updates about this event and our activities. We'll be very measured in our communications: only useful updates, no spam. You can unsubscribe at any time with a single click.</p>
-        <form class="booking-modal-form" id="bookingForm">
-          <input type="text" name="FNAME" placeholder="First name" required />
-          <input type="text" name="LNAME" placeholder="Last name" required />
-          <input type="email" name="EMAIL" placeholder="Email" required />
-          <button type="submit" class="btn-primary" style="width: 100%;">Continue to booking</button>
-        </form>
-      </div>
-    </div>
 
     <div class="event-calendar">
       <h3>Add to Calendar</h3>
@@ -142,42 +109,6 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
   </div>
 
   <script>
-    // Booking modal logic
-    const bookingBtn = document.querySelector('.booking-btn') as HTMLAnchorElement;
-    const modal = document.getElementById('bookingModal');
-    const modalClose = document.getElementById('bookingModalClose');
-    const bookingForm = document.getElementById('bookingForm') as HTMLFormElement;
-    let bookingUrl = '';
-
-    if (bookingBtn && modal) {
-      bookingUrl = bookingBtn.dataset.bookingUrl || bookingBtn.href;
-
-      if (bookingUrl && !bookingUrl.startsWith('mailto:')) {
-        bookingBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          modal.classList.add('active');
-        });
-      }
-
-      modalClose?.addEventListener('click', () => {
-        modal.classList.remove('active');
-      });
-
-      bookingForm?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const fname = (bookingForm.querySelector('[name="FNAME"]') as HTMLInputElement).value;
-        const lname = (bookingForm.querySelector('[name="LNAME"]') as HTMLInputElement).value;
-        const email = (bookingForm.querySelector('[name="EMAIL"]') as HTMLInputElement).value;
-        modal.classList.remove('active');
-        window.open(bookingUrl, '_blank');
-        fetch('/api/newsletter-subscribe', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ fname, lname, email, lang: 'en' }),
-        }).catch(() => {});
-      });
-    }
-
     const icsBtn = document.getElementById('ics-download');
     if (icsBtn) {
       icsBtn.addEventListener('click', (e) => {
@@ -211,16 +142,5 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
       });
     }
 
-    // Member note modal
-    const memberNoteBtn = document.getElementById('memberNoteBtn');
-    const memberModal = document.getElementById('memberModal');
-    const memberModalClose = document.getElementById('memberModalClose');
-    if (memberNoteBtn && memberModal) {
-      memberNoteBtn.addEventListener('click', () => memberModal.classList.add('active'));
-      memberModalClose?.addEventListener('click', () => memberModal.classList.remove('active'));
-      memberModal.addEventListener('click', (e) => {
-        if (e.target === memberModal) memberModal.classList.remove('active');
-      });
-    }
   </script>
 </BaseLayout>

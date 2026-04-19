@@ -35,7 +35,7 @@
       "title": "CinemaItaliaUK: Bell'Epokèr",
       "category": "Cinema",
       "date": "2026-06-07",
-      "time": "4:00",
+      "time": "4:30",
       "price": "TBA",
       "venue": "The Garden Cinema",
       "address": "39-41 Parker St, London WC2B 5PQ",
@@ -120,11 +120,39 @@
       "bookingLink": "https://www.ilcircolo.org.uk/events/"
     }
   ],
-  "categories": ["Music", "Cinema", "Photography", "Comedy", "Food", "Literature"],
-  "mediaPartners": ["London One Radio", "Fairness Magazine"],
-  "collaborators": ["Il Circolo", "CinemaItaliaUK", "Upper Place Food Hall", "FICUK", "Masseria San Domenico", "San Domenico House Hotel", "Spigadolce", "Accademia della Puglia UK", "La Pizzica Restaurant", "Becomedy", "Estorick Collection of Modern Italian Art", "Mediterranea Film"],
-  "directors": ["The International Association of the Apulians in the World in the UK (Associazione Internazionale Pugliesi nel Mondo Sezione UK)"],
-  "patronage": ["COMITES", "Consolato Generale d'Italia"],
+  "categories": [
+    "Music",
+    "Cinema",
+    "Photography",
+    "Comedy",
+    "Food",
+    "Literature"
+  ],
+  "mediaPartners": [
+    "London One Radio",
+    "Fairness Magazine"
+  ],
+  "collaborators": [
+    "Il Circolo",
+    "CinemaItaliaUK",
+    "Upper Place Food Hall",
+    "FICUK",
+    "Masseria San Domenico",
+    "San Domenico House Hotel",
+    "Spigadolce",
+    "Accademia della Puglia UK",
+    "La Pizzica Restaurant",
+    "Becomedy",
+    "Estorick Collection of Modern Italian Art",
+    "Mediterranea Film"
+  ],
+  "directors": [
+    "The International Association of the Apulians in the World in the UK (Associazione Internazionale Pugliesi nel Mondo Sezione UK)"
+  ],
+  "patronage": [
+    "COMITES",
+    "Consolato Generale d'Italia"
+  ],
   "image": "/images/events/puglian-fest-poster.jpg",
   "status": "upcoming",
   "order": 1

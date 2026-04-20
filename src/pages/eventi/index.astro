@@ -25,6 +25,9 @@ const past = events.filter(e => e.status === 'past');
         <div class="events-list">
           {upcoming.map((event) => (
             <div class="event-card">
+              {event.image && (
+                <img src={event.image} alt={event.title} style="width:100%; max-height:340px; object-fit:cover; border-radius:12px 12px 0 0; display:block;" />
+              )}
               <div class="event-card-body" style="padding: 2rem;">
                 <h3>{event.title}</h3>
                 <p class="event-date">

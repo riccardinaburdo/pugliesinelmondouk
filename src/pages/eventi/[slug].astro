@@ -27,12 +27,6 @@ const { event } = Astro.props;
       &nbsp;&nbsp; 📍 {event.location}
     </p>
 
-    {event.image && (
-      <div class="event-poster">
-        <img src={event.image} alt={event.title} />
-      </div>
-    )}
-
     <div class="content">
       {event.longDescription && event.longDescription.map((p: string) => <p>{p}</p>)}
       {!event.longDescription && <p>{event.description}</p>}
@@ -137,16 +131,3 @@ const { event } = Astro.props;
     </div>
   </div>
 </BaseLayout>
-
-<style>
-  .event-poster {
-    text-align: center;
-    margin: 2rem 0 2.5rem;
-  }
-  .event-poster img {
-    max-width: 420px;
-    width: 100%;
-    border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-  }
-</style>

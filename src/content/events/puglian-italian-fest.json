@@ -36,17 +36,18 @@
       "category": "Cinema",
       "date": "2026-06-07",
       "time": "4:30",
-      "price": "TBA",
+      "price": "Adult £17.00 · Garden Cinema Member £14.00",
       "venue": "The Garden Cinema",
       "address": "39-41 Parker St, London WC2B 5PQ",
       "description": "Bell'Epokèr by Nico Cirasola.",
       "longDescription": [
         "Proiezione del film Bell'Epokèr del regista pugliese Nico Cirasola, nell'ambito della rassegna Cinema Italia UK.",
         "Un'opera che mescola cabaret e intrattenimento tra la tradizione pugliese e la Belle Époque, con uno sguardo ironico e poetico sulla cultura del Sud.",
-        "Dettagli aggiuntivi saranno pubblicati a breve."
+        "Dettagli aggiuntivi saranno pubblicati a breve.",
+        "⚠️ Vietato ai minori di 18 anni."
       ],
       "image": "/images/events/bellepoker-new.jpg",
-      "bookingLink": "https://www.cinemaitaliauk.co.uk/events"
+      "bookingLink": "https://www.thegardencinema.co.uk/film/bellepoker/"
     },
     {
       "slug": "trulli-through-the-lens",

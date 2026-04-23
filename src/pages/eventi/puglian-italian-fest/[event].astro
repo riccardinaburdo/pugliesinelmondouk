@@ -160,13 +160,19 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
     const bookingForm = document.getElementById('bookingForm') as HTMLFormElement;
     let bookingUrl = '';
 
+    const SUBSCRIBED_KEY = 'pnmuk_subscribed';
+
     if (bookingBtn && modal) {
       bookingUrl = bookingBtn.dataset.bookingUrl || bookingBtn.href;
 
       if (bookingUrl && !bookingUrl.startsWith('mailto:')) {
         bookingBtn.addEventListener('click', (e) => {
           e.preventDefault();
-          modal.classList.add('active');
+          if (localStorage.getItem(SUBSCRIBED_KEY) === 'true') {
+            window.open(bookingUrl, '_blank');
+          } else {
+            modal.classList.add('active');
+          }
         });
       }
 
@@ -179,6 +185,7 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
         const fname = (bookingForm.querySelector('[name="FNAME"]') as HTMLInputElement).value;
         const lname = (bookingForm.querySelector('[name="LNAME"]') as HTMLInputElement).value;
         const email = (bookingForm.querySelector('[name="EMAIL"]') as HTMLInputElement).value;
+        localStorage.setItem(SUBSCRIBED_KEY, 'true');
         modal.classList.remove('active');
         window.open(bookingUrl, '_blank');
         fetch('/api/newsletter-subscribe', {

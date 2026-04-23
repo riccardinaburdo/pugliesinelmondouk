@@ -31,22 +31,6 @@ const events = eventFiles
     </p>
   </section>
 
-  <!-- Puglian Italian Fest feature -->
-  <section class="fest-feature">
-    <div class="fest-feature-inner">
-      <div class="fest-feature-poster">
-        <img src="/images/events/puglian-fest-poster.jpg" alt="Puglian Italian Fest 2026" />
-      </div>
-      <div class="fest-feature-text">
-        <p class="fest-feature-tag">Pugliesi nel Mondo UK presents</p>
-        <h2>The First Puglian Culture &amp; Gastronomy Festival in London</h2>
-        <p>We are proud to present, with Pugliesi nel Mondo UK, the very first festival dedicated to the art, culture, food and traditions of Puglia in London. Ten days of music, cinema, photography, comedy, gastronomy and literature — a journey through the heart of Apulia, brought to the heart of the British capital.</p>
-        <p class="fest-feature-dates">6 – 15 June 2026 · London</p>
-        <a href="/eventi/puglian-italian-fest" class="btn-primary">Discover the Festival</a>
-      </div>
-    </div>
-  </section>
-
   {events.length > 0 && (
     <section class="section">
       <h2 class="section-title">Prossimi Eventi</h2>
@@ -97,75 +81,3 @@ const events = eventFiles
   </section>
 
 </BaseLayout>
-
-<style>
-  .fest-feature {
-    background: #1a5632;
-    padding: 4rem 2rem;
-  }
-  .fest-feature-inner {
-    max-width: 960px;
-    margin: 0 auto;
-    display: flex;
-    gap: 3rem;
-    align-items: center;
-  }
-  .fest-feature-poster {
-    flex-shrink: 0;
-    width: 260px;
-  }
-  .fest-feature-poster img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-  }
-  .fest-feature-text {
-    color: #fff;
-  }
-  .fest-feature-tag {
-    font-size: 0.78rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: #d4a843;
-    margin: 0 0 0.75rem;
-  }
-  .fest-feature-text h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.9rem;
-    color: #fff;
-    line-height: 1.25;
-    margin: 0 0 1.25rem;
-  }
-  .fest-feature-text p {
-    font-size: 1rem;
-    line-height: 1.75;
-    color: rgba(255,255,255,0.82);
-    margin: 0 0 1rem;
-  }
-  .fest-feature-dates {
-    font-size: 1rem !important;
-    font-weight: 700 !important;
-    color: #d4a843 !important;
-    margin-bottom: 1.5rem !important;
-  }
-  .fest-feature-text .btn-primary {
-    background: #d4a843 !important;
-    color: #1a5632 !important;
-    font-weight: 700;
-  }
-  .fest-feature-text .btn-primary:hover {
-    background: #c49230 !important;
-  }
-  @media (max-width: 680px) {
-    .fest-feature-inner {
-      flex-direction: column;
-      text-align: center;
-    }
-    .fest-feature-poster {
-      width: 200px;
-      margin: 0 auto;
-    }
-  }
-</style>

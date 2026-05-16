@@ -1,0 +1,164 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import press from '../../content/pages/en/press.json';
+
+type PressItem = {
+  type: 'article' | 'video';
+  title: string;
+  source: string;
+  date?: string;
+  url: string;
+  description?: string;
+  thumbnail?: string;
+};
+
+const items = press.items as PressItem[];
+---
+
+<BaseLayout title="Press & Media | Pugliesi nel Mondo UK" currentPath="/en/press" lang="en">
+  <div class="page-layout press-page">
+    <h1>{press.title}</h1>
+    <p class="intro">{press.intro}</p>
+
+    {items.length === 0 && (
+      <p class="press-empty">Content coming soon.</p>
+    )}
+
+    <div class="press-grid">
+      {items.map((item) => (
+        <a href={item.url} target="_blank" rel="noopener noreferrer" class={`press-card press-card--${item.type}`}>
+          {item.thumbnail && (
+            <div class="press-thumb">
+              <img src={item.thumbnail} alt={item.title} loading="lazy" />
+              {item.type === 'video' && (
+                <div class="press-play">
+                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <circle cx="20" cy="20" r="20" fill="rgba(0,0,0,0.55)" />
+                    <polygon points="16,13 16,27 30,20" fill="white" />
+                  </svg>
+                </div>
+              )}
+            </div>
+          )}
+          <div class="press-body">
+            <div class="press-meta">
+              <span class={`press-badge press-badge--${item.type}`}>
+                {item.type === 'video' ? '▶ Video' : '📰 Article'}
+              </span>
+              {item.source && <span class="press-source">{item.source}</span>}
+              {item.date && (
+                <span class="press-date">
+                  {new Date(item.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </span>
+              )}
+            </div>
+            <h2 class="press-title">{item.title}</h2>
+            {item.description && <p class="press-desc">{item.description}</p>}
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+.press-page { max-width: 960px; }
+
+.press-empty {
+  color: var(--color-gray);
+  font-style: italic;
+  margin-top: 2rem;
+}
+
+.press-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.press-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 8px;
+  overflow: hidden;
+  color: var(--color-dark);
+  text-decoration: none;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.press-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+  color: var(--color-dark);
+}
+
+.press-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--color-light-gray);
+  overflow: hidden;
+}
+.press-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.press-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.press-body {
+  padding: 1rem 1.2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.press-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.press-badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.press-badge--article { background: #e8f0ea; color: var(--color-primary-dark); }
+.press-badge--video   { background: #fde8e8; color: #a00; }
+
+.press-source {
+  color: var(--color-gray);
+  font-weight: 600;
+}
+.press-date {
+  color: var(--color-gray);
+  margin-left: auto;
+}
+
+.press-title {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  line-height: 1.35;
+  color: var(--color-dark);
+}
+
+.press-desc {
+  font-size: 0.88rem;
+  color: var(--color-gray);
+  line-height: 1.5;
+}
+</style>

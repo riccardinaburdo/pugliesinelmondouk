@@ -6,6 +6,7 @@
     { "label": "Diventa Socio", "url": "/diventa-socio" },
     { "label": "Statuto", "url": "/statuto" },
     { "label": "Sostienici", "url": "/sostienici" },
+    { "label": "Rassegna Stampa", "url": "/rassegna-stampa" },
     { "label": "Contatti", "url": "/contatti" }
   ]
 }

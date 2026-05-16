@@ -6,6 +6,7 @@
     { "label": "Membership", "url": "/en/membership" },
     { "label": "Statute", "url": "/en/statute" },
     { "label": "Support Us", "url": "/en/support" },
+    { "label": "Press & Media", "url": "/en/press" },
     { "label": "Contact", "url": "/en/contact" }
   ]
 }

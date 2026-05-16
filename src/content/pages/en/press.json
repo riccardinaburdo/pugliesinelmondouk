@@ -1,5 +1,15 @@
 {
   "title": "Press & Media",
   "intro": "Articles, TV features and videos about us and our community.",
-  "items": []
+  "items": [
+    {
+      "type": "video",
+      "title": "Pugliesi nel Mondo UK on London One Radio: Puglian Italian Fest announcement",
+      "source": "London One Radio",
+      "date": "2026-05-15",
+      "url": "https://www.youtube.com/watch?v=FPCXpqSSDxQ&t=1154s",
+      "description": "Official announcement of the Puglian Italian Fest – London, June 2026. With Pilar Marzuco from Fairness Magazine and Philip Baglini Olland from London One Radio.",
+      "thumbnail": "https://img.youtube.com/vi/FPCXpqSSDxQ/maxresdefault.jpg"
+    }
+  ]
 }

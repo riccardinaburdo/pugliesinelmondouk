@@ -1,5 +1,15 @@
 {
   "title": "Rassegna Stampa",
   "intro": "Articoli, servizi televisivi e filmati che parlano di noi e della nostra comunità.",
-  "items": []
+  "items": [
+    {
+      "type": "video",
+      "title": "Pugliesi nel Mondo UK annuncia il Puglian Italian Fest su London One Radio",
+      "source": "London One Radio",
+      "date": "2026-05-15",
+      "url": "https://www.youtube.com/watch?v=FPCXpqSSDxQ&t=1154s",
+      "description": "Annuncio ufficiale del Puglian Italian Fest – Londra, giugno 2026. Con Pilar Marzuco di Fairness Magazine e Philip Baglini Olland di London One Radio.",
+      "thumbnail": "https://img.youtube.com/vi/FPCXpqSSDxQ/maxresdefault.jpg"
+    }
+  ]
 }

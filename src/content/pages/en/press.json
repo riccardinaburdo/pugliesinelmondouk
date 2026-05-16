@@ -3,6 +3,14 @@
   "intro": "Articles, TV features and videos about us and our community.",
   "items": [
     {
+      "type": "article",
+      "title": "Puglian Italian Fest featured on Londra da Vivere",
+      "source": "Londra da Vivere",
+      "date": "2026-05-16",
+      "url": "https://www.londradavivere.com/tempo-libero/eventi/puglian-italian-fest-londra/",
+      "description": "Londra da Vivere publishes an article about the Puglian Italian Fest: the flavours, music and traditions of Puglia in the heart of London."
+    },
+    {
       "type": "video",
       "title": "London Calling – Ep. 2: Alfredo Giani and Amaraterra on London One Radio",
       "source": "London One Radio",

@@ -114,6 +114,9 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
           <input type="email" name="EMAIL" placeholder="Email" required />
           <button type="submit" class="btn-primary" style="width: 100%;">Continue to booking</button>
         </form>
+        <div style="text-align:center; margin-top:1rem;">
+          <button id="skipSubscribeBtn" style="background:none; border:none; color: var(--color-primary); text-decoration:underline; cursor:pointer; font-size:0.9rem;">Continue without registering</button>
+        </div>
       </div>
     </div>
 
@@ -184,6 +187,12 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ fname, lname, email, lang: 'en' }),
         }).catch(() => {});
+      });
+
+      const skipBtn = document.getElementById('skipSubscribeBtn');
+      skipBtn?.addEventListener('click', () => {
+        modal.classList.remove('active');
+        window.open(bookingUrl, '_blank');
       });
     }
 

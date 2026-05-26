@@ -113,16 +113,13 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
       <div class="booking-modal">
         <button class="booking-modal-close" id="bookingModalClose">&times;</button>
         <h3>Resta aggiornato</h3>
-        <p class="booking-modal-desc">Lasciaci i tuoi dati per ricevere aggiornamenti su questo evento e sulle nostre attivita'. Saremo molto discreti: solo comunicazioni utili, niente spam. Potrai disiscriverti in qualsiasi momento con un solo click.</p>
+        <p class="booking-modal-desc">Vuoi ricevere aggiornamenti su questo evento e sulle nostre attività? Lasciaci i tuoi dati — è facoltativo. Potrai disiscriverti in qualsiasi momento con un solo click.</p>
         <form class="booking-modal-form" id="bookingForm">
-          <input type="text" name="FNAME" placeholder="Nome" required />
-          <input type="text" name="LNAME" placeholder="Cognome" required />
-          <input type="email" name="EMAIL" placeholder="Email" required />
+          <input type="text" name="FNAME" placeholder="Nome (opzionale)" />
+          <input type="text" name="LNAME" placeholder="Cognome (opzionale)" />
+          <input type="email" name="EMAIL" placeholder="Email (opzionale)" />
           <button type="submit" class="btn-primary" style="width: 100%;">Continua con la prenotazione</button>
         </form>
-        <div style="text-align:center; margin-top:1rem;">
-          <button id="skipSubscribeBtn" style="background:none; border:none; color: var(--color-primary); text-decoration:underline; cursor:pointer; font-size:0.9rem;">Continua senza iscriverti</button>
-        </div>
       </div>
     </div>
 
@@ -188,17 +185,13 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
         const email = (bookingForm.querySelector('[name="EMAIL"]') as HTMLInputElement).value;
         modal.classList.remove('active');
         window.open(bookingUrl, '_blank');
-        fetch('/api/newsletter-subscribe', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ fname, lname, email, lang: 'it' }),
-        }).catch(() => {});
-      });
-
-      const skipBtn = document.getElementById('skipSubscribeBtn');
-      skipBtn?.addEventListener('click', () => {
-        modal.classList.remove('active');
-        window.open(bookingUrl, '_blank');
+        if (email) {
+          fetch('/api/newsletter-subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fname, lname, email, lang: 'it' }),
+          }).catch(() => {});
+        }
       });
     }
 

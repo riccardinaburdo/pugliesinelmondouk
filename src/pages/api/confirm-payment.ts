@@ -59,6 +59,9 @@ export async function GET({ request }: { request: Request }) {
     }
 
     const fname = member.merge_fields?.FNAME || '';
+    const lname = member.merge_fields?.LNAME || '';
+    const piano = member.merge_fields?.PIANO || '';
+    const memnumber = member.merge_fields?.MEMNUMBER || '';
     const subscriberHash = createHash('md5').update(member.email_address.toLowerCase()).digest('hex');
 
     // Update tags: remove "In attesa di pagamento", add "Pagamento confermato"
@@ -72,6 +75,49 @@ export async function GET({ request }: { request: Request }) {
         ],
       }),
     });
+
+    // Notify association via Resend
+    const RESEND_API_KEY = (import.meta.env.RESEND_API_KEY || '').trim();
+    if (RESEND_API_KEY) {
+      const now = new Date().toLocaleString('it-IT', { timeZone: 'Europe/London' });
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'noreply@pugliesinelmondouk.org',
+          to: 'info@pugliesinelmondouk.org',
+          subject: `✅ Pagamento confermato – ${fname} ${lname} (${memnumber})`,
+          html: `
+            <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">
+              <h2 style="color:#1a5632;">Nuovo pagamento confermato</h2>
+              <p>Un nuovo socio ha confermato il proprio pagamento il <strong>${now}</strong>.</p>
+              <table style="width:100%;border-collapse:collapse;margin:20px 0;">
+                <tr style="background:#f5f0e8;">
+                  <td style="padding:10px;border:1px solid #ddd;font-weight:bold;">Nome</td>
+                  <td style="padding:10px;border:1px solid #ddd;">${fname} ${lname}</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px;border:1px solid #ddd;font-weight:bold;">Email</td>
+                  <td style="padding:10px;border:1px solid #ddd;">${member.email_address}</td>
+                </tr>
+                <tr style="background:#f5f0e8;">
+                  <td style="padding:10px;border:1px solid #ddd;font-weight:bold;">Piano</td>
+                  <td style="padding:10px;border:1px solid #ddd;">${piano}</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px;border:1px solid #ddd;font-weight:bold;">Numero tessera</td>
+                  <td style="padding:10px;border:1px solid #ddd;">${memnumber}</td>
+                </tr>
+              </table>
+              <p style="color:#888;font-size:12px;">La tessera digitale è stata inviata automaticamente al socio.</p>
+            </div>
+          `,
+        }),
+      }).catch((err) => console.error('Resend notification error:', err));
+    }
 
     return new Response(successPage(fname), {
       status: 200,

@@ -123,12 +123,8 @@ const categoryColors: Record<string, string> = {
                         <p class="past-event-desc">{item.pastDescription || item.description}</p>
                       </div>
                     </div>
-                    <div class="past-event-gallery">
-                      <p class="past-event-gallery-label">Gallery</p>
-                      <div class="past-event-gallery-grid">
-                        <div class="past-event-gallery-placeholder">📷 Photos coming soon</div>
-                        <div class="past-event-gallery-placeholder">🎥 Videos coming soon</div>
-                      </div>
+                    <div class="past-event-actions">
+                      <a href={`/en/events/${event.slug}/${item.slug}`} class="btn-secondary">Find out more</a>
                     </div>
                   </div>
                 ))}
@@ -358,33 +354,11 @@ const categoryColors: Record<string, string> = {
     overflow: hidden;
   }
 
-  /* Gallery */
-  .past-event-gallery {
+  /* Past event actions */
+  .past-event-actions {
     border-top: 1px solid var(--color-light-gray);
     padding: 1rem 1.25rem;
-  }
-  .past-event-gallery-label {
-    font-size: 0.75rem;
-    color: var(--color-gray);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin: 0 0 8px;
-  }
-  .past-event-gallery-grid {
-    display: flex;
-    gap: 8px;
-  }
-  .past-event-gallery-placeholder {
-    flex: 1;
-    height: 60px;
-    background: #f0ede5;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    color: #b0a998;
+    text-align: center;
   }
 
   @media (max-width: 600px) {

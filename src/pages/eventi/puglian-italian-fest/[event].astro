@@ -73,8 +73,14 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
     </div>
 
     <div class="event-description">
-      {item.longDescription && item.longDescription.map((p: string) => <p>{p}</p>)}
-      {!item.longDescription && <p>{item.description}</p>}
+      {isPast && item.pastDescription ? (
+        <p>{item.pastDescription}</p>
+      ) : (
+        <>
+          {item.longDescription && item.longDescription.map((p: string) => <p>{p}</p>)}
+          {!item.longDescription && <p>{item.description}</p>}
+        </>
+      )}
     </div>
 
     {!isPast && (

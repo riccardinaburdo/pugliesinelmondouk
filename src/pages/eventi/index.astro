@@ -12,6 +12,24 @@ const events = eventFiles
 
 const upcoming = events.filter(e => e.status === 'upcoming');
 const past = events.filter(e => e.status === 'past');
+
+const categoryIcons: Record<string, string> = {
+  Music: '🎵',
+  Cinema: '🎬',
+  Photography: '📷',
+  Comedy: '😄',
+  Food: '🍽️',
+  Literature: '📚',
+};
+
+const categoryColors: Record<string, string> = {
+  Music: 'linear-gradient(180deg, #1a5632 0%, #0e3a1f 100%)',
+  Cinema: 'linear-gradient(180deg, #2c2c2c 0%, #1a1a1a 100%)',
+  Photography: 'linear-gradient(180deg, #4a6741 0%, #2a4a25 100%)',
+  Comedy: 'linear-gradient(180deg, #c8102e 0%, #8a0b1e 100%)',
+  Food: 'linear-gradient(180deg, #d4a843 0%, #b08a30 100%)',
+  Literature: 'linear-gradient(180deg, #5c3d2e 0%, #3a261d 100%)',
+};
 ---
 
 <BaseLayout title="Eventi | Pugliesi nel Mondo UK" currentPath="/eventi">
@@ -19,57 +37,138 @@ const past = events.filter(e => e.status === 'past');
     <h1>Eventi</h1>
     <p class="intro">Scopri i nostri eventi dedicati alla cultura, alla gastronomia e alle tradizioni pugliesi nel Regno Unito.</p>
 
-    {upcoming.length > 0 && (
-      <>
-        <h2 style="color: var(--color-primary); margin-bottom: 1.5rem;">Prossimi Eventi</h2>
-        <div class="events-list">
-          {upcoming.map((event) => (
-            <div class={`event-card${event.image ? ' event-card-poster' : ''}`}>
-              {event.image && (
-                <div class="event-card-poster-img">
-                  <img src={event.image} alt={event.title} />
-                </div>
-              )}
-              <div class="event-card-body" style="padding: 2rem;">
-                <h3>{event.title}</h3>
-                <p class="event-date">
-                  {new Date(event.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
-                  {event.endDate && ` - ${new Date(event.endDate).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}`}
-                </p>
-                <p class="event-location">📍 {event.location}</p>
-                <p>{event.description}</p>
-                <a href={`/eventi/${event.slug}`} class="btn-secondary" style="margin-top: 1rem; display: block; text-align: center; text-transform: uppercase;">SCOPRI DI PIU'</a>
+    <!-- PROSSIMI EVENTI -->
+    <h2 style="color: var(--color-primary); margin-bottom: 1.5rem;">Prossimi Eventi</h2>
+
+    {upcoming.length > 0 ? (
+      <div class="events-list">
+        {upcoming.map((event) => (
+          <div class={`event-card${event.image ? ' event-card-poster' : ''}`}>
+            {event.image && (
+              <div class="event-card-poster-img">
+                <img src={event.image} alt={event.title} />
               </div>
+            )}
+            <div class="event-card-body" style="padding: 2rem;">
+              <h3>{event.title}</h3>
+              <p class="event-date">
+                {new Date(event.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
+                {event.endDate && ` - ${new Date(event.endDate).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}`}
+              </p>
+              <p class="event-location">📍 {event.location}</p>
+              <p>{event.description}</p>
+              <a href={`/eventi/${event.slug}`} class="btn-secondary" style="margin-top: 1rem; display: block; text-align: center; text-transform: uppercase;">SCOPRI DI PIU'</a>
             </div>
-          ))}
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="upcoming-teaser">
+        <p class="teaser-label">Coming soon</p>
+        <p class="teaser-title">Qualcosa di speciale sta arrivando...</p>
+        <p class="teaser-desc">Nuovi eventi dedicati alla cultura e alle tradizioni pugliesi.<br />Seguiteci per non perdere nessun aggiornamento.</p>
+        <div class="teaser-socials">
+          <a href="https://www.facebook.com/pugliesinelmondouk" target="_blank" rel="noopener" class="teaser-social-link">Facebook</a>
+          <a href="https://www.instagram.com/pugliesinelmondouk" target="_blank" rel="noopener" class="teaser-social-link">Instagram</a>
+          <a href="/diventa-socio" class="teaser-social-link">Newsletter</a>
         </div>
-      </>
+      </div>
     )}
 
+    <!-- EVENTI PASSATI -->
     {past.length > 0 && (
       <>
-        <h2 style="color: var(--color-gray); margin: 3rem 0 1.5rem;">Eventi Passati</h2>
-        <div class="events-list">
-          {past.map((event) => (
-            <div class="event-card" style="opacity: 0.7;">
-              <div class="event-card-body" style="padding: 2rem;">
-                <h3>{event.title}</h3>
-                <p class="event-date">
-                  {new Date(event.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
-                </p>
-                <p class="event-location">📍 {event.location}</p>
-                <p>{event.description}</p>
+        <h2 style="color: var(--color-gray); margin: 3rem 0 0.5rem;">Eventi Passati</h2>
+        <p style="color: var(--color-gray); font-size: 0.95rem; margin-bottom: 2rem;">I momenti che abbiamo vissuto insieme.</p>
+
+        {past.map((event) => (
+          <>
+            {event.programme && event.programme.length > 0 && (
+              <div class="past-festival-banner">
+                <div class="past-festival-icon">★</div>
+                <div>
+                  <p class="past-festival-name">{event.title}</p>
+                  <p class="past-festival-meta">
+                    {new Date(event.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long' })}
+                    {event.endDate && ` — ${new Date(event.endDate).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}`}
+                    {' · '}{event.location}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            )}
+
+            {event.programme && event.programme.length > 0 ? (
+              <div class="events-list past-events-list">
+                {event.programme.map((item: any) => (
+                  <div class="past-event-card">
+                    <div class="past-event-top">
+                      <div class="past-event-img" style={`background: ${categoryColors[item.category] || 'var(--color-primary)'};`}>
+                        {item.image ? (
+                          <img src={item.image} alt={item.title} />
+                        ) : (
+                          <div class="past-event-category-icon">
+                            <span>{categoryIcons[item.category] || '📌'}</span>
+                            <span class="past-event-category-label">{item.category}</span>
+                          </div>
+                        )}
+                      </div>
+                      <div class="past-event-info">
+                        <span class="past-event-badge">{event.title}</span>
+                        <h3><a href={`/eventi/${event.slug}/${item.slug}`}>{item.title}</a></h3>
+                        <p class="event-date">
+                          {new Date(item.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
+                          {item.time && ` · ${item.time}`}
+                        </p>
+                        <p class="event-location">📍 {item.venue}{item.address && `, ${item.address}`}</p>
+                        <p class="past-event-desc">{item.longDescription ? item.longDescription[0] : item.description}</p>
+                      </div>
+                    </div>
+                    <div class="past-event-gallery">
+                      <p class="past-event-gallery-label">Galleria</p>
+                      <div class="past-event-gallery-grid">
+                        <div class="past-event-gallery-placeholder">📷 Foto in arrivo</div>
+                        <div class="past-event-gallery-placeholder">🎥 Video in arrivo</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div class="events-list past-events-list">
+                <div class="past-event-card">
+                  <div class="past-event-top">
+                    {event.image && (
+                      <div class="past-event-img">
+                        <img src={event.image} alt={event.title} />
+                      </div>
+                    )}
+                    <div class="past-event-info">
+                      <h3>{event.title}</h3>
+                      <p class="event-date">
+                        {new Date(event.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      </p>
+                      <p class="event-location">📍 {event.location}</p>
+                      <p class="past-event-desc">{event.description}</p>
+                    </div>
+                  </div>
+                  <div class="past-event-gallery">
+                    <p class="past-event-gallery-label">Galleria</p>
+                    <div class="past-event-gallery-grid">
+                      <div class="past-event-gallery-placeholder">📷 Foto in arrivo</div>
+                      <div class="past-event-gallery-placeholder">🎥 Video in arrivo</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        ))}
       </>
     )}
   </div>
 </BaseLayout>
 
 <style>
-  /* Card with poster: image left (portrait), text right */
   .event-card-poster {
     align-items: center;
   }
@@ -83,6 +182,211 @@ const past = events.filter(e => e.status === 'past');
     display: block;
     border-radius: 8px 0 0 8px;
   }
+
+  /* Upcoming teaser */
+  .upcoming-teaser {
+    background: linear-gradient(135deg, #1a5632 0%, #2a7a4a 40%, #d4a843 100%);
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .teaser-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 0.75rem;
+  }
+  .teaser-title {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+  .teaser-desc {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .teaser-socials {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .teaser-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.15);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: white !important;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .teaser-social-link:hover {
+    background: rgba(255,255,255,0.25);
+    color: white !important;
+  }
+
+  /* Past festival banner */
+  .past-festival-banner {
+    background: var(--color-cream);
+    border-left: 4px solid var(--color-gold);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .past-festival-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-gold);
+    font-size: 1.2rem;
+  }
+  .past-festival-name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-primary);
+    margin: 0;
+  }
+  .past-festival-meta {
+    font-size: 0.85rem;
+    color: var(--color-gray);
+    margin: 0;
+  }
+
+  /* Past event cards */
+  .past-events-list {
+    gap: 1.5rem !important;
+  }
+  .past-event-card {
+    background: var(--color-white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s;
+  }
+  .past-event-card:hover {
+    transform: translateY(-3px);
+  }
+  .past-event-top {
+    display: flex;
+    gap: 0;
+  }
+  .past-event-img {
+    width: 220px;
+    min-height: 200px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .past-event-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .past-event-category-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .past-event-category-icon span:first-child {
+    font-size: 2rem;
+  }
+  .past-event-category-label {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .past-event-info {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .past-event-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    background: var(--color-cream);
+    color: var(--color-gold);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    width: fit-content;
+  }
+  .past-event-info h3 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--color-primary);
+    margin: 0 0 4px;
+  }
+  .past-event-info h3 a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  .past-event-info h3 a:hover {
+    color: var(--color-primary-light);
+  }
+  .past-event-desc {
+    font-size: 0.9rem;
+    color: var(--color-gray);
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Gallery */
+  .past-event-gallery {
+    border-top: 1px solid var(--color-light-gray);
+    padding: 1rem 1.25rem;
+  }
+  .past-event-gallery-label {
+    font-size: 0.75rem;
+    color: var(--color-gray);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 8px;
+  }
+  .past-event-gallery-grid {
+    display: flex;
+    gap: 8px;
+  }
+  .past-event-gallery-placeholder {
+    flex: 1;
+    height: 60px;
+    background: #f0ede5;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: #b0a998;
+  }
+
   @media (max-width: 600px) {
     .event-card-poster {
       flex-direction: column;
@@ -92,6 +396,16 @@ const past = events.filter(e => e.status === 'past');
     }
     .event-card-poster-img img {
       border-radius: 8px 8px 0 0;
+    }
+    .past-event-top {
+      flex-direction: column;
+    }
+    .past-event-img {
+      width: 100%;
+      min-height: 180px;
+    }
+    .teaser-title {
+      font-size: 1.3rem;
     }
   }
 </style>

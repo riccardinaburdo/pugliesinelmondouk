@@ -120,7 +120,7 @@ const categoryColors: Record<string, string> = {
                           {item.time && ` · ${item.time}`}
                         </p>
                         <p class="event-location">📍 {item.venue}{item.address && `, ${item.address}`}</p>
-                        <p class="past-event-desc">{item.longDescription ? item.longDescription[0] : item.description}</p>
+                        <p class="past-event-desc">{item.pastDescription || item.description}</p>
                       </div>
                     </div>
                     <div class="past-event-gallery">

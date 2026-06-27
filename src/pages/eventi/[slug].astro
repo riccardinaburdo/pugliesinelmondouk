@@ -57,12 +57,6 @@ const { event } = Astro.props;
                       {item.time === 'TBA' ? 'Orario da confermare' : item.time}
                     </li>
                   )}
-                  {item.price && (
-                    <li>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><text x="4" y="18" font-size="18" font-weight="bold" fill="var(--color-gray)">£</text></svg>
-                      {item.price}
-                    </li>
-                  )}
                   {item.venue && (
                     <li>
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
@@ -77,9 +71,6 @@ const { event } = Astro.props;
             </div>
           ))}
         </div>
-        <p style="text-align: center; color: var(--color-gray); margin-top: 2rem; font-style: italic;">
-          Il programma completo sara' pubblicato a breve. Seguici sui social per gli aggiornamenti!
-        </p>
       </div>
     )}
 

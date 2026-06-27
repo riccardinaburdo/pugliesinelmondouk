@@ -14,6 +14,7 @@ export function getStaticPaths() {
 }
 
 const { event } = Astro.props;
+const isPast = event.status === 'past';
 ---
 
 <BaseLayout title={`${event.title} | Pugliesi nel Mondo UK`} currentPath={`/eventi/${event.slug}`}>
@@ -55,6 +56,12 @@ const { event } = Astro.props;
                     <li>
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                       {item.time === 'TBA' ? 'Orario da confermare' : item.time}
+                    </li>
+                  )}
+                  {!isPast && item.price && (
+                    <li>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><text x="4" y="18" font-size="18" font-weight="bold" fill="var(--color-gray)">£</text></svg>
+                      {item.price}
                     </li>
                   )}
                   {item.venue && (

@@ -165,6 +165,9 @@ const footerFollowTitle = isEn ? 'Follow Us' : 'Seguici';
             <input type="text" name="lname" placeholder={footerSurnamePlaceholder} required />
           </div>
           <input type="email" name="email" placeholder={footerEmailPlaceholder} required />
+          <!-- Honeypot: hidden from humans, bots fill it -->
+          <input type="text" name="website" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;" />
+          <input type="hidden" name="_ts" id="newsletterTs" value="" />
           <button type="submit" class="footer-submit">{footerSubmitLabel}</button>
           <p class="newsletter-feedback" id="newsletterFeedback" style="display:none;margin-top:0.5rem;font-size:0.85rem;"></p>
         </form>
@@ -218,6 +221,10 @@ const footerFollowTitle = isEn ? 'Follow Us' : 'Seguici';
   <script>
     const newsletterForm = document.getElementById('newsletterForm') as HTMLFormElement | null;
     if (newsletterForm) {
+      // Set timestamp when page loads (for bot timing detection)
+      const tsInput = document.getElementById('newsletterTs') as HTMLInputElement;
+      if (tsInput) tsInput.value = String(Date.now());
+
       newsletterForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const form = e.target as HTMLFormElement;
@@ -234,6 +241,8 @@ const footerFollowTitle = isEn ? 'Follow Us' : 'Seguici';
           lname: (form.elements.namedItem('lname') as HTMLInputElement).value,
           email: (form.elements.namedItem('email') as HTMLInputElement).value,
           lang,
+          website: (form.elements.namedItem('website') as HTMLInputElement).value,
+          _ts: (form.elements.namedItem('_ts') as HTMLInputElement).value,
         };
 
         try {
@@ -244,7 +253,7 @@ const footerFollowTitle = isEn ? 'Follow Us' : 'Seguici';
           });
           const data = await res.json();
           if (res.ok && data.success) {
-            feedback.textContent = isEn ? 'Thank you for subscribing!' : 'Grazie per esserti iscritto!';
+            feedback.textContent = isEn ? 'Check your email to confirm your subscription!' : 'Controlla la tua email per confermare l\'iscrizione!';
             feedback.style.color = '#4caf50';
             form.reset();
           } else {

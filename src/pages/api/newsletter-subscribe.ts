@@ -5,12 +5,44 @@ import { createHash } from 'crypto';
 export async function POST({ request }: { request: Request }) {
   try {
     const data = await request.json();
-    const { fname, lname, email, lang } = data;
+    const { fname, lname, email, lang, website, _ts } = data;
     const language = lang === 'en' ? 'en' : 'it';
 
     if (!fname || !lname || !email) {
       return new Response(JSON.stringify({ error: 'Campi obbligatori mancanti' }), {
         status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Anti-bot: honeypot field (bots fill this hidden field, humans don't)
+    if (website) {
+      // Silently reject - don't reveal it's a bot check
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Anti-bot: timing check (form submitted too fast = bot)
+    const ts = Number(_ts);
+    if (!ts || Date.now() - ts < 2000) {
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Anti-bot: reject gibberish names (random strings with no vowels pattern)
+    const hasGibberish = (str: string) => {
+      if (str.length > 20) return true;
+      const upper = (str.match(/[A-Z]/g) || []).length;
+      if (str.length > 5 && upper > 3) return true;
+      return false;
+    };
+    if (hasGibberish(fname) || hasGibberish(lname)) {
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
     }
@@ -41,8 +73,7 @@ export async function POST({ request }: { request: Request }) {
         headers: mcHeaders,
         body: JSON.stringify({
           email_address: email,
-          status: 'subscribed',
-          status_if_new: 'subscribed',
+          status_if_new: 'pending',
           merge_fields: {
             FNAME: fname,
             LNAME: lname,

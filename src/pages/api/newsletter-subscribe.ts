@@ -1,48 +1,37 @@
 export const prerender = false;
 
 import { createHash } from 'crypto';
+import { checkSubmission } from '../../lib/antibot';
+import { antibotMessage } from '../../lib/antibot-messages';
 
-export async function POST({ request }: { request: Request }) {
+export async function POST(context: { request: Request; clientAddress?: string }) {
+  const { request } = context;
+  let ip: string | undefined;
+  try { ip = context.clientAddress; } catch { ip = undefined; }
   try {
     const data = await request.json();
-    const { fname, lname, email, lang, website, _ts } = data;
+    const { fname, lname, email, lang } = data;
     const language = lang === 'en' ? 'en' : 'it';
+    const isEn = language === 'en';
 
     if (!fname || !lname || !email) {
-      return new Response(JSON.stringify({ error: 'Campi obbligatori mancanti' }), {
+      return new Response(JSON.stringify({ error: isEn ? 'Please fill in all fields' : 'Campi obbligatori mancanti' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
       });
     }
 
-    // Anti-bot: honeypot field (bots fill this hidden field, humans don't)
-    if (website) {
-      // Silently reject - don't reveal it's a bot check
-      return new Response(JSON.stringify({ success: true }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
-    // Anti-bot: timing check (form submitted too fast = bot)
-    const ts = Number(_ts);
-    if (!ts || Date.now() - ts < 2000) {
-      return new Response(JSON.stringify({ success: true }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
-    // Anti-bot: reject gibberish names (random strings with no vowels pattern)
-    const hasGibberish = (str: string) => {
-      if (str.length > 20) return true;
-      const upper = (str.match(/[A-Z]/g) || []).length;
-      if (str.length > 5 && upper > 3) return true;
-      return false;
-    };
-    if (hasGibberish(fname) || hasGibberish(lname)) {
-      return new Response(JSON.stringify({ success: true }), {
-        status: 200,
+    const check = await checkSubmission(request, data, ip);
+    if (!check.ok) {
+      console.warn('Newsletter signup blocked:', check.reason);
+      if (check.silent) {
+        return new Response(JSON.stringify({ success: true }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+      return new Response(JSON.stringify({ error: antibotMessage(check.reason, isEn) }), {
+        status: 400,
         headers: { 'Content-Type': 'application/json' },
       });
     }

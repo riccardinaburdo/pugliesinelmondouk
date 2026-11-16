@@ -162,7 +162,7 @@ const flow = membership.signupFlow;
         <div class="signup-step-content" id="step-error" style="text-align: center; padding: 2rem 0;">
           <div style="font-size: 3rem; margin-bottom: 1rem;">&#9888;</div>
           <h3 style="color: #c0392b; margin-bottom: 1rem;">Error</h3>
-          <p style="color: var(--color-dark); line-height: 1.6;">{flow.errorMessage}</p>
+          <p id="signup-error-text" style="color: var(--color-dark); line-height: 1.6;" data-default={flow.errorMessage}>{flow.errorMessage}</p>
           <div class="signup-actions" style="justify-content: center;">
             <button class="btn-outline" id="btn-retry">&larr; Try again</button>
           </div>
@@ -318,7 +318,11 @@ const flow = membership.signupFlow;
         lang: 'en',
       };
 
+      const errorText = document.getElementById('signup-error-text');
+      if (errorText) errorText.textContent = errorText.dataset.default;
+
       try {
+        Object.assign(formData, await window.pnmukAntibot.solve(formData.email));
         const response = await fetch('/api/subscribe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -330,6 +334,8 @@ const flow = membership.signupFlow;
           document.getElementById('signup-plan-title').style.display = 'none';
           showStep('step-success');
         } else {
+          const result = await response.json().catch(() => ({}));
+          if (result.error && errorText) errorText.textContent = result.error;
           showStep('step-error');
         }
       } catch (err) {

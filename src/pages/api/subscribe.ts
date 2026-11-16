@@ -1,15 +1,37 @@
 export const prerender = false;
 
-import { createHash } from 'crypto';
+import { createHash, randomBytes } from 'crypto';
+import { checkSubmission } from '../../lib/antibot';
+import { antibotMessage } from '../../lib/antibot-messages';
 
-export async function POST({ request }: { request: Request }) {
+export async function POST(context: { request: Request; clientAddress?: string }) {
+  const { request } = context;
+  let ip: string | undefined;
+  try { ip = context.clientAddress; } catch { ip = undefined; }
   try {
     const data = await request.json();
-    const { fname, lname, email, phone, birthplace, ukResident, plan, business, lang } = data;
+    const { fname, lname, phone, birthplace, ukResident, plan, business, lang } = data;
+    const email = String(data.email || '').trim();
     const language = lang === 'en' ? 'en' : 'it';
+    const isEn = language === 'en';
 
     if (!fname || !lname || !email) {
-      return new Response(JSON.stringify({ error: 'Campi obbligatori mancanti' }), {
+      return new Response(JSON.stringify({ error: isEn ? 'Please fill in all required fields' : 'Campi obbligatori mancanti' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    const check = await checkSubmission(request, data, ip);
+    if (!check.ok) {
+      console.warn('Membership signup blocked:', check.reason);
+      if (check.silent) {
+        return new Response(JSON.stringify({ success: true }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+      return new Response(JSON.stringify({ error: antibotMessage(check.reason, isEn) }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -44,27 +66,41 @@ export async function POST({ request }: { request: Request }) {
     const isAWR = plan === 'Socio AWR' || plan === 'AWR Member';
     const memberTag = isAWR ? 'Socio AWR' : 'Socio Ordinario';
 
-    // Generate member number by counting existing members with a MEMNUMBER
-    let memberNumber = 'PNMUK-001';
-    try {
-      const countRes = await fetch(
-        `${mcUrl}/lists/${LIST_ID}/members?count=1000&fields=members.merge_fields.MEMNUMBER`,
-        { headers: mcHeaders }
-      );
-      if (countRes.ok) {
-        const countData = await countRes.json();
-        const existing = countData.members.filter(
-          (m: any) => m.merge_fields?.MEMNUMBER && m.merge_fields.MEMNUMBER.startsWith('PNMUK-')
+    // Look up the contact first, so a resubmission never overwrites an existing
+    // member's card number or payment link, and never re-subscribes someone who unsubscribed.
+    let existing: any = null;
+    const existingRes = await fetch(`${mcUrl}/lists/${LIST_ID}/members/${subscriberHash}`, { headers: mcHeaders });
+    if (existingRes.ok) existing = await existingRes.json();
+
+    let memberNumber: string = existing?.merge_fields?.MEMNUMBER || '';
+    if (!memberNumber.startsWith('PNMUK-')) {
+      // Next number = highest existing PNMUK number + 1 (counting would reuse numbers after archiving)
+      memberNumber = 'PNMUK-001';
+      try {
+        const countRes = await fetch(
+          `${mcUrl}/lists/${LIST_ID}/members?count=1000&fields=members.merge_fields.MEMNUMBER`,
+          { headers: mcHeaders }
         );
-        const nextNum = existing.length + 1;
-        memberNumber = `PNMUK-${nextNum.toString().padStart(3, '0')}`;
+        if (countRes.ok) {
+          const countData = await countRes.json();
+          const max = countData.members.reduce((acc: number, m: any) => {
+            const match = /^PNMUK-(\d+)$/.exec(m.merge_fields?.MEMNUMBER || '');
+            return match ? Math.max(acc, Number(match[1])) : acc;
+          }, 0);
+          memberNumber = `PNMUK-${(max + 1).toString().padStart(3, '0')}`;
+        }
+      } catch (e) {
+        console.error('Error generating member number:', e);
       }
-    } catch (e) {
-      console.error('Error generating member number:', e);
     }
 
-    // Generate confirmation token
-    const confirmToken = createHash('sha256').update(email.toLowerCase() + 'pnmuk-confirm').digest('hex').slice(0, 16);
+    // Random, unguessable payment-confirmation token (kept if the member already has one)
+    const confirmToken: string = existing?.merge_fields?.CONFTOKEN || randomBytes(12).toString('hex');
+
+    // New contacts (and anyone not currently subscribed) must confirm their email address
+    // through Mailchimp's double opt-in before they become subscribers and get the welcome email.
+    const isSubscribed = existing?.status === 'subscribed';
+
     // Step 1: Add/update subscriber
     const memberResponse = await fetch(
       `${mcUrl}/lists/${LIST_ID}/members/${subscriberHash}`,
@@ -73,15 +109,15 @@ export async function POST({ request }: { request: Request }) {
         headers: mcHeaders,
         body: JSON.stringify({
           email_address: email,
-          status: 'subscribed',
-          status_if_new: 'subscribed',
+          status_if_new: 'pending',
+          ...(existing && !isSubscribed ? { status: 'pending' } : {}),
           merge_fields: {
             FNAME: fname,
             LNAME: lname,
             PHONE: phone || '',
             BIRTHPLACE: birthplace || '',
-            MMERGE7: formatDate(today),
-            MMERGE8: formatDate(expiry),
+            MMERGE7: existing?.merge_fields?.MMERGE7 || formatDate(today),
+            MMERGE8: existing?.merge_fields?.MMERGE8 || formatDate(expiry),
             PIANO: plan || '',
             COMPANY: business || '',
             UKRESIDENT: ukResident ? 'Si' : 'No',
@@ -114,10 +150,10 @@ export async function POST({ request }: { request: Request }) {
       }),
     });
 
-    // Welcome email is now sent automatically via Mailchimp's Customer Journey
-    // automation when a new subscriber is added to the list.
+    // The welcome email (with bank details) is sent by Mailchimp's automation once the
+    // contact has confirmed their email address.
 
-    return new Response(JSON.stringify({ success: true }), {
+    return new Response(JSON.stringify({ success: true, confirmEmail: !isSubscribed }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });

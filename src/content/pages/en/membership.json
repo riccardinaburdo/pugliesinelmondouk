@@ -63,7 +63,7 @@
     "planLabel": "Selected plan",
     "amountLabel": "Annual fee",
     "successTitle": "Request sent!",
-    "successMessage": "Check your email: you will shortly receive the bank transfer details with the reference to use. Your membership card will be sent after payment confirmation.",
+    "successMessage": "Check your email and click the confirmation link we have sent you (check your spam folder too). Right after that you will receive the bank transfer details with the reference to use. Your membership card will be sent after payment confirmation.",
     "errorMessage": "An error occurred. Please try again or contact us at info@pugliesinelmondouk.org."
   },
   "contact": {

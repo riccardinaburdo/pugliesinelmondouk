@@ -236,11 +236,13 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
           const email = (bookingForm.querySelector('[name="EMAIL"]') as HTMLInputElement).value;
           modal.classList.remove('active');
           window.open(bookingUrl, '_blank');
-          fetch('/api/newsletter-subscribe', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ fname, lname, email, lang: 'en' }),
-          }).catch(() => {});
+          window.pnmukAntibot.solve(email)
+            .then((proof) => fetch('/api/newsletter-subscribe', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ fname, lname, email, lang: 'en', ...proof }),
+            }))
+            .catch(() => {});
         });
 
         const skipBtn = document.getElementById('skipSubscribeBtn');

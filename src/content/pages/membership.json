@@ -63,7 +63,7 @@
     "planLabel": "Piano scelto",
     "amountLabel": "Quota annuale",
     "successTitle": "Richiesta inviata!",
-    "successMessage": "Controlla la tua email: riceverai a breve i dettagli per effettuare il bonifico bancario con la causale da utilizzare. La tessera associativa verra' inviata dopo la conferma del pagamento.",
+    "successMessage": "Controlla la tua email e clicca sul link di conferma che ti abbiamo inviato (guarda anche nello spam). Subito dopo riceverai i dettagli per il bonifico bancario con la causale da utilizzare. La tessera associativa verra' inviata dopo la conferma del pagamento.",
     "errorMessage": "Si e' verificato un errore. Riprova o contattaci a info@pugliesinelmondouk.org."
   },
   "contact": {

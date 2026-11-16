@@ -11,7 +11,8 @@
 //  5. Honeypot + gibberish-name check.
 //  6. Email domain check – the domain must accept email (MX/A record).
 //  7. Control question: "in which Italian region is Bari?" (answer: Puglia).
-//  8. Per-IP rate limit (best-effort, per server instance).
+//  8. Requests from cloud/datacenter IP ranges (where bots run) are dropped.
+//  9. Per-IP rate limit (best-effort, per server instance).
 
 import { createHash, createHmac, randomBytes, timingSafeEqual } from 'crypto';
 import { resolveMx, resolve4 } from 'dns/promises';
@@ -54,6 +55,55 @@ function hostAllowed(value: string | null): boolean {
   } catch {
     return false;
   }
+}
+
+// Datacenter / cloud ranges (AWS, Google Cloud, Azure, DigitalOcean, OVH, Hetzner, Linode...).
+// Real visitors browse from home/mobile connections; signup bots run on cloud servers.
+const DATACENTER_CIDRS = [
+  // AWS
+  '3.0.0.0/8', '13.32.0.0/11', '15.152.0.0/13', '15.220.0.0/14', '16.0.0.0/8', '18.0.0.0/8', '23.20.0.0/14',
+  '34.192.0.0/10', '35.71.64.0/18', '35.152.0.0/13', '44.192.0.0/10', '50.16.0.0/14', '50.112.0.0/16',
+  '52.0.0.0/8', '54.0.0.0/8', '63.32.0.0/14', '67.202.0.0/18', '72.44.32.0/19', '75.101.128.0/17',
+  '98.80.0.0/12', '99.77.0.0/16', '100.20.0.0/14', '100.24.0.0/13', '107.20.0.0/14', '174.129.0.0/16',
+  '184.72.0.0/15', '184.169.128.0/17', '204.236.128.0/17',
+  // Google Cloud
+  '34.0.0.0/9', '34.128.0.0/10', '35.184.0.0/13', '35.192.0.0/11', '35.224.0.0/12', '104.154.0.0/15',
+  '104.196.0.0/14', '107.178.192.0/18', '130.211.0.0/16', '146.148.0.0/17',
+  // Microsoft Azure
+  '4.144.0.0/12', '13.64.0.0/11', '20.0.0.0/8', '40.64.0.0/10', '51.104.0.0/14', '104.40.0.0/13',
+  '137.116.0.0/15', '168.61.0.0/16', '191.232.0.0/13',
+  // DigitalOcean
+  '64.225.0.0/16', '68.183.0.0/16', '104.131.0.0/16', '128.199.0.0/16', '134.209.0.0/16', '138.68.0.0/16',
+  '138.197.0.0/16', '139.59.0.0/16', '142.93.0.0/16', '143.110.0.0/16', '143.198.0.0/16', '146.190.0.0/16',
+  '157.230.0.0/16', '157.245.0.0/16', '159.65.0.0/16', '159.89.0.0/16', '159.203.0.0/16', '161.35.0.0/16',
+  '164.90.0.0/16', '164.92.0.0/16', '165.22.0.0/16', '165.227.0.0/16', '167.71.0.0/16', '167.99.0.0/16',
+  '167.172.0.0/16', '174.138.0.0/17', '178.62.0.0/16', '188.166.0.0/16', '206.189.0.0/16', '209.97.128.0/18',
+  // Linode / Akamai cloud, Vultr, Hetzner, OVH (server ranges)
+  '45.33.0.0/17', '45.56.64.0/18', '45.79.0.0/16', '139.162.0.0/16', '172.104.0.0/15', '45.32.0.0/16',
+  '45.63.0.0/17', '45.76.0.0/15', '108.61.0.0/16', '149.28.0.0/16', '5.9.0.0/16', '78.46.0.0/15',
+  '88.198.0.0/16', '116.202.0.0/15', '135.181.0.0/16', '136.243.0.0/16', '138.201.0.0/16', '144.76.0.0/16',
+  '148.251.0.0/16', '159.69.0.0/16', '162.55.0.0/16', '167.233.0.0/16', '168.119.0.0/16', '176.9.0.0/16',
+  '178.63.0.0/16', '188.40.0.0/16', '195.201.0.0/16', '213.239.192.0/18', '51.38.0.0/16', '51.68.0.0/16',
+  '51.75.0.0/16', '51.77.0.0/16', '51.79.0.0/16', '51.83.0.0/16', '51.89.0.0/16', '51.91.0.0/16',
+  '51.161.0.0/16', '51.178.0.0/16', '51.195.0.0/16', '51.210.0.0/16', '54.36.0.0/14', '137.74.0.0/16',
+  '141.94.0.0/15', '145.239.0.0/16', '147.135.0.0/16', '149.202.0.0/16', '151.80.0.0/16', '164.132.0.0/16',
+  '176.31.0.0/16', '178.32.0.0/15', '188.165.0.0/16', '192.99.0.0/16', '198.27.64.0/18', '198.50.128.0/17',
+];
+
+function ipToInt(ip: string): number | null {
+  const m = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/.exec(ip.replace(/^::ffff:/, ''));
+  if (!m) return null;
+  return ((+m[1] << 24) >>> 0) + (+m[2] << 16) + (+m[3] << 8) + +m[4];
+}
+const PARSED_CIDRS = DATACENTER_CIDRS.map((c) => {
+  const [base, bits] = c.split('/');
+  const mask = bits === '0' ? 0 : (~0 << (32 - Number(bits))) >>> 0;
+  return { net: (ipToInt(base)! & mask) >>> 0, mask };
+});
+export function isDatacenterIp(ip: string): boolean {
+  const n = ipToInt(ip);
+  if (n === null) return false;
+  return PARSED_CIDRS.some(({ net, mask }) => ((n & mask) >>> 0) === net);
 }
 
 const hits = new Map<string, number[]>();
@@ -132,6 +182,9 @@ export async function checkSubmission(
 
   if (body.website) return { ok: false, silent: true, reason: 'honeypot' };
 
+  const ip = clientAddress || request.headers.get('x-real-ip') || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+  if (isDatacenterIp(ip)) return { ok: false, silent: true, reason: 'datacenter' };
+
   const token = String(body._t || '');
   const parts = token.split('.');
   if (parts.length !== 3) return { ok: false, silent: true, reason: 'token-missing' };
@@ -155,7 +208,6 @@ export async function checkSubmission(
   }
 
   // Only submissions that passed the token + proof-of-work count towards the limit.
-  const ip = clientAddress || request.headers.get('x-real-ip') || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
   if (rateLimited(ip)) return { ok: false, silent: false, reason: 'rate' };
 
   if (looksLikeGibberish(body.fname || '') || looksLikeGibberish(body.lname || '')) {

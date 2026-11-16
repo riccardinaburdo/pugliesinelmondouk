@@ -27,7 +27,7 @@ const calStart = `${startDate}T${startTime}`;
 const calEnd = `${startDate}T${endTime}`;
 const calTitle = encodeURIComponent(item.title);
 const calLocation = encodeURIComponent(`${item.venue}${item.address ? ', ' + item.address : ''}`);
-const calDescription = encodeURIComponent(`${item.description}\n\nPuglian Italian Fest - pugliesinelmondouk.vercel.app`);
+const calDescription = encodeURIComponent(`${item.description}\n\nPuglian Italian Fest - pugliesinelmondouk.org`);
 
 const googleCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${calTitle}&dates=${calStart}/${calEnd}&location=${calLocation}&details=${calDescription}`;
 const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=${calTitle}&startdt=${item.date}T${startTime.slice(0,4)}&location=${calLocation}&body=${calDescription}`;

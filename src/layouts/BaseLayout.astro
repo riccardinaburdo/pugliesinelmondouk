@@ -20,7 +20,7 @@ const contentBase = path.join(process.cwd(), 'src/content/pages', isEn ? 'en' : 
 const navigation = JSON.parse(fs.readFileSync(path.join(contentBase, 'navigation.json'), 'utf-8'));
 const footer = JSON.parse(fs.readFileSync(path.join(contentBase, 'footer.json'), 'utf-8'));
 
-const canonicalUrl = `https://pugliesinelmondouk.vercel.app${currentPath}`;
+const canonicalUrl = `https://pugliesinelmondouk.org${currentPath}`;
 
 // Language switcher URL mapping (IT ↔ EN)
 const urlMap: Record<string, string> = {

@@ -78,6 +78,10 @@ const flow = membership.signupFlow;
               <input type="email" id="signup-email" required />
             </div>
             <div class="form-group">
+              <label for="signup-q">Control question: which Italian region is Bari in? *</label>
+              <input type="text" id="signup-q" autocomplete="off" required />
+            </div>
+            <div class="form-group">
               <label for="signup-phone">{flow.phoneLabel}</label>
               <input type="tel" id="signup-phone" />
             </div>
@@ -262,6 +266,12 @@ const flow = membership.signupFlow;
         return;
       }
 
+      const qAnswer = document.getElementById('signup-q').value.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z]/g, '');
+      if (!['puglia', 'apulia', 'puglie', 'apulien', 'pouilles'].includes(qAnswer)) {
+        alert('Wrong answer to the control question: which Italian region is Bari in?');
+        return;
+      }
+
       document.getElementById('summary-plan').textContent = selectedPlan;
       document.getElementById('summary-amount').textContent = '\u00A3' + selectedPrice + '/year';
       document.getElementById('summary-fname').textContent = fname;
@@ -310,6 +320,7 @@ const flow = membership.signupFlow;
         fname: document.getElementById('signup-fname').value.trim(),
         lname: document.getElementById('signup-lname').value.trim(),
         email: document.getElementById('signup-email').value.trim(),
+        q: document.getElementById('signup-q').value.trim(),
         phone: document.getElementById('signup-phone').value.trim(),
         birthplace: document.getElementById('signup-birthplace').value.trim(),
         ukResident: document.getElementById('signup-uk-resident').checked,

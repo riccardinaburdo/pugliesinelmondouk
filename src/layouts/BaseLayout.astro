@@ -165,6 +165,7 @@ const footerFollowTitle = isEn ? 'Follow Us' : 'Seguici';
             <input type="text" name="lname" placeholder={footerSurnamePlaceholder} required />
           </div>
           <input type="email" name="email" placeholder={footerEmailPlaceholder} required />
+          <input type="text" name="q" placeholder={isEn ? 'Control question: which Italian region is Bari in?' : 'Domanda di controllo: in quale regione si trova Bari?'} autocomplete="off" required />
           <!-- Honeypot: hidden from humans, bots fill it -->
           <input type="text" name="website" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;" />
           <button type="submit" class="footer-submit">{footerSubmitLabel}</button>
@@ -240,6 +241,7 @@ const footerFollowTitle = isEn ? 'Follow Us' : 'Seguici';
           email: (form.elements.namedItem('email') as HTMLInputElement).value,
           lang,
           website: (form.elements.namedItem('website') as HTMLInputElement).value,
+          q: (form.elements.namedItem('q') as HTMLInputElement).value,
         };
 
         try {

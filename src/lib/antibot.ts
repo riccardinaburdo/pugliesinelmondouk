@@ -10,7 +10,8 @@
 //                     email address, which makes mass signups expensive.
 //  5. Honeypot + gibberish-name check.
 //  6. Email domain check – the domain must accept email (MX/A record).
-//  7. Per-IP rate limit (best-effort, per server instance).
+//  7. Control question: "in which Italian region is Bari?" (answer: Puglia).
+//  8. Per-IP rate limit (best-effort, per server instance).
 
 import { createHash, createHmac, randomBytes, timingSafeEqual } from 'crypto';
 import { resolveMx, resolve4 } from 'dns/promises';
@@ -122,7 +123,7 @@ export type AntibotResult =
  */
 export async function checkSubmission(
   request: Request,
-  body: { email?: string; fname?: string; lname?: string; website?: string; _t?: string; _p?: string | number },
+  body: { email?: string; fname?: string; lname?: string; website?: string; q?: string; _t?: string; _p?: string | number },
   clientAddress?: string
 ): Promise<AntibotResult> {
   if (!hostAllowed(request.headers.get('origin')) && !hostAllowed(request.headers.get('referer'))) {
@@ -146,6 +147,12 @@ export async function checkSubmission(
   const email = String(body.email || '').trim().toLowerCase();
   const work = createHash('sha256').update(`${token}|${email}|${body._p}`).digest();
   if (leadingZeroBits(work) < POW_BITS) return { ok: false, silent: true, reason: 'pow' };
+
+  // Site-specific control question ("In which region is Bari?") that generic bots can't answer.
+  const answer = String(body.q || '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z]/g, '');
+  if (!['puglia', 'apulia', 'puglie', 'apulien', 'pouilles'].includes(answer)) {
+    return { ok: false, silent: false, reason: 'question' };
+  }
 
   // Only submissions that passed the token + proof-of-work count towards the limit.
   const ip = clientAddress || request.headers.get('x-real-ip') || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';

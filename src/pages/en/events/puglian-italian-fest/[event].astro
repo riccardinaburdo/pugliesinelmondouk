@@ -119,6 +119,7 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
               <input type="text" name="FNAME" placeholder="First name" required />
               <input type="text" name="LNAME" placeholder="Last name" required />
               <input type="email" name="EMAIL" placeholder="Email" required />
+              <input type="text" name="Q" placeholder="Which Italian region is Bari in?" autocomplete="off" required />
               <button type="submit" class="btn-primary" style="width: 100%;">Continue to booking</button>
             </form>
             <div style="text-align:center; margin-top:1rem;">
@@ -234,13 +235,14 @@ const outlookUrl = `https://outlook.live.com/calendar/0/action/compose?subject=$
           const fname = (bookingForm.querySelector('[name="FNAME"]') as HTMLInputElement).value;
           const lname = (bookingForm.querySelector('[name="LNAME"]') as HTMLInputElement).value;
           const email = (bookingForm.querySelector('[name="EMAIL"]') as HTMLInputElement).value;
+          const q = (bookingForm.querySelector('[name="Q"]') as HTMLInputElement).value;
           modal.classList.remove('active');
           window.open(bookingUrl, '_blank');
           window.pnmukAntibot.solve(email)
             .then((proof) => fetch('/api/newsletter-subscribe', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ fname, lname, email, lang: 'en', ...proof }),
+              body: JSON.stringify({ fname, lname, email, q, lang: 'en', ...proof }),
             }))
             .catch(() => {});
         });
